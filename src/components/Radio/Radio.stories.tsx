@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Radio, RadioGroup } from "./Radio";
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 
 const meta: Meta<typeof Radio> = {
   title: "Atoms/Radio",

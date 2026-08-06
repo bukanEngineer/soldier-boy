@@ -1,6 +1,6 @@
 import React from "react";
 import { LinkButton } from "./LinkButton";
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 
 const meta: Meta<typeof LinkButton> = {
   title: "Atoms/Link Button",

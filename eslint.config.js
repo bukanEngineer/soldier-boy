@@ -2,6 +2,7 @@
 import storybook from "eslint-plugin-storybook";
 
 import js from "@eslint/js";
+import tseslint from "typescript-eslint";
 import react from "eslint-plugin-react";
 import reactHooks from "eslint-plugin-react-hooks";
 import jsxA11y from "eslint-plugin-jsx-a11y";
@@ -47,12 +48,47 @@ export default [{
     "jsx-a11y/click-events-have-key-events": "warn",
     "jsx-a11y/interactive-supports-focus": "warn",
     "jsx-a11y/no-noninteractive-tabindex": "warn",
+    "jsx-a11y/no-noninteractive-element-interactions": "warn",
+  },
+}, {
+  files: ["**/*.d.ts"],
+  rules: {
+    "no-undef": "off",
+  },
+}, {
+  files: ["**/*.{ts,tsx}"],
+  languageOptions: {
+    ecmaVersion: "latest",
+    sourceType: "module",
+    parser: tseslint.parser,
+    parserOptions: { ecmaFeatures: { jsx: true } },
+    globals: { ...globals.browser, ...globals.node },
+  },
+  plugins: {
+    "@typescript-eslint": tseslint.plugin,
+    react,
+    "react-hooks": reactHooks,
+    "jsx-a11y": jsxA11y,
+  },
+  settings: { react: { version: "19" } },
+  rules: {
+    ...react.configs.recommended.rules,
+    ...reactHooks.configs.recommended.rules,
+    ...jsxA11y.configs.recommended.rules,
+    "react/prop-types": "off",
+    "react/react-in-jsx-scope": "off",
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_", varsIgnorePattern: "^_" }],
+    "jsx-a11y/click-events-have-key-events": "warn",
+    "jsx-a11y/interactive-supports-focus": "warn",
+    "jsx-a11y/no-noninteractive-tabindex": "warn",
+    "jsx-a11y/no-noninteractive-element-interactions": "warn",
   },
 }, {
   // Storybook CSF3 `render` functions are valid components, but their name
   // ("render") fails eslint-plugin-react-hooks' naming heuristic, causing
   // false-positive rules-of-hooks errors.
-  files: ["**/*.stories.jsx"],
+  files: ["**/*.stories.{jsx,tsx}"],
   rules: {
     "react-hooks/rules-of-hooks": "off",
   },

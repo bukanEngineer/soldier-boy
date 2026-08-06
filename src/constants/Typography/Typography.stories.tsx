@@ -1,6 +1,6 @@
 import React from "react";
 import "../../stories/tokens.css";
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 
 type RowProps = {
   label: string;
