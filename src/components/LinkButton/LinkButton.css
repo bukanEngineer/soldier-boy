@@ -1,0 +1,30 @@
+.link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  padding: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--link);
+  text-decoration: none;
+  transition: color var(--dur-1) var(--ease);
+}
+.link-btn:hover { color: var(--interactive-active); }
+.link-btn:focus-visible {
+  outline: 2px solid var(--status-information);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.link-btn--lg { font-size: 16px; line-height: 1.4; }
+.link-btn--md { font-size: 14px; line-height: 1.4; }
+.link-btn--sm { font-size: 12px; line-height: 1.4; }
+
+.link-btn--onDark { color: var(--primary); }
+.link-btn--onDark:hover { color: var(--brand-seamless-mint); }
+
+.link-btn .material-symbols-rounded { font-size: 1.15em; }
+.link-btn[disabled] { color: var(--disabled-on-surface); cursor: not-allowed; }

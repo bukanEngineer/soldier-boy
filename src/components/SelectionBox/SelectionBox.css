@@ -1,0 +1,129 @@
+/* SelectionBox — Figma "Selection - Radio" / "Selection - Check".
+ * Bordered tappable row: indicator + optional icon + label/description.
+ * Tokens only. */
+.selbox {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+  box-sizing: border-box;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: border-color var(--dur-1) var(--ease),
+              background var(--dur-1) var(--ease),
+              box-shadow var(--dur-1) var(--ease);
+}
+.selbox:hover { background: var(--surface-hovered); }
+
+/* visually-hidden native input drives state + a11y */
+.selbox__input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  width: 0;
+  height: 0;
+}
+/* Keyboard-only focus ring — clicking selects without the blue outline. */
+.selbox:has(.selbox__input:focus-visible) {
+  outline: 2px solid var(--status-information);
+  outline-offset: 2px;
+}
+
+/* ── Indicator: control (radio dot / checkbox) ── */
+.selbox__box {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--border);
+  background: var(--surface);
+  transition: border-color var(--dur-1) var(--ease), background var(--dur-1) var(--ease);
+}
+.selbox__box--radio { border-radius: var(--radius-full); }
+.selbox__box--check { border-radius: var(--radius-sm); }
+
+/* radio dot */
+.selbox__box--radio::after {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: var(--radius-full);
+  background: var(--interactive-active);
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity var(--dur-1) var(--ease), transform var(--dur-1) var(--ease);
+}
+/* checkbox glyph */
+.selbox__box--check svg {
+  width: 14px;
+  height: 14px;
+  color: var(--text-inverse);
+  opacity: 0;
+  transform: scale(0.7);
+  transition: opacity var(--dur-1) var(--ease), transform var(--dur-1) var(--ease);
+}
+
+/* ── Indicator: custom icon (Figma .radioType = Icon) ──
+ * Replaces the radio circle visually; the row still behaves as a radio. */
+.selbox__indicator--custom {
+  width: 24px;
+  height: 24px;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-primary);
+  transition: color var(--dur-1) var(--ease);
+}
+
+/* ── Text content ── */
+.selbox__content { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.selbox__label { font: var(--body-large); color: var(--text-primary); }
+.selbox__desc { font: var(--body-medium); color: var(--text-secondary); }
+
+/* ════════ Selected ════════ */
+.selbox.is-selected {
+  border: 2px solid var(--interactive-active);
+  background: var(--surface);
+}
+.selbox.is-selected:hover { background: var(--surface-hovered); }
+
+.selbox.is-selected .selbox__box--radio { border-color: var(--interactive-active); }
+.selbox.is-selected .selbox__box--radio::after { opacity: 1; transform: scale(1); }
+
+.selbox.is-selected .selbox__box--check {
+  background: var(--interactive-active);
+  border-color: var(--interactive-active);
+}
+.selbox.is-selected .selbox__box--check svg { opacity: 1; transform: scale(1); }
+
+.selbox.is-selected .selbox__indicator--custom { color: var(--interactive-active); }
+
+/* ════════ Disabled ════════ */
+/* Figma: disabled surface + 1px line border (even when selected); text muted;
+ * the selected indicator keeps its colour but is dimmed to 50%. */
+.selbox.is-disabled {
+  cursor: not-allowed;
+  background: var(--surface-disabled);
+  border: 1px solid var(--border);
+  color: var(--disabled-on-surface);
+}
+.selbox.is-disabled:hover { background: var(--surface-disabled); }
+.selbox.is-disabled .selbox__label,
+.selbox.is-disabled .selbox__desc { color: var(--disabled-on-surface); }
+.selbox.is-disabled .selbox__indicator--custom { color: var(--disabled-on-surface); }
+
+/* unselected: plain grey indicator outline over the disabled surface */
+.selbox.is-disabled .selbox__box {
+  background: transparent;
+  border-color: var(--border);
+}
+/* selected: retain the selected colour, dimmed (matches Figma opacity 50%) */
+.selbox.is-disabled.is-selected .selbox__box,
+.selbox.is-disabled.is-selected .selbox__indicator--custom { opacity: 0.5; }

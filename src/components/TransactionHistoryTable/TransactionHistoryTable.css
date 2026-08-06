@@ -1,0 +1,19 @@
+/* TransactionHistoryTable — builds on Table; styles transaction-specific cells. */
+
+.txn .txn__mono {
+  font-family: var(--font-body);
+  font-variant-numeric: tabular-nums;
+  color: var(--text-primary);
+}
+.txn .txn__id {
+  font-family: var(--font-mono);
+  color: var(--link);
+}
+.txn .txn__truncate {
+  display: inline-block;
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: middle;
+}

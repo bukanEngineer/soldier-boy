@@ -1,0 +1,40 @@
+/* BottomSheetNetwork — single-select network list inside the BottomSheet shell. */
+
+.bsn .bsheet__body { padding-left: 0; padding-right: 0; }
+
+.bsn__list { list-style: none; margin: 0; padding: 0; }
+.bsn__item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-5);
+  background: transparent;
+  border: 0;
+  text-align: left;
+  cursor: pointer;
+}
+.bsn__item:hover { background: var(--surface-hovered); }
+.bsn__item.is-selected { background: var(--surface-secondary); }
+
+.bsn__mark {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  background: var(--surface-secondary);
+  color: var(--text-primary);
+  font: var(--label-small);
+  overflow: hidden;
+}
+.bsn__mark > * { width: 100%; height: 100%; }
+
+.bsn__text { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.bsn__name { font: var(--label-medium); color: var(--text-primary); }
+.bsn__desc { font: var(--body-small); color: var(--text-secondary); }
+
+.bsn__check { flex: 0 0 auto; color: var(--text-secondary); font-size: 22px; }
+.bsn__item.is-selected .bsn__check { color: var(--primary); }

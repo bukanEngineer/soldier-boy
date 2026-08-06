@@ -1,0 +1,76 @@
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font: var(--body-medium);
+}
+.pagination__btn {
+  min-width: 36px;
+  height: 36px;
+  padding: 0 8px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  color: var(--text-primary);
+  font: 700 14px/1 var(--font-display);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--dur-1) var(--ease), border-color var(--dur-1) var(--ease);
+}
+.pagination__btn:hover:not(.is-active):not([disabled]) {
+  background: var(--surface-secondary);
+}
+.pagination__btn.is-active {
+  background: var(--text-primary);
+  color: var(--text-inverse);
+}
+.pagination__btn[disabled] { color: var(--disabled-on-surface); cursor: not-allowed; }
+.pagination__btn .material-symbols-rounded { font-size: 20px; }
+.pagination__ellipsis {
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+}
+.pagination__summary {
+  margin-left: 12px;
+  color: var(--text-secondary);
+  font: var(--body-small);
+  font-family: var(--font-body);
+}
+.pagination__goto {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 8px;
+}
+.pagination__goto-input {
+  width: 56px;
+  height: 36px;
+  padding: 0 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--text-primary);
+  font: var(--body-medium);
+}
+.pagination__goto-input:focus-visible {
+  outline: none;
+  border-color: var(--text-primary);
+}
+.pagination__goto-btn {
+  height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--text-primary);
+  font: 700 14px/1 var(--font-display);
+  cursor: pointer;
+  transition: background var(--dur-1) var(--ease);
+}
+.pagination__goto-btn:hover { background: var(--surface-secondary); }

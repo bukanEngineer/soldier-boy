@@ -1,0 +1,18 @@
+.breadcrumb { display: flex; align-items: center; gap: 6px; font: var(--body-medium); }
+.breadcrumb__item {
+  color: var(--text-secondary);
+  text-decoration: none;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  padding: 0;
+  font: inherit;
+  transition: color var(--dur-1) var(--ease);
+}
+.breadcrumb__item:hover { color: var(--text-primary); }
+.breadcrumb__item.is-current { color: var(--text-primary); font-weight: 700; cursor: default; }
+.breadcrumb__sep {
+  color: var(--disabled-on-surface);
+  font-size: 18px;
+  line-height: 1;
+}

@@ -1,0 +1,46 @@
+/* ListSupportedNetwork — Figma: List - Supported Network (5551:8211) */
+.supported-network {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+.supported-network__stack {
+  display: flex;
+  align-items: center;
+}
+.supported-network__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  background: var(--surface);
+  box-shadow: 0 0 0 1.5px var(--surface);
+  flex-shrink: 0;
+}
+.supported-network__icon:not(:first-child) {
+  margin-left: -6px;
+}
+.supported-network__icon > * {
+  width: 100%;
+  height: 100%;
+}
+.supported-network__more {
+  font: var(--body-bold-small);
+  color: var(--text-secondary);
+}
+.supported-network__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1px 3px;
+  border-radius: var(--radius-sm);
+  background: var(--status-positive);
+  color: var(--text-inverse);
+  font: var(--label-small);
+  font-size: 8px;
+  line-height: 1;
+  letter-spacing: 0.02em;
+}

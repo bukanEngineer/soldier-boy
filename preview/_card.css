@@ -1,0 +1,41 @@
+/* shared card chrome for preview/ cards */
+@import url("../colors_and_type.css");
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: #fff; }
+body {
+  width: 700px;
+  font: var(--sx-body-m);
+  color: var(--sx-fg-1);
+  padding: 24px;
+}
+.row { display: flex; gap: 16px; align-items: stretch; flex-wrap: wrap; }
+.col { display: flex; flex-direction: column; gap: 8px; }
+.swatch {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1 1 0;
+  min-width: 0;
+}
+.swatch .chip {
+  height: 64px;
+  border-radius: 8px;
+  border: 1px solid rgba(0,0,0,0.04);
+}
+.swatch .name {
+  font: var(--sx-label-m);
+  color: var(--sx-fg-1);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.swatch .hex {
+  font: var(--sx-body-s);
+  font-family: var(--sx-font-mono);
+  color: var(--sx-fg-2);
+}
+.swatch .role {
+  font: var(--sx-body-s);
+  color: var(--sx-fg-3);
+}
+.muted { color: var(--sx-fg-3); }

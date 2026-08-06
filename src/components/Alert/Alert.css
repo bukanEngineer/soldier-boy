@@ -1,0 +1,45 @@
+/* Alert — migrated to STX semantic tokens (Figma: Status/* surfaces). */
+.alert {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid;
+  background: var(--surface);
+  color: var(--text-primary);
+}
+.alert__icon {
+  flex: 0 0 auto;
+  font-size: 22px;
+  margin-top: 1px;
+}
+.alert__body { flex: 1; min-width: 0; }
+.alert__title { font: var(--label-medium); }
+.alert__text { font: var(--body-medium); color: var(--text-secondary); margin-top: 2px; }
+.alert__actions { display: flex; gap: var(--space-2); margin-top: 10px; }
+/* Right-aligned inline CTA — sits beside the body, vertically centered. */
+.alert--actions-right { align-items: center; }
+.alert__actions--right { flex: 0 0 auto; margin-top: 0; align-self: center; }
+.alert__close {
+  flex: 0 0 auto;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  color: inherit;
+  opacity: 0.6;
+  padding: 2px;
+  margin: -2px;
+}
+.alert__close:hover { opacity: 1; }
+
+.alert--positive { background: var(--status-surface-positive); border-color: var(--status-positive); }
+.alert--positive .alert__icon { color: var(--status-positive); }
+.alert--critical { background: var(--status-surface-critical); border-color: var(--status-critical); }
+.alert--critical .alert__icon { color: var(--status-critical); }
+.alert--warning  { background: var(--status-surface-warning);  border-color: var(--status-warning); }
+.alert--warning .alert__icon  { color: var(--status-warning); }
+.alert--info     { background: var(--status-surface-information); border-color: var(--status-information); }
+.alert--info .alert__icon     { color: var(--status-information); }
+.alert--neutral  { background: var(--surface-secondary); border-color: var(--border); }
+.alert--neutral .alert__icon  { color: var(--text-secondary); }

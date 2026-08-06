@@ -1,0 +1,31 @@
+.estimated-balance {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-1);
+  color: var(--text-primary);
+}
+
+.estimated-balance__title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+.estimated-balance__label {
+  font: var(--label-large);
+  color: var(--text-primary);
+}
+.estimated-balance__info { color: var(--text-secondary); }
+
+.estimated-balance__amount {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-3);
+  color: var(--text-primary);
+}
+.estimated-balance__value {
+  font: var(--display-small);
+  font-family: var(--font-display);
+  font-variant-numeric: tabular-nums;
+}
+.estimated-balance__currency { font: var(--title-medium); }

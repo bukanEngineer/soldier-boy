@@ -1,0 +1,25 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="_card.css">
+<style>
+  .tag { display:inline-flex; align-items:center; gap:6px;
+    padding: 4px 10px; border-radius:8px;
+    font-family:var(--sx-font-body); font-weight:700; font-size:14px; line-height:1.2;
+    border:1px solid transparent;
+  }
+  .pill { border-radius:999px; padding: 4px 12px; }
+</style></head>
+<body>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;">
+    <span class="tag" style="background:#F0F9F4;border-color:#B6DDC4;color:#007D00;">Verified</span>
+    <span class="tag" style="background:#FDECEC;border-color:#F2A89B;color:#DF1312;">Failed</span>
+    <span class="tag" style="background:#FFF5E6;border-color:#F7D7A7;color:#F79410;">Pending</span>
+    <span class="tag" style="background:#EAF2FD;border-color:#A8C8F2;color:#0D69D4;">Information</span>
+    <span class="tag" style="background:#F2F4F5;border-color:#C6C6C6;color:#1B2736;">Not Verified</span>
+  </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;">
+    <span class="tag pill" style="background:#F0F9F4;color:#007D00;">● Active</span>
+    <span class="tag pill" style="background:#FFF5E6;color:#F79410;">● Pending review</span>
+    <span class="tag pill" style="background:#F2F4F5;color:#505454;">● Draft</span>
+    <span class="tag pill" style="background:#00D37E;color:#002B2A;">New</span>
+  </div>
+  <div style="font:var(--sx-body-s);color:var(--sx-fg-3);margin-top:12px;">Status tags use soft fill + matching border. Pill variant for filters and "New" callouts.</div>
+</body></html>

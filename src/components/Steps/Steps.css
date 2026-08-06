@@ -1,0 +1,125 @@
+/* Horizontal Steps — segmented progress bar + counter text */
+.h-steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  width: 100%;
+}
+.h-steps__track {
+  display: flex;
+  gap: var(--space-1);
+  width: 100%;
+}
+.h-steps__segment {
+  flex: 1;
+  height: 10px;
+  border-radius: var(--radius-sm);
+  background: var(--border);
+}
+.h-steps__segment.is-filled {
+  background: var(--primary);
+}
+.h-steps__count {
+  font: var(--body-small);
+  color: var(--text-secondary);
+}
+
+/* Vertical Steps — read-only status timeline */
+.v-steps {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+.v-steps__item {
+  display: flex;
+  gap: var(--space-3);
+}
+.v-steps__line {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 10px;
+  flex-shrink: 0;
+}
+.v-steps__connector {
+  width: 1.5px;
+  flex: 1 0 var(--space-1);
+  background: var(--border);
+}
+.v-steps__connector.is-done {
+  background: var(--status-positive);
+}
+.v-steps__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: var(--radius-full);
+  border: 2px solid var(--border);
+  background: var(--surface);
+  flex-shrink: 0;
+}
+.v-steps__item.is-completed .v-steps__dot,
+.v-steps__item.is-active .v-steps__dot {
+  border-color: var(--status-positive);
+}
+.v-steps__item.is-failed .v-steps__dot {
+  border-color: var(--status-critical);
+}
+.v-steps__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding-bottom: var(--space-5);
+}
+.v-steps__item:last-child .v-steps__content {
+  padding-bottom: 0;
+}
+.v-steps__title {
+  font: var(--body-medium);
+  color: var(--text-primary);
+}
+.v-steps__item.is-active .v-steps__title {
+  font: var(--body-bold-medium);
+}
+.v-steps__item.is-failed .v-steps__title {
+  color: var(--status-critical);
+}
+.v-steps__timestamp,
+.v-steps__note {
+  font: var(--body-small);
+  color: var(--text-secondary);
+}
+
+/* Badge Steps — numbered step header for card content */
+.badge-steps {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+.badge-steps__counter {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-full);
+  background: var(--text-primary);
+  color: var(--on-container);
+  font: var(--label-large);
+}
+.badge-steps__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.badge-steps__title {
+  font: var(--label-large);
+  color: var(--text-primary);
+}
+.badge-steps__description {
+  font: var(--body-medium);
+  color: var(--text-secondary);
+}

@@ -1,0 +1,68 @@
+/* Modal2FA — illustration + instruction + segmented code input. Composes Modal. */
+
+.tfa .modal__body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  padding-top: var(--space-2);
+}
+/* Footer matches the Figma surface-secondary button bar. */
+.tfa .modal__foot {
+  background: var(--surface-secondary);
+  padding: var(--space-5);
+  gap: var(--space-4);
+}
+.tfa__action { flex: 1 1 0; }
+
+.tfa__hero { display: flex; flex-direction: column; align-items: center; gap: var(--space-4); }
+.tfa__illustration {
+  width: 160px;
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.tfa__illustration > * { max-width: 100%; max-height: 100%; }
+.tfa__title {
+  font: var(--title-small);
+  color: var(--text-primary);
+  text-align: center;
+}
+
+.tfa__instruction {
+  font: var(--body-medium);
+  color: var(--text-primary);
+  text-align: center;
+  margin: 0;
+}
+
+.tfa__code { display: flex; gap: var(--space-3); width: 100%; }
+.tfa__digit {
+  flex: 1 1 0;
+  min-width: 0;
+  height: 48px;
+  text-align: center;
+  font: var(--body-large);
+  color: var(--text-primary);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  outline: none;
+  transition: border-color var(--dur-1) var(--ease),
+    box-shadow var(--dur-1) var(--ease);
+}
+.tfa__digit:focus {
+  border-color: var(--interactive-active);
+  box-shadow: 0 0 0 3px var(--btn-secondary-hovered);
+}
+
+.tfa__trouble {
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  font: var(--body-medium);
+  color: var(--link);
+  text-align: center;
+}
+.tfa__trouble:hover { text-decoration: underline; }

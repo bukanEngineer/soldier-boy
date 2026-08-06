@@ -1,0 +1,136 @@
+/* InputCurrency — Figma "Input with Prefix" (2325:7486) / "Input with Suffix" (1735:14517). */
+.field__label-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.input-currency {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  min-height: 48px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  transition: border-color var(--dur-1) var(--ease), box-shadow var(--dur-1) var(--ease);
+}
+.input-currency:hover {
+  border-color: var(--text-secondary);
+}
+.input-currency:focus-within {
+  border-color: var(--interactive-active);
+  box-shadow: 0 0 0 3px rgba(0, 211, 126, 0.16);
+}
+.input-currency.is-error {
+  border-color: var(--status-critical);
+}
+.input-currency.is-error:focus-within {
+  box-shadow: 0 0 0 3px rgba(223, 19, 18, 0.16);
+}
+.input-currency.is-disabled {
+  background: var(--surface-disabled);
+  border-color: var(--border);
+  cursor: not-allowed;
+}
+
+.input-currency__field {
+  display: flex;
+  flex: 1 1 0%;
+  min-width: 0;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0 var(--space-3);
+}
+
+.input-currency__icon { flex: 0 0 auto; display: inline-flex; }
+
+.input-currency__input {
+  flex: 1 1 0%;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font: var(--body-large);
+  color: var(--text-primary);
+}
+.input-currency__input::placeholder { color: var(--input-placeholder); }
+.input-currency.is-disabled .input-currency__input { color: var(--disabled-on-surface); }
+
+.input-currency__link {
+  flex: 0 0 auto;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  font: 700 14px/1 var(--font-display);
+  color: var(--link);
+}
+.input-currency__link[disabled] { color: var(--disabled-on-surface); cursor: not-allowed; }
+
+.input-currency__menu-trigger {
+  flex: 0 0 auto;
+  display: flex;
+}
+
+.input-currency__adornment {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  height: 100%;
+  padding: 0 var(--space-3) 0 var(--space-2);
+  border: 0;
+  border-left: 1px solid var(--border);
+  background: transparent;
+  font: inherit;
+  color: inherit;
+  cursor: default;
+  outline: 0;
+}
+.input-currency--suffix .input-currency__adornment {
+  border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+}
+.input-currency--prefix .input-currency__adornment {
+  border-left: 0;
+  border-right: 1px solid var(--border);
+  padding: 0 var(--space-2) 0 var(--space-3);
+  border-radius: var(--radius-lg) 0 0 var(--radius-lg);
+}
+button.input-currency__adornment {
+  cursor: pointer;
+}
+button.input-currency__adornment:hover:not(:disabled) {
+  background: var(--surface-hovered);
+}
+button.input-currency__adornment:disabled {
+  cursor: not-allowed;
+}
+.input-currency.is-disabled .input-currency__adornment {
+  background: var(--surface-disabled);
+}
+
+.input-currency__mark {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+}
+.input-currency__mark > * { width: 24px; height: 24px; }
+
+.input-currency__symbol {
+  font: var(--body-large);
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+.input-currency.is-disabled .input-currency__symbol { color: var(--disabled-on-surface); }
+
+.input-currency__chevron {
+  flex: 0 0 auto;
+  color: var(--text-secondary);
+  transition: transform var(--dur-1) var(--ease);
+}
+.input-currency__chevron.is-open { transform: rotate(180deg); }

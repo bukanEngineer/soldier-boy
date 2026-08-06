@@ -1,0 +1,69 @@
+/* Button — migrated to STX semantic tokens (Figma: Base Color/* + Component/Button/*).
+ * Reference example for the token refactor: components consume the semantic
+ * layer, not brand primitives. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-radius: var(--radius-full);
+  border: 0;
+  cursor: pointer;
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  transition: background var(--dur-1) var(--ease),
+              color var(--dur-1) var(--ease),
+              border-color var(--dur-1) var(--ease);
+}
+.btn:focus-visible,
+.btn.is-focused {
+  outline: 2px solid var(--status-information);
+  outline-offset: 2px;
+}
+
+/* sizes */
+.btn--lg { height: 48px; padding: 0 var(--space-6); font-size: 16px; }
+.btn--md { height: 40px; padding: 0 var(--space-4); font-size: 14px; }
+.btn--sm { height: 36px; padding: 0 var(--space-4); font-size: 14px; }
+
+/* variants */
+.btn--primary {
+  background: var(--primary);
+  color: var(--text-primary);
+}
+.btn--primary:hover,
+.btn--primary.is-hovered { background: var(--btn-primary-hovered); }
+.btn--primary:active,
+.btn--primary.is-pressed { background: var(--btn-primary-pressed); color: var(--text-inverse); }
+
+.btn--secondary {
+  background: transparent;
+  color: var(--btn-secondary-text);
+  border: 1.5px solid var(--interactive-active);
+}
+.btn--secondary:hover,
+.btn--secondary.is-hovered { background: var(--btn-secondary-hovered); }
+.btn--secondary:active,
+.btn--secondary.is-pressed { background: var(--btn-secondary-pressed); }
+
+.btn--tertiary {
+  background: transparent;
+  color: var(--btn-secondary-text);
+  padding: 0 var(--space-4);
+  min-width: 100px;
+}
+.btn--tertiary:hover,
+.btn--tertiary.is-hovered { background: var(--btn-tertiary-hovered); }
+.btn--tertiary:active,
+.btn--tertiary.is-pressed { background: var(--btn-tertiary-pressed); }
+
+.btn[disabled],
+.btn[aria-disabled="true"] {
+  background: var(--surface-disabled);
+  color: var(--disabled-on-surface);
+  border-color: transparent;
+  cursor: not-allowed;
+  text-decoration: none;
+}

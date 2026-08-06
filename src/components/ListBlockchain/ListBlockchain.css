@@ -1,0 +1,75 @@
+/* ListBlockchain — Figma: List / Blockchain (5693:10299) */
+.list-blockchain {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--surface);
+}
+.list-blockchain--verifiedPrivateWallet {
+  align-items: flex-start;
+}
+
+.list-blockchain__main {
+  display: flex;
+  flex: 1 0 0;
+  gap: var(--space-2);
+  align-items: flex-start;
+  min-width: 0;
+}
+.list-blockchain__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  background: var(--surface-secondary);
+  font: var(--label-small);
+  color: var(--text-secondary);
+}
+.list-blockchain__icon > * { width: 100%; height: 100%; }
+
+.list-blockchain__text {
+  display: flex;
+  flex: 1 0 0;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-1);
+  min-width: 0;
+}
+.list-blockchain__name {
+  font: var(--body-bold-medium);
+  color: var(--text-primary);
+  word-break: break-word;
+}
+.list-blockchain__sub {
+  font: var(--body-medium);
+  color: var(--text-secondary);
+  word-break: break-word;
+}
+
+.list-blockchain__tag {
+  align-self: center;
+  flex-shrink: 0;
+}
+
+.list-blockchain__link {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  flex-shrink: 0;
+  font: var(--label-medium);
+  color: var(--link);
+}
+.list-blockchain__link:hover { text-decoration: underline; }
+.list-blockchain__link:focus-visible {
+  outline: 2px solid var(--link);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}

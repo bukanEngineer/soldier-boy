@@ -1,0 +1,46 @@
+/* ModalAssetSelection — header + tappable asset list. Composes Modal shell. */
+
+.asset-sel .modal__body { padding-top: 0; padding-left: 0; padding-right: 0; }
+
+.asset-sel__header { display: flex; flex-direction: column; gap: 2px; }
+.asset-sel__title { font: var(--title-small); color: var(--text-primary); }
+.asset-sel__desc { font: var(--body-medium); color: var(--text-secondary); }
+
+.asset-sel__label {
+  font: var(--body-medium);
+  color: var(--text-primary);
+  margin: 0 0 var(--space-2);
+  padding: 0 var(--space-5);
+}
+
+.asset-sel__list { list-style: none; margin: 0; padding: 0; }
+.asset-sel__item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-5);
+  background: transparent;
+  border: 0;
+  text-align: left;
+  cursor: pointer;
+}
+.asset-sel__item:hover { background: var(--surface-hovered); }
+.asset-sel__mark {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  background: var(--surface-secondary);
+  color: var(--text-primary);
+  font: var(--label-small);
+  overflow: hidden;
+}
+.asset-sel__mark > * { width: 100%; height: 100%; }
+.asset-sel__text { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; }
+.asset-sel__symbol { font: var(--title-small); color: var(--text-primary); }
+.asset-sel__subtitle { font: var(--body-medium); color: var(--text-secondary); }
+.asset-sel__chevron { flex: 0 0 auto; color: var(--text-secondary); font-size: 16px; }

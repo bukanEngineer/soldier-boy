@@ -1,0 +1,25 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="_card.css">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+<style>
+  .ico {
+    width:48px;height:48px;border-radius:8px;background:#F6F7F9;
+    display:flex;align-items:center;justify-content:center;color:#002B2A;
+  }
+  .ico .material-symbols-rounded { font-size:24px; }
+  .cell { display:flex;flex-direction:column;align-items:center;gap:6px; }
+  .cell .lbl { font:var(--sx-body-s); color:var(--sx-fg-3); font-family:var(--sx-font-mono); }
+</style></head>
+<body>
+  <div style="display:grid;grid-template-columns:repeat(8,1fr);gap:10px;">
+    <div class="cell"><div class="ico"><span class="material-symbols-rounded">home</span></div><div class="lbl">home</div></div>
+    <div class="cell"><div class="ico"><span class="material-symbols-rounded">account_circle</span></div><div class="lbl">account</div></div>
+    <div class="cell"><div class="ico"><span class="material-symbols-rounded">notifications</span></div><div class="lbl">notif</div></div>
+    <div class="cell"><div class="ico"><span class="material-symbols-rounded">credit_card</span></div><div class="lbl">card</div></div>
+    <div class="cell"><div class="ico"><span class="material-symbols-rounded">swap_horiz</span></div><div class="lbl">swap</div></div>
+    <div class="cell"><div class="ico"><span class="material-symbols-rounded">support_agent</span></div><div class="lbl">support</div></div>
+    <div class="cell"><div class="ico"><span class="material-symbols-rounded">settings</span></div><div class="lbl">settings</div></div>
+    <div class="cell"><div class="ico"><span class="material-symbols-rounded">arrow_forward</span></div><div class="lbl">forward</div></div>
+  </div>
+  <div style="font:var(--sx-body-s);color:var(--sx-fg-3);margin-top:14px;">Material Symbols Rounded (line, weight 400). Default 24 px; 20 px in compact UI.</div>
+</body></html>

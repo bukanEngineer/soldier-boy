@@ -1,0 +1,83 @@
+.tooltip {
+  display: inline-flex;
+  position: relative;
+}
+/* Portaled anchor: a zero-interaction box mirroring the trigger's rect. The
+ * bubble inside positions against it via the placement rules below. */
+.tooltip--portal {
+  z-index: 50;
+  pointer-events: none;
+}
+.tooltip--portal .tooltip__bubble {
+  pointer-events: auto;
+}
+.tooltip__bubble {
+  position: absolute;
+  z-index: 50;
+  background: var(--text-primary);
+  color: var(--text-inverse);
+  font: var(--body-small);
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  max-width: 240px;
+  width: max-content;
+  box-shadow: var(--shadow-2);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur-1) var(--ease), transform var(--dur-1) var(--ease);
+}
+.tooltip__bubble::after {
+  content: "";
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: var(--text-primary);
+  transform: rotate(45deg);
+}
+.tooltip[data-open="true"] .tooltip__bubble {
+  opacity: 1;
+}
+
+/* ── Rich content ── */
+.tooltip[data-rich] .tooltip__bubble {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  max-width: 280px;
+  pointer-events: auto;
+}
+.tooltip__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+.tooltip__title { font: var(--body-bold-small); color: var(--text-inverse); }
+.tooltip__content { font: var(--body-small); color: var(--text-inverse); }
+.tooltip__links {
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+.tooltip__link {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  font: var(--body-bold-small);
+  color: var(--link);
+  text-decoration: underline;
+}
+.tooltip__link:hover { opacity: 0.85; }
+
+/* placements */
+.tooltip[data-side="top"] .tooltip__bubble { bottom: 100%; left: 50%; transform: translate(-50%, -8px); }
+.tooltip[data-side="top"] .tooltip__bubble::after { bottom: -4px; left: 50%; margin-left: -4px; }
+.tooltip[data-side="bottom"] .tooltip__bubble { top: 100%; left: 50%; transform: translate(-50%, 8px); }
+.tooltip[data-side="bottom"] .tooltip__bubble::after { top: -4px; left: 50%; margin-left: -4px; }
+.tooltip[data-side="left"] .tooltip__bubble { right: 100%; top: 50%; transform: translate(-8px, -50%); }
+.tooltip[data-side="left"] .tooltip__bubble::after { right: -4px; top: 50%; margin-top: -4px; }
+.tooltip[data-side="right"] .tooltip__bubble { left: 100%; top: 50%; transform: translate(8px, -50%); }
+.tooltip[data-side="right"] .tooltip__bubble::after { left: -4px; top: 50%; margin-top: -4px; }

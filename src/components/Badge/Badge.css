@@ -1,0 +1,30 @@
+/* Badge — migrated to STX semantic tokens (Figma: Badge = Counter + Dot). */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: var(--radius-full);
+  background: var(--primary);
+  color: var(--text-primary);
+  font: 700 11px/18px var(--font-display);
+  border: 2px solid var(--surface);
+  font-variant-numeric: tabular-nums;
+}
+.badge--lg { min-width: 22px; height: 22px; padding: 0 7px; font-size: 12px; line-height: 22px; }
+.badge--sm { min-width: 14px; height: 14px; padding: 0 4px; font-size: 10px; line-height: 14px; border-width: 1.5px; }
+.badge--dot { width: 10px; height: 10px; min-width: 0; padding: 0; border-width: 2px; }
+
+.badge--critical { background: var(--status-critical); color: var(--text-inverse); }
+.badge--warning  { background: var(--status-warning);  color: var(--text-primary); }
+.badge--info     { background: var(--status-information); color: var(--text-inverse); }
+.badge--neutral  { background: var(--text-primary); color: var(--text-inverse); }
+
+.badge-wrap { position: relative; display: inline-flex; }
+.badge-wrap .badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+}

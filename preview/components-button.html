@@ -1,0 +1,31 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="_card.css">
+<style>
+  .btn {
+    display:inline-flex;align-items:center;justify-content:center;gap:6px;
+    border-radius:999px;border:0;cursor:pointer;
+    font-family:var(--sx-font-display); font-weight:700; font-size:16px; line-height:1;
+    padding:0 24px; height:48px;
+    transition: background 120ms var(--sx-ease), color 120ms var(--sx-ease);
+  }
+  .btn.primary { background:#00D37E; color:#002B2A; }
+  .btn.secondary { background:transparent; color:#002B2A; border:1.5px solid #002B2A; }
+  .btn.tertiary { background:transparent; color:#002B2A; padding:0 8px; height:36px; font-size:14px; text-decoration:underline; text-underline-offset:3px; }
+  .btn.primary.dis { background:#F0F0F0; color:#9D9E9F; }
+  .btn.md { height:40px; padding:0 16px; font-size:14px; }
+  .btn.sm { height:32px; padding:0 12px; font-size:12px; }
+</style>
+</head>
+<body>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+    <button class="btn primary">Primary</button>
+    <button class="btn secondary">Secondary</button>
+    <button class="btn tertiary">Tertiary</button>
+    <button class="btn primary dis">Disabled</button>
+  </div>
+  <div style="display:flex;gap:10px;align-items:center;margin-top:14px;">
+    <button class="btn primary">Large 48</button>
+    <button class="btn primary md">Medium 40</button>
+    <button class="btn primary sm">Small 32</button>
+  </div>
+  <div style="font:var(--sx-body-s);color:var(--sx-fg-3);margin-top:14px;">Pill (radius 999). Text: Red Hat Display Bold. Primary bg #00D37E · text #002B2A.</div>
+</body></html>

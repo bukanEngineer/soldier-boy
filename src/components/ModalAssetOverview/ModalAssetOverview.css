@@ -1,0 +1,100 @@
+/* ModalAssetOverview — asset header + transfer methods + supported network/bank.
+ * Composes the shared Modal shell; only the body/header internals are styled. */
+
+.asset-ov .modal__body { padding-top: 0; }
+
+/* Header (passed as Modal title) */
+.asset-ov__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.asset-ov__mark {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  background: var(--surface-secondary);
+  color: var(--text-primary);
+  font: var(--label-small);
+  overflow: hidden;
+}
+.asset-ov__mark > * { width: 100%; height: 100%; }
+.asset-ov__heading { display: flex; flex-direction: column; }
+.asset-ov__symbol { font: var(--title-small); color: var(--text-primary); }
+.asset-ov__subtitle { font: var(--body-medium); color: var(--text-secondary); }
+
+.asset-ov__section-label {
+  font: var(--body-medium);
+  color: var(--text-primary);
+  margin: 0 0 var(--space-2);
+}
+
+/* Methods list */
+.asset-ov__methods { list-style: none; margin: 0 0 var(--space-4); padding: 0; }
+.asset-ov__method {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+  background: transparent;
+  border: 0;
+  text-align: left;
+  cursor: pointer;
+  border-radius: var(--radius-md);
+}
+.asset-ov__method:hover { background: var(--surface-hovered); }
+.asset-ov__method-icon {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  background: var(--status-surface-positive);
+  color: var(--status-positive);
+}
+.asset-ov__method-icon .material-symbols-rounded { font-size: 22px; }
+.asset-ov__method-text { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.asset-ov__method-title { font: var(--label-medium); color: var(--text-primary); }
+.asset-ov__method-desc { font: var(--body-medium); color: var(--text-secondary); }
+.asset-ov__chevron { flex: 0 0 auto; color: var(--text-secondary); font-size: 22px; }
+
+/* Supported network / bank */
+.asset-ov__support {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--border);
+}
+.asset-ov__support-link { font: var(--body-small); color: var(--link); }
+.asset-ov__support-group { display: flex; flex-direction: column; gap: var(--space-1); }
+.asset-ov__support-key { font: var(--body-small); color: var(--text-secondary); }
+.asset-ov__support-value { font: var(--body-small); color: var(--text-primary); }
+.asset-ov__networks { display: flex; flex-wrap: wrap; gap: var(--space-3); }
+.asset-ov__network {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font: var(--body-small);
+  color: var(--text-primary);
+}
+.asset-ov__network-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: var(--radius-full);
+  background: var(--surface-secondary);
+  font: var(--label-small);
+  font-size: 9px;
+  overflow: hidden;
+}
+.asset-ov__network-mark > * { width: 100%; height: 100%; }

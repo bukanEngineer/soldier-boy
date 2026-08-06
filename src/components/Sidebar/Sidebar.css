@@ -1,0 +1,221 @@
+/* Sidebar — Figma "Sidebar - Base". 240px, surface bg, MAS badge pinned at
+ * the bottom while the nav area scrolls internally. Account variants,
+ * company dropdown, expandable sub-items, semantic tokens. */
+.sidebar {
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  width: 240px;
+  min-height: 100%;
+}
+.sidebar__scroll {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  padding: var(--space-7) var(--space-4);
+  height: 100%;
+}
+.sidebar__top {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.sidebar__brand { display: flex; flex-direction: column; align-items: center; gap: var(--space-1); }
+.sidebar__brand-sub { font: var(--body-small); color: var(--interactive-active); text-align: center; }
+
+/* Company profile dropdown trigger + popover. Popover is portaled to
+ * <body> (see Sidebar.jsx) and positioned inline via JS, since it must
+ * escape .sidebar__top's overflow clipping. */
+.sidebar__company-wrap { position: relative; width: 100%; }
+.sidebar__company-menu {
+  position: fixed;
+  z-index: 30;
+  min-width: 208px;
+}
+.sidebar__company {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  width: 100%;
+  padding: var(--space-3);
+  border: 0;
+  border-radius: var(--radius-md);
+  background: var(--surface-secondary);
+  cursor: pointer;
+  text-align: left;
+  transition: background var(--dur-1) var(--ease);
+}
+.sidebar__company:hover { background: var(--surface-hovered); }
+.sidebar__company-text { display: flex; flex-direction: column; gap: var(--space-1); min-width: 0; }
+.sidebar__company-name {
+  font: var(--label-medium);
+  color: var(--text-secondary);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.sidebar__company-type { font: var(--body-small); color: var(--text-secondary); }
+.sidebar__company-chevron { color: var(--text-secondary); font-size: 22px; width: 22px; text-align: center; flex: 0 0 auto; }
+
+.sidebar__nav { display: flex; flex-direction: column; gap: var(--space-2); }
+.sidebar__group { display: flex; flex-direction: column; }
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border-radius: var(--radius-sm);
+  border: 0;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font: var(--body-medium);
+  text-align: left;
+  text-decoration: none;
+  width: 100%;
+  transition: background var(--dur-1) var(--ease), color var(--dur-1) var(--ease);
+}
+.nav-item:hover,
+.nav-item.is-hovered { background: var(--surface-secondary); }
+.nav-item.is-active {
+  background: var(--sidebar-active);
+  color: var(--sidebar-menuitem-text);
+  font: var(--body-bold-medium);
+}
+.nav-item.is-active .material-symbols-rounded { color: var(--sidebar-menuitem-text); }
+.nav-item__label {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.nav-item__tag {
+  font: var(--label-small);
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-sm);
+  background: var(--status-positive);
+  color: var(--text-inverse);
+  min-width: 40px;
+  text-align: center;
+}
+.nav-item__chevron {
+  font-size: 22px; flex: 0 0 auto; color: var(--text-secondary);
+  transition: transform var(--dur-1) var(--ease);
+}
+.nav-item__chevron.is-open { transform: rotate(180deg); }
+/* Reserve the icon box (width + height) so a not-yet-loaded icon font (which
+ * renders zero-width with `font-display: block`) can't collapse and shift the
+ * labels — visible as a "pop-in" on hard reload when the font is re-fetched. */
+.nav-item .material-symbols-rounded {
+  font-size: 22px;
+  width: 22px;
+  flex: 0 0 auto;
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+/* Custom (non-Material-Symbols) icon slot, e.g. an inline SVG. Fixed size to
+ * match the glyph icons; inherits the row's color so active/sandbox states
+ * apply automatically (use `fill:currentColor`/`stroke:currentColor` in SVGs). */
+.nav-item__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  flex: 0 0 auto;
+  color: inherit;
+}
+.nav-item__icon svg,
+.nav-item__icon img { width: 100%; height: 100%; display: block; }
+
+/* Expandable sub-items */
+.sidebar__subnav { display: flex; flex-direction: column; }
+.subitem {
+  display: flex;
+  align-items: center;
+  padding: var(--space-2) var(--space-3) var(--space-2) 44px;
+  border: 0;
+  background: transparent;
+  color: var(--text-secondary);
+  font: var(--body-medium);
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: background var(--dur-1) var(--ease), color var(--dur-1) var(--ease);
+}
+.subitem:hover { background: var(--surface-secondary); }
+.subitem.is-active {
+  background: var(--sidebar-active);
+  color: var(--status-positive);
+  font: var(--body-bold-medium);
+}
+
+/* Loading state — skeleton nav items */
+.nav-item-skeleton {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3);
+}
+.nav-item-skeleton__icon,
+.nav-item-skeleton__label {
+  border-radius: var(--radius-sm);
+  background: var(--skeleton-gradient);
+  animation: skeleton-pulse 1.4s ease-in-out infinite;
+}
+.nav-item-skeleton__icon { width: 22px; height: 22px; flex: 0 0 auto; }
+.nav-item-skeleton__label { height: 12px; width: var(--skeleton-width, 70%); }
+
+@keyframes skeleton-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.75; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-item-skeleton__icon,
+  .nav-item-skeleton__label { animation: none; opacity: 0.7; }
+}
+
+/* MAS regulatory badge — pinned to the bottom; doesn't shrink or scroll
+ * with the nav list above it. */
+.sidebar__mas {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) 10px;
+  border-radius: var(--radius-md);
+  background: var(--surface-secondary);
+  flex: 0 0 auto;
+}
+.sidebar__mas .material-symbols-rounded { font-size: 22px; width: 22px; text-align: center; color: var(--text-secondary); flex: 0 0 auto; }
+.sidebar__mas-text { font: var(--body-small); color: var(--text-secondary); }
+
+/* Sandbox theme — dark surface, white text/icons. Company profile card and
+ * the MAS badge keep their light styling per Figma (only nav + brand invert). */
+.sidebar.is-sandbox { background: var(--sidebar-sandbox-bg); border-right: 0; }
+.sidebar.is-sandbox .sidebar__brand-sub { color: var(--sidebar-sandbox-text); }
+.sidebar.is-sandbox .nav-item,
+.sidebar.is-sandbox .nav-item .material-symbols-rounded,
+.sidebar.is-sandbox .nav-item__chevron,
+.sidebar.is-sandbox .subitem {
+  color: var(--sidebar-sandbox-text);
+}
+.sidebar.is-sandbox .nav-item:hover,
+.sidebar.is-sandbox .nav-item.is-hovered,
+.sidebar.is-sandbox .subitem:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+.sidebar.is-sandbox .nav-item.is-active,
+.sidebar.is-sandbox .subitem.is-active {
+  background: var(--sidebar-sandbox-active);
+  color: var(--sidebar-sandbox-text);
+}
+.sidebar.is-sandbox .nav-item.is-active .material-symbols-rounded {
+  color: var(--sidebar-sandbox-text);
+}

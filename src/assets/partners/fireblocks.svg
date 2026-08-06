@@ -1,0 +1,14 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+<g id="Size=24x24px">
+<g id="Logo_2">
+<path id="mark" fill-rule="evenodd" clip-rule="evenodd" d="M0 23.8571H24V1H0V23.8571ZM5.71429 17H18.2857L11.968 6.71429L5.71429 17Z" fill="url(#paint0_linear_964_20528)"/>
+</g>
+</g>
+<defs>
+<linearGradient id="paint0_linear_964_20528" x1="2.28571" y1="18.1429" x2="24" y2="2.71429" gradientUnits="userSpaceOnUse">
+<stop stop-color="#00081E"/>
+<stop offset="1" stop-color="#0A4269"/>
+</linearGradient>
+</defs>
+</svg>

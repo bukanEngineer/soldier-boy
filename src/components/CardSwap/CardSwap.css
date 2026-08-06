@@ -1,0 +1,80 @@
+.card-swap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-5);
+  background: var(--surface);
+  border-radius: var(--radius-md);
+  padding: var(--space-4) var(--space-5);
+  color: var(--text-primary);
+  width: 343px;
+  max-width: 100%;
+}
+
+.card-swap__title {
+  font: var(--label-large);
+  color: var(--text-primary);
+  align-self: stretch;
+  margin: 0;
+}
+
+/* ── Leg (from / to) ── */
+.card-swap__leg {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  width: 100%;
+}
+.card-swap__leg-labels {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-1);
+}
+.card-swap__leg-label,
+.card-swap__leg-balance {
+  font: var(--body-medium);
+  color: var(--text-primary);
+}
+.card-swap__leg-balance { color: var(--text-secondary); }
+
+/* ── Rate row ── */
+.card-swap__rate-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-5);
+  width: 100%;
+}
+.card-swap__rate-col {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 0;
+  min-width: 0;
+  gap: var(--space-1);
+}
+.card-swap__rate {
+  align-self: flex-start;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  background: var(--surface-secondary);
+  font: var(--body-medium);
+  color: var(--interactive-active);
+}
+.card-swap__highlight {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font: var(--body-small);
+  color: var(--status-positive);
+}
+.card-swap__highlight-icon { color: var(--status-positive); }
+
+.card-swap__btn { width: 100%; }
+
+.card-swap__footnote {
+  font: var(--body-small);
+  color: var(--text-secondary);
+  text-align: center;
+  margin: 0;
+}

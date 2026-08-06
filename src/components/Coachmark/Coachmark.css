@@ -1,0 +1,105 @@
+.coachmark-scrim {
+  position: fixed;
+  inset: 0;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  background: var(--overlay);
+  z-index: 1200;
+  pointer-events: auto;
+}
+.coachmark-spot {
+  position: absolute;
+  border-radius: var(--radius-md);
+  box-shadow: 0 0 0 9999px var(--overlay);
+  pointer-events: none;
+  transition: all var(--dur-3) var(--ease);
+}
+.coachmark {
+  position: absolute;
+  z-index: 1201;
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-3);
+  padding: 16px;
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+/* Beak / arrow — a CSS triangle that matches the popover surface and
+ * points toward the highlighted target based on `placement`. */
+.coachmark__beak {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: 8px solid transparent;
+}
+/* placement="bottom": popover sits below target → beak on top edge points up */
+.coachmark__beak[data-placement="bottom"] {
+  top: -16px;
+  left: 24px;
+  border-bottom-color: var(--surface);
+}
+/* placement="top": popover sits above target → beak on bottom edge points down */
+.coachmark__beak[data-placement="top"] {
+  bottom: -16px;
+  left: 24px;
+  border-top-color: var(--surface);
+}
+/* placement="right": popover sits right of target → beak on left edge points left */
+.coachmark__beak[data-placement="right"] {
+  left: -16px;
+  top: 20px;
+  border-right-color: var(--surface);
+}
+/* placement="left": popover sits left of target → beak on right edge points right */
+.coachmark__beak[data-placement="left"] {
+  right: -16px;
+  top: 20px;
+  border-left-color: var(--surface);
+}
+
+.coachmark__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+.coachmark__title { font: var(--label-medium); color: var(--text-primary); }
+.coachmark__close {
+  flex: 0 0 auto;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  color: var(--text-secondary);
+  display: inline-flex;
+  padding: 0;
+  margin: -2px -2px 0 0;
+}
+.coachmark__close:hover { color: var(--text-primary); }
+.coachmark__close .material-symbols-rounded { font-size: 20px; }
+.coachmark__body { font: var(--body-medium); color: var(--text-secondary); }
+.coachmark__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: var(--space-2);
+}
+.coachmark__dots {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+.coachmark__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-full);
+  background: var(--border);
+  transition: background var(--dur-1) var(--ease), width var(--dur-1) var(--ease);
+}
+.coachmark__dot[data-active] {
+  background: var(--primary);
+  width: 16px;
+}
+.coachmark__actions { display: flex; gap: var(--space-2); }

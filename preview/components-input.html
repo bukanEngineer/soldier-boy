@@ -1,0 +1,34 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="_card.css">
+<style>
+  .field { display:flex;flex-direction:column;gap:6px; }
+  .field label { font:var(--sx-body-m); color:#002B2A; }
+  .field .helper { font:var(--sx-body-s); color:#6B6B6B; }
+  .input {
+    height:48px; border-radius:12px; border:1px solid #C6C6C6; background:#fff;
+    display:flex; align-items:center; padding:0 14px; gap:8px;
+    font: var(--sx-body-l); color:#002B2A;
+  }
+  .input.focused { border-color:#054948; box-shadow:0 0 0 3px rgba(0,211,126,0.16); }
+  .input.err { border-color:#DF1312; }
+  .input input { border:0; outline:0; background:transparent; flex:1; font:inherit; color:inherit; }
+  .input .suf { color:#6B6B6B; font-family:var(--sx-font-mono); }
+  .lbl-i { color:#6B6B6B; font-size:16px; }
+</style></head>
+<body>
+  <div class="field">
+    <label>Email <span class="lbl-i">ⓘ</span></label>
+    <div class="input"><input value="hello@straitsx.com" /></div>
+    <span class="helper">We'll send your verification code here.</span>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
+    <div class="field">
+      <label>Amount</label>
+      <div class="input focused"><input value="1,250.00" /><span class="suf">SGD</span></div>
+    </div>
+    <div class="field">
+      <label>Wallet address</label>
+      <div class="input err"><input value="0xa1B…f2" /></div>
+      <span class="helper" style="color:#DF1312;">Address checksum doesn't match.</span>
+    </div>
+  </div>
+</body></html>

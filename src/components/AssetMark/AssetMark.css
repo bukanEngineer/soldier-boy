@@ -1,0 +1,25 @@
+/* AssetMark — circular brand mark for coins / fiat / networks. */
+.asset-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  border-radius: var(--radius-full);
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1;
+  overflow: hidden;
+  user-select: none;
+}
+.asset-mark > img,
+.asset-mark > svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* White / mono tone — transparent bg + currentColor, for on-dark use. */
+.asset-mark--white {
+  box-shadow: inset 0 0 0 1px currentColor;
+}
+.asset-mark--white > svg { fill: currentColor; }

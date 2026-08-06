@@ -1,0 +1,28 @@
+.qr {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+.qr__img {
+  width: 200px;
+  height: 200px;
+  display: block;
+}
+.qr__label {
+  font: 700 14px/1.2 var(--font-display);
+  color: var(--text-primary);
+  text-align: center;
+}
+.qr__sub {
+  font: var(--body-small);
+  color: var(--text-secondary);
+  text-align: center;
+  font-family: var(--font-mono);
+  word-break: break-all;
+  max-width: 240px;
+}

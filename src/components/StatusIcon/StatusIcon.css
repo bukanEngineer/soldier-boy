@@ -1,0 +1,22 @@
+/* StatusIcon — Figma: Status Icon / Success (5700:9327) */
+.status-icon {
+  --status-icon-size: 36px; /* component-scoped override hook */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--status-icon-size, 36px);
+  height: var(--status-icon-size, 36px);
+  border-radius: var(--radius-full);
+  color: var(--text-inverse);
+  flex-shrink: 0;
+}
+.status-icon .material-symbols-rounded {
+  font-size: calc(var(--status-icon-size, 36px) * 0.56);
+  line-height: 1;
+}
+.status-icon--success {
+  background: var(--status-positive);
+}
+.status-icon--needApproval {
+  background: var(--status-warning);
+}

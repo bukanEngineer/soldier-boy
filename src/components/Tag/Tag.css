@@ -1,0 +1,101 @@
+/* Tag — STX semantic tokens (Figma: Status/* + Base Color/*).
+ * Two variants: "outlined" (status, colored by tone) and "new" (solid brand).
+ * Axes: variant × tone × size (large|small), plus removable + clickable. */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font: var(--body-bold-small);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  /* button reset (clickable variant) */
+  background: none;
+  font-family: inherit;
+  text-align: left;
+  white-space: nowrap;
+}
+.tag__label { display: inline-flex; align-items: center; gap: var(--space-1); }
+
+/* ── Leading icon ── */
+.tag__icon { display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; }
+.tag__icon .material-symbols-rounded,
+.tag__icon.material-symbols-rounded { font-size: 16px; line-height: 1; }
+.tag--small .tag__icon .material-symbols-rounded,
+.tag--small .tag__icon.material-symbols-rounded { font-size: 14px; }
+.tag__icon svg { width: 1em; height: 1em; display: block; }
+
+/* ── Size ── */
+.tag--large { padding: var(--space-1) var(--space-3); font: var(--body-bold-small); }
+.tag--small { padding: 2px var(--space-2); font: var(--label-small); }
+
+/* ── Outlined variant — colored per tone (surface bg + border/text) ── */
+.tag--positive {
+  background: var(--status-surface-positive);
+  border-color: var(--status-positive);
+  color: var(--status-positive);
+}
+.tag--critical {
+  background: var(--status-surface-critical);
+  border-color: var(--status-critical);
+  color: var(--status-critical);
+}
+.tag--warning {
+  background: var(--status-surface-warning);
+  border-color: var(--status-warning);
+  color: var(--status-warning);
+}
+.tag--info {
+  background: var(--status-surface-information);
+  border-color: var(--status-information);
+  color: var(--status-information);
+}
+.tag--neutral {
+  background: var(--surface-secondary);
+  border-color: var(--border);
+  color: var(--text-primary);
+}
+
+/* ── New variant — solid brand emphasis ── */
+.tag--new {
+  border-color: transparent;
+  background: var(--primary);
+  color: var(--text-primary);
+}
+
+/* ── Removable close affordance ── */
+.tag__remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin-left: 2px;
+  border: 0;
+  background: none;
+  color: currentColor;
+  cursor: pointer;
+  border-radius: var(--radius-full);
+  opacity: 0.75;
+  transition: opacity var(--dur-1) var(--ease), background var(--dur-1) var(--ease);
+}
+.tag__remove:hover { opacity: 1; background: var(--surface-hovered); }
+.tag__remove:disabled { cursor: not-allowed; opacity: 0.4; }
+
+/* ── Clickable / selectable chip ── */
+.tag--clickable { cursor: pointer; transition: background var(--dur-1) var(--ease), border-color var(--dur-1) var(--ease), color var(--dur-1) var(--ease); }
+.tag--clickable:hover { background: var(--surface-hovered); }
+.tag--clickable:focus-visible { outline: 2px solid var(--status-information); outline-offset: 2px; }
+/* selected chips take the brand highlight regardless of tone */
+.tag--clickable.is-selected {
+  border-color: transparent;
+  background: var(--primary);
+  color: var(--text-primary);
+}
+
+/* ── Disabled ── */
+.tag.is-disabled {
+  background: var(--surface-disabled);
+  border-color: var(--border);
+  color: var(--disabled-on-surface);
+  cursor: not-allowed;
+}
+.tag.is-disabled .tag__remove { opacity: 0.4; cursor: not-allowed; }

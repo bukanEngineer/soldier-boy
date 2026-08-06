@@ -1,0 +1,22 @@
+.ex-pa {
+  display: grid;
+  grid-template-columns: 268px 1fr;
+  height: 100vh;
+  overflow: hidden;
+  background: #F1F2F4;
+}
+.ex-pa__main { padding: 24px 32px 64px; min-width: 0; height: 100%; overflow-y: auto; }
+.ex-pa__head { display: flex; justify-content: flex-end; margin-bottom: 24px; }
+.ex-pa__col { display: flex; flex-direction: column; gap: 24px; min-width: 0; }
+.ex-pa__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(280px, 0.6fr);
+  gap: 24px;
+}
+.ex-pa__footnote {
+  font: var(--body-small);
+  color: var(--disabled-on-surface);
+  margin-top: 32px;
+  line-height: 1.6;
+}
+.ex-pa__footnote a { color: var(--text-secondary); text-decoration: underline; }

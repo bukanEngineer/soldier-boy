@@ -1,0 +1,70 @@
+/* ListBank — Figma: List / Bank (5323:3843) */
+.list-bank {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--surface);
+}
+.list-bank--verified,
+.list-bank--rejected {
+  align-items: flex-start;
+}
+
+.list-bank__main {
+  display: flex;
+  flex: 1 0 0;
+  gap: var(--space-2);
+  align-items: flex-start;
+  min-width: 0;
+}
+.list-bank__logo {
+  display: flex;
+  align-items: center;
+  width: 48px;
+  flex-shrink: 0;
+  color: var(--text-secondary);
+}
+.list-bank__logo > * {
+  max-width: 100%;
+}
+.list-bank__text {
+  display: flex;
+  flex: 1 0 0;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-1);
+  min-width: 0;
+}
+.list-bank__name {
+  font: var(--body-bold-medium);
+  color: var(--text-primary);
+  word-break: break-word;
+}
+.list-bank__sub {
+  font: var(--body-medium);
+  color: var(--text-secondary);
+  word-break: break-word;
+}
+.list-bank__tag {
+  align-self: flex-start;
+  margin-top: var(--space-1);
+}
+
+.list-bank__link {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  flex-shrink: 0;
+  font: var(--label-medium);
+  color: var(--link);
+}
+.list-bank__link:hover { text-decoration: underline; }
+.list-bank__link:focus-visible {
+  outline: 2px solid var(--link);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}

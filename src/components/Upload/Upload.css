@@ -1,0 +1,68 @@
+.upload {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.upload__drop {
+  border: 1.5px dashed var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface-secondary);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: border-color var(--dur-1) var(--ease), background var(--dur-1) var(--ease);
+  text-align: center;
+}
+.upload__drop:hover,
+.upload__drop.is-dragging {
+  border-color: var(--interactive-active);
+  background: var(--status-surface-positive);
+}
+.upload__drop.is-error { border-color: var(--status-critical); background: var(--status-surface-critical); }
+.upload__icon {
+  font-size: 36px;
+  color: var(--interactive-active);
+}
+.upload__primary { font: 700 14px/1.4 var(--font-display); color: var(--text-primary); }
+.upload__primary .upload__link { color: var(--interactive-active); text-decoration: underline; cursor: pointer; }
+.upload__hint { font: var(--body-small); color: var(--text-secondary); }
+.upload input[type="file"],
+.upload__replace-input { position: absolute; opacity: 0; pointer-events: none; width: 1px; height: 1px; }
+
+.upload__list { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+.upload__file {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+/* Rich preview thumbnail (image or placeholder icon) */
+.upload__thumb {
+  flex: 0 0 auto;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+  background: var(--surface-secondary);
+  border: 1px solid var(--border);
+}
+.upload__thumb--placeholder {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+}
+.upload__thumb--placeholder .material-symbols-rounded { font-size: 24px; }
+
+.upload__file-meta { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.upload__file-name { min-width: 0; font: var(--body-bold-medium); color: var(--text-primary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.upload__file-size { font: var(--body-small); color: var(--text-secondary); }
+
+.upload__file-actions { flex: 0 0 auto; display: inline-flex; align-items: center; gap: var(--space-2); }

@@ -1,0 +1,91 @@
+/* DropdownBlockchain — blockchain/wallet-selection menu body. STX tokens only. */
+.dropdown-blockchain {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-1);
+  overflow: hidden;
+}
+
+.dropdown-blockchain__row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  cursor: pointer;
+  color: var(--text-primary);
+  transition: background var(--dur-1) var(--ease);
+}
+.dropdown-blockchain__row:hover { background: var(--surface-hovered); }
+.dropdown-blockchain__row.is-selected { background: var(--surface-secondary); }
+.dropdown-blockchain__row.is-disabled {
+  background: var(--surface-disabled);
+  color: var(--disabled-on-surface);
+  cursor: not-allowed;
+}
+
+.dropdown-blockchain__mark {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+}
+.dropdown-blockchain__mark > * { width: 24px; height: 24px; }
+.dropdown-blockchain__initials {
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-full);
+  background: var(--surface-secondary);
+  color: var(--text-secondary);
+  font: var(--label-small);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dropdown-blockchain__text {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.dropdown-blockchain__name {
+  font: var(--body-large);
+  color: inherit;
+}
+.dropdown-blockchain__secondary {
+  font: var(--body-medium);
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.dropdown-blockchain__row.is-disabled .dropdown-blockchain__secondary {
+  color: var(--disabled-on-surface);
+}
+
+/* Status tag (filled) — Figma "Static Tag - Filled" */
+.dropdown-blockchain__tag {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 24px;
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-sm);
+  font: var(--label-small);
+  color: var(--text-inverse);
+}
+.dropdown-blockchain__tag.is-positive { background: var(--status-positive); }
+.dropdown-blockchain__tag.is-critical { background: var(--status-critical); }
+.dropdown-blockchain__tag.is-warning { background: var(--status-warning); }
+.dropdown-blockchain__tag.is-information { background: var(--status-information); }

@@ -1,0 +1,40 @@
+/* BottomSheetBank — single-select bank list inside the BottomSheet shell. */
+
+.bsb .bsheet__body { padding-left: 0; padding-right: 0; }
+
+.bsb__list { list-style: none; margin: 0; padding: 0; }
+.bsb__item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-5);
+  background: transparent;
+  border: 0;
+  text-align: left;
+  cursor: pointer;
+}
+.bsb__item:hover { background: var(--surface-hovered); }
+.bsb__item.is-selected { background: var(--surface-secondary); }
+
+.bsb__mark {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  background: var(--surface-secondary);
+  color: var(--text-primary);
+  font: var(--label-small);
+  overflow: hidden;
+}
+.bsb__mark > * { width: 100%; height: 100%; }
+
+.bsb__text { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.bsb__name { font: var(--label-medium); color: var(--text-primary); }
+.bsb__desc { font: var(--body-small); color: var(--text-secondary); }
+
+.bsb__check { flex: 0 0 auto; color: var(--text-secondary); font-size: 22px; }
+.bsb__item.is-selected .bsb__check { color: var(--primary); }

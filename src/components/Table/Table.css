@@ -1,0 +1,169 @@
+/* Table — migrated to STX semantic tokens (Figma: Table Cell - Single /
+ * Table / Transaction History). Cell min-height 60, header 48, 16px padding. */
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  background: var(--surface);
+  border-radius: var(--radius-md);
+}
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font: var(--body-medium);
+  color: var(--text-primary);
+}
+.table thead th {
+  position: sticky;
+  top: 0;
+  height: 48px;
+  background: var(--surface-secondary);
+  color: var(--text-secondary);
+  font: var(--body-bold-medium); /* Label · Hanken Grotesk / Medium — see Typography stories */
+  text-align: left;
+  padding: 0 var(--space-4);
+}
+.table tbody td {
+  height: 60px;            /* Figma Table Cell - Single: min-height 60 */
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+.table tbody tr:last-child td { border-bottom: 0; }
+.table tbody tr:hover td { background: var(--surface-hovered); }
+
+.table--zebra tbody tr:nth-child(even) td { background: var(--surface-secondary); }
+
+.table th.table__num,
+.table td.table__num {
+  text-align: right;
+  font-family: var(--font-body);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Sortable column headers ── */
+.table__sort-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  background: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  text-transform: inherit;
+  letter-spacing: inherit;
+  cursor: pointer;
+}
+.table__sort-icon {
+  font-size: 16px;
+  color: var(--text-secondary);
+  opacity: 0.5;
+}
+.table__sort-btn:hover .table__sort-icon,
+.table__sort-icon.is-active {
+  opacity: 1;
+}
+.table__sort-icon.is-active {
+  color: var(--text-primary);
+}
+
+/* ── Header tooltip: info icon sits to the left of the label ── */
+.table__th-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+.table__th-info {
+  display: inline-flex;
+  align-items: center;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: 16px;
+  color: var(--text-secondary);
+  opacity: 0.7;
+  cursor: help;
+}
+.table__th-info:hover,
+.table__th-info:focus-visible {
+  opacity: 1;
+  color: var(--text-primary);
+}
+.table__th-tz {
+  color: var(--text-inverse);
+  font: var(--label-small);
+}
+
+.table__cell-with-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.table__cell-with-icon .material-symbols-rounded {
+  font-size: 18px;
+  color: var(--text-secondary);
+}
+
+.table__empty {
+  padding: var(--space-7) var(--space-6);
+  text-align: center;
+  color: var(--text-secondary);
+  font: var(--body-medium);
+}
+
+/* ── Infinite scroll status row (loading sentinel / end-of-list) ── */
+.table tbody td.table__status {
+  height: auto;
+  padding: var(--space-4);
+  text-align: center;
+  color: var(--text-secondary);
+  font: var(--body-small);
+}
+.table__loading {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.table__spinner {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  border-top-color: var(--text-secondary);
+  animation: table-spin 0.6s linear infinite;
+}
+@keyframes table-spin {
+  to { transform: rotate(360deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .table__spinner { animation-duration: 1.6s; }
+}
+
+/* ── Fixed columns (Ant Design-style left/right sticky cells) ── */
+.table__cell--fixed-left,
+.table__cell--fixed-right {
+  position: sticky;
+  z-index: 1;
+  background: var(--surface);
+}
+.table thead th.table__cell--fixed-left,
+.table thead th.table__cell--fixed-right {
+  z-index: 3;
+  background: var(--surface-secondary);
+}
+.table--zebra tbody tr:nth-child(even) td.table__cell--fixed-left,
+.table--zebra tbody tr:nth-child(even) td.table__cell--fixed-right {
+  background: var(--surface-secondary);
+}
+.table tbody tr:hover td.table__cell--fixed-left,
+.table tbody tr:hover td.table__cell--fixed-right {
+  background: var(--surface-hovered);
+}
+.table__cell--fixed-shadow.table__cell--fixed-left {
+  box-shadow: 6px 0 8px -6px rgba(0, 0, 0, 0.18);
+}
+.table__cell--fixed-shadow.table__cell--fixed-right {
+  box-shadow: -6px 0 8px -6px rgba(0, 0, 0, 0.18);
+}

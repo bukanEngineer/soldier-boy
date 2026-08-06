@@ -1,0 +1,180 @@
+/* FieldBlockchain — Figma "Field / Blockchain" (5228:3280). STX semantic tokens. */
+.fieldblockchain { position: relative; }
+
+.fieldblockchain__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin-bottom: var(--space-1);
+}
+.fieldblockchain__header .field__label { margin: 0; }
+
+.fieldblockchain__link {
+  flex: 0 0 auto;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  font: var(--label-medium);
+  color: var(--link);
+  cursor: pointer;
+}
+.fieldblockchain__link:hover { text-decoration: underline; }
+
+/* Card-style control */
+.fieldblockchain__control {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-primary);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color var(--dur-1) var(--ease), box-shadow var(--dur-1) var(--ease);
+}
+.fieldblockchain.is-open .fieldblockchain__control,
+.fieldblockchain__control:focus-visible {
+  outline: 0;
+  border-color: var(--interactive-active);
+  box-shadow: 0 0 0 3px rgba(0, 211, 126, 0.16);
+}
+.fieldblockchain.is-error .fieldblockchain__control { border-color: var(--status-critical); }
+.fieldblockchain.is-error.is-open .fieldblockchain__control,
+.fieldblockchain.is-error .fieldblockchain__control:focus-visible {
+  box-shadow: 0 0 0 3px rgba(223, 19, 18, 0.16);
+}
+.fieldblockchain.is-disabled .fieldblockchain__control {
+  background: var(--surface-disabled);
+  color: var(--disabled-on-surface);
+  cursor: not-allowed;
+}
+
+.fieldblockchain__placeholder {
+  flex: 1 1 auto;
+  min-width: 0;
+  font: var(--body-large);
+  color: var(--input-placeholder);
+}
+.fieldblockchain.is-disabled .fieldblockchain__placeholder { color: var(--disabled-on-surface); }
+
+.fieldblockchain__mark {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+}
+.fieldblockchain__mark > * { width: 24px; height: 24px; }
+.fieldblockchain__initials {
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-full);
+  background: var(--surface-secondary);
+  color: var(--text-secondary);
+  font: var(--label-small);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fieldblockchain__text {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.fieldblockchain__name { font: var(--body-bold-medium); color: inherit; }
+.fieldblockchain__secondary {
+  font: var(--body-medium);
+  color: var(--text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.fieldblockchain.is-disabled .fieldblockchain__name,
+.fieldblockchain.is-disabled .fieldblockchain__secondary { color: var(--disabled-on-surface); }
+
+.fieldblockchain__chevron {
+  flex: 0 0 auto;
+  align-self: center;
+  color: var(--text-secondary);
+  font-size: 22px;
+  transition: transform var(--dur-1) var(--ease);
+}
+.fieldblockchain.is-open .fieldblockchain__chevron { transform: rotate(180deg); }
+
+/* Popover menu */
+.fieldblockchain__menu {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + var(--space-2));
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  max-height: 360px;
+  overflow-y: auto;
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-1);
+}
+.fieldblockchain__option {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: background var(--dur-1) var(--ease);
+}
+.fieldblockchain__option:hover { background: var(--surface-hovered); }
+.fieldblockchain__option.is-selected { background: var(--surface-secondary); }
+.fieldblockchain__option.is-disabled {
+  background: var(--surface-disabled);
+  color: var(--disabled-on-surface);
+  cursor: not-allowed;
+}
+.fieldblockchain__option.is-disabled .fieldblockchain__name,
+.fieldblockchain__option.is-disabled .fieldblockchain__secondary {
+  color: var(--disabled-on-surface);
+}
+
+/* Outlined status tag — Figma "Static Tag - Outlined" */
+.fieldblockchain__tag {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 60px;
+  height: 24px;
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-sm);
+  font: var(--body-small);
+  border: 1px solid transparent;
+}
+.fieldblockchain__tag.is-warning {
+  color: var(--status-warning);
+  border-color: var(--status-warning);
+  background: var(--status-surface-warning);
+}
+.fieldblockchain__tag.is-critical {
+  color: var(--status-critical);
+  border-color: var(--status-critical);
+  background: var(--status-surface-critical);
+}
+.fieldblockchain__tag.is-positive {
+  color: var(--status-positive);
+  border-color: var(--status-positive);
+  background: var(--status-surface-positive);
+}
+.fieldblockchain__tag.is-information {
+  color: var(--status-information);
+  border-color: var(--status-information);
+  background: var(--status-surface-information);
+}

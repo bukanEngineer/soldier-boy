@@ -1,0 +1,116 @@
+{
+  "name": "soldier-boy",
+  "version": "0.9.0",
+  "description": "StraitsX design system — tokens + React components, with Storybook and Chromatic visual regression.",
+  "keywords": [
+    "react",
+    "design-system",
+    "components",
+    "ui-kit",
+    "storybook",
+    "straitsx"
+  ],
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./tokens.css": "./dist/theme/tokens.css",
+    "./global.css": "./dist/styles/global.css",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bukanEngineer/soldier-boy.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "generate:logos": "node scripts/generate-partner-logos.mjs",
+    "prestorybook": "npm run generate:logos",
+    "storybook": "storybook dev -p 6006",
+    "prebuild-storybook": "npm run generate:logos",
+    "build-storybook": "storybook build -o storybook-static",
+    "chromatic": "chromatic --exit-zero-on-changes",
+    "clean": "rimraf dist",
+    "build:babel": "NODE_ENV=production babel src --out-dir dist --extensions \".js,.jsx,.ts,.tsx\" --ignore \"src/**/*.stories.tsx,src/**/*.stories.jsx,src/stories/**,src/**/*.test.tsx,src/**/*.test.jsx,src/examples/**,src/COMPONENT_AUDIT.md\"",
+    "build:types": "tsc -p tsconfig.json",
+    "build:assets": "node scripts/copy-build-assets.mjs",
+    "build:fix-specifiers": "node scripts/rewrite-jsx-specifiers.mjs",
+    "build": "npm run clean && npm run generate:logos && npm run build:babel && npm run build:types && npm run build:assets && npm run build:fix-specifiers",
+    "pretest": "npm run generate:logos",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:pack": "node scripts/smoke-test-pack.mjs",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "prepublishOnly": "npm run lint && npm run test && npm run build && npm run test:pack"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "dependencies": {
+    "core-js": "^3.49.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.29.7",
+    "@babel/core": "^7.29.7",
+    "@babel/preset-env": "^7.29.7",
+    "@babel/preset-react": "^7.29.7",
+    "@babel/preset-typescript": "^7.29.7",
+    "@chromatic-com/storybook": "^5.2.1",
+    "@eslint/js": "^9.39.4",
+    "@storybook/addon-a11y": "^10.5.5",
+    "@storybook/addon-docs": "^10.5.5",
+    "@storybook/addon-mcp": "^0.7.0",
+    "@storybook/addon-vitest": "^10.5.5",
+    "@storybook/react-vite": "^10.5.5",
+    "@svgr/core": "^8.1.0",
+    "@svgr/plugin-jsx": "^8.1.0",
+    "@svgr/plugin-svgo": "^8.1.0",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
+    "@vitejs/plugin-react": "^5.0.0",
+    "@vitest/browser-playwright": "^4.1.7",
+    "@vitest/coverage-v8": "^4.1.7",
+    "chromatic": "^17.8.0",
+    "esbuild": "^0.28.1",
+    "eslint": "^9.39.4",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-storybook": "10.5.5",
+    "globals": "^17.7.0",
+    "jsdom": "^29.1.1",
+    "playwright": "^1.60.0",
+    "prettier": "^3.9.4",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "regenerator-runtime": "^0.14.1",
+    "rimraf": "^6.1.3",
+    "storybook": "^10.5.5",
+    "svgo": "^4.0.2",
+    "vite": "^7.0.0",
+    "vitest": "^4.1.7"
+  }
+}
