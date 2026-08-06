@@ -29,7 +29,7 @@
   color: inherit;
   opacity: 0.6;
   padding: 2px;
-  margin: -2px;
+  margin: -2px -2px -2px auto;
 }
 .alert__close:hover { opacity: 1; }
 

@@ -106,6 +106,14 @@
   color: var(--text-secondary);
 }
 
+/* ── Clickable cells ── */
+.table td.table__cell--clickable {
+  cursor: pointer;
+}
+.table td.table__cell--clickable:hover {
+  background: var(--surface-hovered);
+}
+
 .table__empty {
   padding: var(--space-7) var(--space-6);
   text-align: center;

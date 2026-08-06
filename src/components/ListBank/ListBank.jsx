@@ -1,6 +1,7 @@
 import React from "react";
 import "./ListBank.css";
 import { Tag } from "../Tag/Tag";
+import { LinkButton } from "../LinkButton/LinkButton";
 
 export function ListBank({
   name = "John Doe",
@@ -39,9 +40,9 @@ export function ListBank({
         </div>
       </div>
       {!isVerified && (
-        <button type="button" className="list-bank__link" onClick={onAction}>
+        <LinkButton size="md" onClick={onAction}>
           {label}
-        </button>
+        </LinkButton>
       )}
     </div>
   );

@@ -8,9 +8,13 @@
   box-sizing: border-box;
   background: var(--surface);
 }
-.list-bank--verified,
-.list-bank--rejected {
+.list-bank--verified {
   align-items: flex-start;
+}
+.list-bank--unverified,
+.list-bank--rejected {
+  align-items: center;
+  background: var(--surface-disabled);
 }
 
 .list-bank__main {
@@ -25,6 +29,7 @@
   align-items: center;
   width: 48px;
   flex-shrink: 0;
+  overflow: hidden;
   color: var(--text-secondary);
 }
 .list-bank__logo > * {
@@ -53,18 +58,20 @@
   margin-top: var(--space-1);
 }
 
-.list-bank__link {
-  border: 0;
-  background: transparent;
-  padding: 0;
-  cursor: pointer;
-  flex-shrink: 0;
-  font: var(--label-medium);
-  color: var(--link);
+/* Disabled state text */
+.list-bank--unverified .list-bank__name,
+.list-bank--unverified .list-bank__sub,
+.list-bank--rejected .list-bank__name,
+.list-bank--rejected .list-bank__sub {
+  color: var(--disabled-on-surface);
 }
-.list-bank__link:hover { text-decoration: underline; }
-.list-bank__link:focus-visible {
-  outline: 2px solid var(--link);
-  outline-offset: 2px;
-  border-radius: var(--radius-sm);
+
+/* ── Container (Dropdown / Bank) ── */
+.list-bank-group {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--surface);
+  box-shadow: 0 1px 2px rgba(10, 13, 18, 0.06), 0 1px 3px rgba(10, 13, 18, 0.1);
 }

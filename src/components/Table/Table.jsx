@@ -293,7 +293,15 @@ export function Table({
           {rows.map((row, i) => (
             <tr key={row[rowKey] ?? i}>
               {columns.map((c) => (
-                <td key={c.key} className={cellClass(c)} style={cellStyle(c)}>
+                <td
+                  key={c.key}
+                  className={[cellClass(c), c.onClick && "table__cell--clickable"].filter(Boolean).join(" ") || undefined}
+                  style={cellStyle(c)}
+                  onClick={c.onClick ? () => c.onClick(row, c.key) : undefined}
+                  role={c.onClick ? "button" : undefined}
+                  tabIndex={c.onClick ? 0 : undefined}
+                  onKeyDown={c.onClick ? (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); c.onClick(row, c.key); } } : undefined}
+                >
                   {cellContent(c, row)}
                 </td>
               ))}

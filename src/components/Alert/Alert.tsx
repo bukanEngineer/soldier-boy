@@ -63,7 +63,7 @@ export function Alert({
         <div className="alert__actions alert__actions--inline">{actions}</div>
       )}
       {onDismiss && (
-        <button type="button" className="alert__dismiss" aria-label="Dismiss" onClick={onDismiss}>
+        <button type="button" className="alert__close" aria-label="Dismiss" onClick={onDismiss}>
           <span className="material-symbols-rounded">close</span>
         </button>
       )}
