@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
+import { createPortal } from "react-dom";
 import "./BottomSheet.css";
 
 export type BottomSheetProps = {
@@ -30,15 +31,6 @@ export function BottomSheet({
   hideClose = false,
   className = "",
 }: BottomSheetProps) {
-  const ref = useRef<HTMLDialogElement>(null);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    if (open && !el.open) el.showModal();
-    else if (!open && el.open) el.close();
-  }, [open]);
-
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
@@ -48,26 +40,30 @@ export function BottomSheet({
     return () => document.removeEventListener("keydown", onKey);
   }, [open, dismissable, onClose]);
 
-  const handleBackdrop = (e: React.MouseEvent) => {
-    if (dismissable && e.target === ref.current) onClose();
-  };
-
   if (!open) return null;
 
-  return (
-    <dialog ref={ref} className={"bottom-sheet " + className} onClick={handleBackdrop}>
-      <div className="bottom-sheet__container">
-        <div className="bottom-sheet__header">
-          {title && <h2 className="bottom-sheet__title">{title}</h2>}
+  const handleScrim = (e: React.MouseEvent) => {
+    if (dismissable && e.target === e.currentTarget) onClose();
+  };
+
+  const cls = ["bsheet", className].filter(Boolean).join(" ");
+
+  return createPortal(
+    <div className="bsheet-scrim" onClick={handleScrim} role="dialog" aria-modal="true">
+      <div className={cls}>
+        <div className="bsheet__handle" />
+        <div className="bsheet__head">
+          {title && <h2 className="bsheet__title">{title}</h2>}
           {!hideClose && (
-            <button type="button" className="bottom-sheet__close" aria-label="Close" onClick={onClose}>
+            <button type="button" className="bsheet__close" aria-label="Close" onClick={onClose}>
               <span className="material-symbols-rounded">close</span>
             </button>
           )}
         </div>
-        {children && <div className="bottom-sheet__body">{children}</div>}
-        {footer && <div className="bottom-sheet__footer">{footer}</div>}
+        {children && <div className="bsheet__body">{children}</div>}
+        {footer && <div className="bsheet__foot">{footer}</div>}
       </div>
-    </dialog>
+    </div>,
+    document.body
   );
 }

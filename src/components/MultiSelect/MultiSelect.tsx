@@ -1,5 +1,4 @@
 import React, { useId, useRef, useState, useEffect, useLayoutEffect } from "react";
-// @ts-ignore react-dom types will be resolved when @types/react-dom is available
 import { createPortal } from "react-dom";
 import "./MultiSelect.css";
 
