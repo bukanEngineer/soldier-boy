@@ -10,6 +10,7 @@
 }
 .fieldbank__header .field__label { margin: 0; }
 
+/* Inline action link (used inside option rows) */
 .fieldbank__link {
   flex: 0 0 auto;
   border: 0;

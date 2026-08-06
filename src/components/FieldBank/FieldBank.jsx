@@ -1,4 +1,5 @@
 import React, { useId, useRef, useState, useEffect } from "react";
+import { LinkButton } from "../LinkButton";
 import "./FieldBank.css";
 
 export function FieldBank({
@@ -66,13 +67,13 @@ export function FieldBank({
           <span className="field__label" id={`${id}-label`}>{label}</span>
         )}
         {addAction && (
-          <button
-            type="button"
-            className="fieldbank__link"
+          <LinkButton
+            size="sm"
+            leadingIcon="add"
             onClick={addAction.onClick}
           >
             {addAction.label}
-          </button>
+          </LinkButton>
         )}
       </div>
 
