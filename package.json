@@ -1,6 +1,6 @@
 {
   "name": "soldier-boy",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "StraitsX design system — tokens + React components, with Storybook and Chromatic visual regression.",
   "keywords": [
     "react",
