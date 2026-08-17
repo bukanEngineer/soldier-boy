@@ -1,12 +1,15 @@
 import React from "react";
 import "./Steps.css";
 
-/** Segmented progress bar for linear, user-driven flows (onboarding, KYC, quizzes). */
+/**
+ * Segmented progress bar for linear, user-driven flows (onboarding, KYC, quizzes).
+ * Supports 2–7 steps. Beyond 7, consider breaking the flow into distinct stages.
+ */
 export function HorizontalSteps({
   total = 3,
   current = 1,
   showCount = true,
-  label = "Text",
+  label = "Steps",
   className = "",
   ...rest
 }) {
@@ -37,7 +40,11 @@ export function HorizontalSteps({
   );
 }
 
-/** Read-only, system-driven status timeline (e.g. request/transfer history). */
+/**
+ * Read-only, system-driven status timeline (e.g. request/transfer history).
+ * Items should be passed newest-first — the most recent event appears at the top.
+ * Each item supports statuses: "completed" | "active" | "inactive" | "failed".
+ */
 export function VerticalSteps({ items = [], className = "", ...rest }) {
   const cls = ["v-steps", className].filter(Boolean).join(" ");
   return (
@@ -78,7 +85,11 @@ export function VerticalSteps({ items = [], className = "", ...rest }) {
   );
 }
 
-/** Compact step header for content living inside a card (e.g. transfer method selection). */
+/**
+ * Compact step header for content living inside a card (e.g. transfer method selection).
+ * Shows only the current step number — no completed or failed states.
+ * Recommended upper limit is 7 steps; beyond that consider Horizontal Steps or sub-flows.
+ */
 export function BadgeSteps({ step = 1, title, description, className = "", ...rest }) {
   const cls = ["badge-steps", className].filter(Boolean).join(" ");
   return (

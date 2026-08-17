@@ -1,20 +1,16 @@
-import React, { useState, useEffect, useRef } from "react";
-import { userEvent, within } from "storybook/test";
+import React, { useState, useEffect } from "react";
 import { Sidebar, DEFAULT_NAV_ITEMS } from "./Sidebar";
-import { IconButton } from "../IconButton/IconButton";
-import "./Sidebar.stories.css";
+import { SidebarProvider } from "./SidebarContext";
+import { TopNavigation } from "../TopNavigation/TopNavigation";
 
 export default {
-  title: "Components/Sidebar",
+  title: "P1 Components/Sidebar",
   component: Sidebar,
   parameters: { layout: "fullscreen" },
   args: {
     account: "personal",
     loading: false,
     loadingCount: 8,
-    // Synthetic, story-only controls (not real Sidebar props) that drive
-    // the two independent axes of the `sidebar__company-wrap` section:
-    // whether it renders at all, and whether it behaves as a dropdown.
     showCompany: false,
     companyDropdown: true,
   },
@@ -51,8 +47,55 @@ export default {
 
 function Frame({ children }) {
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "240px 1fr", height: 720, background: "var(--background)" }}>
-      {children}
+    <>
+      <style>{`
+        .sidebar-desktop-frame {
+          display: grid;
+          grid-template-columns: 240px 1fr;
+          height: 720px;
+          background: var(--background);
+        }
+        .sidebar-desktop-frame .sidebar {
+          display: flex !important;
+        }
+        .sidebar-desktop-frame__main {
+          display: flex;
+          flex-direction: column;
+          min-width: 0;
+        }
+        .sidebar-desktop-frame .topnav__hamburger {
+          display: none !important;
+        }
+        .sidebar-desktop-frame .topnav__profile-text,
+        .sidebar-desktop-frame .topnav__chevron {
+          display: flex !important;
+        }
+        .sidebar-desktop-frame .topnav {
+          height: 64px !important;
+          padding: 0 var(--space-6) !important;
+          gap: var(--space-4) !important;
+          background: transparent !important;
+          border-bottom-color: transparent !important;
+        }
+      `}</style>
+      <div className="sidebar-desktop-frame">
+        {children}
+      </div>
+    </>
+  );
+}
+
+function MainContent({ children, account = "personal", user }) {
+  return (
+    <div className="sidebar-desktop-frame__main">
+      <TopNavigation
+        account={account}
+        user={user || { name: "John Doe", initials: "JD" }}
+        notifications={3}
+      />
+      <div style={{ flex: 1, padding: 32, color: "var(--text-secondary)" }}>
+        {children}
+      </div>
     </div>
   );
 }
@@ -62,9 +105,6 @@ const COMPANIES = [
   { id: "xyz", name: "XYZ Pte. Ltd", type: "Business Account" },
 ];
 
-// Real product navigation is links, not buttons — so the account stories drive
-// the sidebar with href-bearing items (rendered as <a>; pass `linkComponent`
-// to swap in a router Link). `onSelect` still fires for active-state tracking.
 const NAV_ITEMS = DEFAULT_NAV_ITEMS.map((item) => ({
   ...item,
   href: `#${item.id}`,
@@ -83,10 +123,6 @@ export const Personal = {
     return (
       <Frame>
         <Sidebar
-          // Remount whenever a control changes so seed values (active,
-          // loading, account, ...) are picked up and click-driven demo
-          // state restarts from the new controls.
-          key={JSON.stringify(args)}
           {...sidebarArgs}
           company={showCompany ? { name: "ABC Pte. Ltd", type: "Company" } : undefined}
           companies={showCompany && companyDropdown ? COMPANIES : undefined}
@@ -94,7 +130,7 @@ export const Personal = {
           activeItemId={activeItemId}
           onSelect={setActiveItemId}
         />
-        <div style={{ padding: 32, color: "var(--text-secondary)" }}>Personal account</div>
+        <MainContent account={args.account}>Personal account</MainContent>
       </Frame>
     );
   },
@@ -114,9 +150,6 @@ export const BusinessWithCompanyDropdown = {
     return (
       <Frame>
         <Sidebar
-          // Remount whenever a control changes so the new seed values
-          // (company visibility, dropdown-ness, ...) are picked up on mount.
-          key={JSON.stringify(args)}
           {...sidebarArgs}
           company={showCompany ? { name: "ABC Pte. Ltd", type: "Company" } : undefined}
           companies={showCompany && companyDropdown ? COMPANIES : undefined}
@@ -126,86 +159,14 @@ export const BusinessWithCompanyDropdown = {
           activeItemId={activeItemId}
           onSelect={setActiveItemId}
         />
-        <div style={{ padding: 32, color: "var(--text-secondary)" }}>
-          Business — click the company profile to open the dropdown, or use
-          the &quot;showCompany&quot; / &quot;companyDropdown&quot; controls
-          below.
-        </div>
+        <MainContent account={args.account} user={{ name: "John Doe", company: "ABC Pte. Ltd.", initials: "JD" }}>
+          Business — click the company profile to open the dropdown.
+        </MainContent>
       </Frame>
     );
   },
 };
 
-// Opt-in per-item: opening "Mint" immediately selects its first sub-item
-// ("Buy") instead of just expanding. Other groups without the flag keep the
-// plain expand-only behavior shown in the Personal story.
-const AUTO_SELECT_NAV_ITEMS = NAV_ITEMS.map((item) =>
-  item.id === "mint" ? { ...item, autoSelectFirstSubItem: true } : item
-);
-
-export const AutoSelectFirstSubItem = {
-  render: () => {
-    const [activeItemId, setActiveItemId] = useState("home");
-    return (
-      <Frame>
-        <Sidebar
-          account="personal"
-          items={AUTO_SELECT_NAV_ITEMS}
-          activeItemId={activeItemId}
-          onSelect={setActiveItemId}
-        />
-        <div style={{ padding: 32, color: "var(--text-secondary)" }}>
-          Click &quot;Mint&quot; — it expands and auto-selects &quot;Buy&quot;
-        </div>
-      </Frame>
-    );
-  },
-};
-
-// Dropdown forced open so it's visible in static Chromatic snapshots. The
-// menu is uncontrolled internal state, so it's opened the same way a real
-// user would — a simulated click on the trigger right after mount — rather
-// than via a "start open" prop.
-export const CompanyDropdownOpen = {
-  render: () => {
-    const containerRef = useRef(null);
-    useEffect(() => {
-      containerRef.current?.querySelector(".sidebar__company")?.click();
-    }, []);
-    return (
-      <Frame>
-        <div ref={containerRef} style={{ display: "contents" }}>
-          <Sidebar
-            account="business"
-            company={{ name: "ABC Pte. Ltd", type: "Company" }}
-            companies={COMPANIES}
-            activeItemId="home"
-          />
-          <div style={{ padding: 32, color: "var(--text-secondary)" }}>
-            Company-profile dropdown (open)
-          </div>
-        </div>
-      </Frame>
-    );
-  },
-};
-
-// Nav item shown in its hovered state (static for Chromatic).
-export const NavHover = {
-  render: () => (
-    <Frame>
-      <Sidebar account="personal" items={DEFAULT_NAV_ITEMS} activeItemId="home" />
-      <div style={{ padding: 32, color: "var(--text-secondary)" }}>Nav item hover state</div>
-    </Frame>
-  ),
-  play: async ({ canvasElement }) => {
-    await userEvent.hover(within(canvasElement).getByRole("button", { name: "Transaction History" }));
-  },
-};
-
-// Loading is controlled by the consumer's async request. This story uses a
-// short fixed delay so the transition is easy to observe and visual tests
-// remain deterministic.
 export const Loading = {
   render: () => {
     const [loading, setLoading] = useState(true);
@@ -216,61 +177,10 @@ export const Loading = {
     return (
       <Frame>
         <Sidebar account="personal" loading={loading} />
-        <div style={{ padding: 32, color: "var(--text-secondary)" }}>
+        <MainContent>
           {loading ? "Nav items loading…" : "Nav items loaded"}
-        </div>
+        </MainContent>
       </Frame>
-    );
-  },
-};
-
-// Sidebar has no built-in mobile/hamburger behavior of its own — the
-// consuming screen owns the topbar trigger and the open/close state, and
-// wraps Sidebar in a drawer that slides in over a backdrop (see
-// `BusinessDashboard`, which this story's chrome mirrors). Viewport defaults
-// to mobile1 and the drawer starts open so the pattern is visible without
-// interaction; the hamburger toggles it closed/open from there.
-export const Mobile = {
-  parameters: { viewport: { defaultViewport: "mobile1" } },
-  render: () => {
-    const [navOpen, setNavOpen] = useState(true);
-    const [activeItemId, setActiveItemId] = useState("home");
-    return (
-      <div className="sidebar-mobile-demo">
-        <div className={"sidebar-mobile-demo__sidebar-wrap" + (navOpen ? " is-open" : "")}>
-          <Sidebar
-            account="business"
-            company={{ name: "ABC Pte. Ltd", type: "Company" }}
-            items={NAV_ITEMS}
-            activeItemId={activeItemId}
-            onSelect={(id) => { setActiveItemId(id); setNavOpen(false); }}
-          />
-          <IconButton
-            icon="close"
-            variant="tertiary"
-            label="Close menu"
-            className="sidebar-mobile-demo__close"
-            onClick={() => setNavOpen(false)}
-          />
-        </div>
-        {navOpen && (
-          <button
-            type="button"
-            className="sidebar-mobile-demo__backdrop"
-            aria-label="Close navigation"
-            onClick={() => setNavOpen(false)}
-          />
-        )}
-        <div className="sidebar-mobile-demo__main">
-          <header className="sidebar-mobile-demo__topbar">
-            <IconButton icon="menu" variant="tertiary" label="Open menu" onClick={() => setNavOpen(true)} />
-            <span className="sidebar-mobile-demo__topbar-title">Dashboard</span>
-          </header>
-          <div className="sidebar-mobile-demo__content">
-            Tap the hamburger to open the navigation drawer.
-          </div>
-        </div>
-      </div>
     );
   },
 };
@@ -279,7 +189,40 @@ export const Sandbox = {
   render: () => (
     <Frame>
       <Sidebar account="sandbox" company={{ name: "ABC Pte. Ltd", type: "Company" }} onCompanyClick={() => {}} items={NAV_ITEMS} activeItemId="home" />
-      <div style={{ padding: 32, color: "var(--text-secondary)" }}>Sandbox environment</div>
+      <MainContent account="sandbox" user={{ name: "John Doe", company: "ABC Pte. Ltd.", initials: "JD" }}>
+        Sandbox environment
+      </MainContent>
     </Frame>
   ),
+};
+
+// ─── Mobile ───────────────────────────────────────────────────────────────────
+
+export const Mobile = {
+  parameters: {
+    viewport: { defaultViewport: "mobile" },
+    layout: "fullscreen",
+  },
+  render: () => {
+    const [activeItemId, setActiveItemId] = useState("home");
+    return (
+      <SidebarProvider>
+        <div style={{ height: "100vh", display: "flex", flexDirection: "column" }}>
+          <TopNavigation
+            account="personal"
+            user={{ name: "John Doe", initials: "JD" }}
+            notifications={3}
+          />
+          <div style={{ flex: 1, position: "relative" }}>
+            <Sidebar
+              account="personal"
+              items={NAV_ITEMS}
+              activeItemId={activeItemId}
+              onSelect={setActiveItemId}
+            />
+          </div>
+        </div>
+      </SidebarProvider>
+    );
+  },
 };

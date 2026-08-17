@@ -1,7 +1,8 @@
 import { TopNavigation } from "./TopNavigation";
+import { SidebarProvider, useSidebar } from "../Sidebar/SidebarContext";
 
 export default {
-  title: "Components/Top Navigation",
+  title: "P1 Components/Top Navigation",
   component: TopNavigation,
   parameters: { layout: "fullscreen" },
   argTypes: {
@@ -47,5 +48,30 @@ export const Sandbox = {
 // (hamburger + collapsed profile) behavior; there is no separate mobile prop.
 export const Responsive = {
   args: { ...Business.args },
-  parameters: { viewport: { defaultViewport: "mobile1" } },
+  parameters: { viewport: { defaultViewport: "mobile" } },
+};
+
+// Demonstrates TopNavigation auto-wiring to SidebarContext — hamburger is
+// visible on desktop and toggles the sidebar open/collapsed state.
+function SidebarState() {
+  const { open } = useSidebar();
+  return (
+    <p style={{ padding: "var(--space-4)" }}>
+      Sidebar is <strong>{open ? "open" : "collapsed"}</strong>
+    </p>
+  );
+}
+
+export const WithCollapsibleSidebar = {
+  render: (args) => (
+    <SidebarProvider>
+      <TopNavigation {...args} />
+      <SidebarState />
+    </SidebarProvider>
+  ),
+  args: {
+    account: "personal",
+    notifications: 3,
+    user: { name: "John Doe", initials: "JD" },
+  },
 };

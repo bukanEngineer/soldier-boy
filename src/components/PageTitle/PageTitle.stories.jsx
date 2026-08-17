@@ -2,9 +2,10 @@ import React from "react";
 import { PageTitle } from "./PageTitle";
 import { Breadcrumb } from "../Breadcrumb/Breadcrumb";
 import { Button } from "../Button/Button";
+import { AssetMark } from "../AssetMark/AssetMark";
 
 export default {
-  title: "Components/Page Title",
+  title: "P1 Components/Page Title",
   component: PageTitle,
   parameters: { layout: "padded" },
   decorators: [(S) => <div style={{ maxWidth: 960 }}><S /></div>],
@@ -21,6 +22,10 @@ export default {
 
 export const Default = {
   args: { title: "Transaction History", subtitle: "All transactions across XSGD, XIDR, and XUSD." },
+};
+
+export const WithoutSubtitle = {
+  args: { title: "Transaction History" },
 };
 
 export const WithActions = {
@@ -43,16 +48,30 @@ export const WithBreadcrumb = {
   },
 };
 
-export const Mobile = {
-  decorators: [(S) => <div style={{ width: 375 }}><S /></div>],
+export const WithBreadcrumbAndActions = {
   args: {
-    title: "Transaction History",
-    subtitle: "All transactions across XSGD, XIDR, and XUSD.",
+    title: "Transaction Details",
+    subtitle: "Review the details of this transaction.",
+    breadcrumb: <Breadcrumb items={[{ label: "Home", href: "#" }, { label: "Transaction History", href: "#" }, { label: "Details" }]} />,
     actions: (
       <>
-        <Button variant="secondary" size="md">Export CSV</Button>
-        <Button variant="primary" size="md">New transfer</Button>
+        <Button variant="secondary" size="md">Download</Button>
+        <Button variant="primary" size="md">Share</Button>
       </>
     ),
   },
 };
+
+export const WithAssetMark = {
+  args: {
+    title: <><AssetMark asset="XSGD" size={24} /> XSGD</>,
+    subtitle: "Singapore Dollar-pegged stablecoin on multiple networks.",
+    actions: (
+      <>
+        <Button variant="secondary" size="md">Send</Button>
+        <Button variant="primary" size="md">Receive</Button>
+      </>
+    ),
+  },
+};
+

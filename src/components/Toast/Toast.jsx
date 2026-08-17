@@ -5,8 +5,10 @@ const ICONS = { positive: "check_circle", critical: "error", warning: "warning",
 
 export function Toast({ tone = "positive", title, children, onDismiss, className = "", ...rest }) {
   const cls = ["toast", tone !== "positive" && `toast--${tone}`, className].filter(Boolean).join(" ");
+  // Critical toasts are assertive (announced immediately); others are polite.
+  const role = tone === "critical" ? "alert" : "status";
   return (
-    <div role="status" className={cls} {...rest}>
+    <div role={role} className={cls} {...rest}>
       <span className="material-symbols-rounded toast__icon" aria-hidden="true">{ICONS[tone] || "check_circle"}</span>
       <div className="toast__body">
         {title && <div className="toast__title">{title}</div>}

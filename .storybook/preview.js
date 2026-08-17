@@ -5,6 +5,19 @@ const preview = {
   tags: ["autodocs"],
 
   parameters: {
+    viewport: {
+      viewports: {
+        mobile: {
+          name: "Mobile",
+          styles: { width: "360px", height: "800px" },
+        },
+        desktop: {
+          name: "Desktop",
+          styles: { width: "1280px", height: "900px" },
+        },
+      },
+    },
+
     controls: {
       matchers: {
         color: /(background|color)$/i,
@@ -30,6 +43,7 @@ const preview = {
           "Foundations",
           ["Colors", "Typography", "Spacing & Elevation"],
           "Atoms",
+          "P1 Components",
           "Components",
           "Patterns",
           "Examples",

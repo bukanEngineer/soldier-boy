@@ -1,8 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Badge } from "../Badge/Badge";
 import { Tag } from "../Tag/Tag";
 import { IconButton } from "../IconButton/IconButton";
 import { TopNavProfileMenu } from "../TopNavProfileMenu/TopNavProfileMenu";
+import { SidebarContext } from "../Sidebar/SidebarContext";
 import "./TopNavigation.css";
 
 export function TopNavigation({
@@ -17,6 +18,11 @@ export function TopNavigation({
 }) {
   const [profileOpen, setProfileOpen] = useState(false);
   const profileRef = useRef(null);
+
+  // Auto-wire to SidebarContext when available (Option A).
+  // Falls back to onMenuClick prop if no provider is present.
+  const sidebarCtx = useContext(SidebarContext);
+  const handleMenuClick = sidebarCtx ? sidebarCtx.toggleSidebar : onMenuClick;
 
   useEffect(() => {
     if (!profileOpen) return undefined;
@@ -61,7 +67,7 @@ export function TopNavigation({
     </span>
   );
 
-  const cls = ["topnav", className].filter(Boolean).join(" ");
+  const cls = ["topnav", sidebarCtx ? "topnav--collapsible" : "", className].filter(Boolean).join(" ");
 
   return (
     <header className={cls} data-account={account}>
@@ -69,7 +75,7 @@ export function TopNavigation({
         icon="menu"
         variant="tertiary"
         label="Open menu"
-        onClick={onMenuClick}
+        onClick={handleMenuClick}
         className="topnav__hamburger"
       />
       {isSandbox && (

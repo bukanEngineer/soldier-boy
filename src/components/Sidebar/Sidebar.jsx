@@ -1,7 +1,8 @@
-import React, { useState, useRef, useLayoutEffect, useEffect } from "react";
+import React, { useState, useRef, useContext, useLayoutEffect, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { Logo } from "../Logo/Logo";
 import { CompanyProfileMenu } from "../CompanyProfileMenu/CompanyProfileMenu";
+import { SidebarContext } from "./SidebarContext";
 import "./Sidebar.css";
 
 /**
@@ -83,6 +84,11 @@ export function Sidebar({
   loadingCount = 8,
   linkComponent,
 }) {
+  // Consume context if available; fallback to always-open for standalone usage
+  const context = useContext(SidebarContext);
+  const open = context?.open ?? true;
+  const isMobile = context?.isMobile ?? false;
+
   const isSandbox = account === "sandbox";
   const hasMenu = !!(companies || companyActions);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -132,9 +138,20 @@ export function Sidebar({
   const [expanded, setExpanded] = useState({});
   const toggle = (id, isOpen) => setExpanded((current) => ({ ...current, [id]: !isOpen }));
 
-  return (
+  // On mobile, close sidebar when a nav item is selected
+  const handleSelect = (id) => {
+    if (onSelect) onSelect(id);
+    if (isMobile && context) context.setOpen(false);
+  };
+
+  const collapsed = !open;
+
+  // Collapsed = completely hidden (no render)
+  if (collapsed && !isMobile) return null;
+
+  const sidebarContent = (
     <aside className={"sidebar" + (isSandbox ? " is-sandbox" : "")}>
-      <div className="sidebar__scroll">
+      <div className={"sidebar__scroll" + (menuOpen ? " is-scroll-locked" : "")}>
         <div className="sidebar__top">
           <div className="sidebar__brand">
             <Logo size={172} tone={isSandbox ? "white" : "default"} />
@@ -148,7 +165,7 @@ export function Sidebar({
                 type="button"
                 className={"sidebar__company" + (menuOpen ? " is-open" : "")}
                 onClick={() => { if (hasMenu) setMenuOpen((o) => !o); else if (onCompanyClick) onCompanyClick(); }}
-                aria-haspopup={hasMenu || onCompanyClick ? "menu" : undefined}
+                aria-haspopup={hasMenu ? "menu" : undefined}
                 aria-expanded={hasMenu ? menuOpen : undefined}
               >
                 <span className="sidebar__company-text">
@@ -181,7 +198,7 @@ export function Sidebar({
             </div>
           )}
 
-          <nav className="sidebar__nav" aria-label="Main">
+          <nav className="sidebar__nav" aria-label="Main" aria-busy={loading || undefined}>
             {loading
               ? Array.from({ length: loadingCount }, (_, i) => (
                   <div
@@ -199,9 +216,6 @@ export function Sidebar({
                   const isOpen = expanded[item.id] ?? item.id === activeGroupId;
                   const isActive = activeItemId === item.id;
 
-                  // Groups (with sub-items) are always toggle buttons. A leaf
-                  // becomes a link when it has `href`/`as` (or a sidebar-level
-                  // `linkComponent`); otherwise it stays a button.
                   const Item = hasSub
                     ? "button"
                     : item.href
@@ -215,7 +229,9 @@ export function Sidebar({
                         const willOpen = !isOpen;
                         toggle(item.id, isOpen);
                         if (willOpen && item.autoSelectFirstSubItem && onSelect) onSelect(item.subItems[0].id);
-                      } else if (onSelect) onSelect(item.id);
+                      } else {
+                        handleSelect(item.id);
+                      }
                     },
                     ...(isButton ? { type: "button" } : {}),
                     ...(hasSub ? { "aria-expanded": isOpen } : {}),
@@ -246,7 +262,7 @@ export function Sidebar({
                             const subIsButton = SubItem === "button";
                             const subProps = {
                               className: "subitem" + (subActive ? " is-active" : ""),
-                              onClick: () => onSelect && onSelect(sub.id),
+                              onClick: () => handleSelect(sub.id),
                               ...(subIsButton ? { type: "button" } : {}),
                               ...(subActive ? { "aria-current": "page" } : {}),
                               ...(sub.href ? { href: sub.href } : {}),
@@ -273,4 +289,24 @@ export function Sidebar({
       </div>
     </aside>
   );
+
+  // Mobile: render as offcanvas overlay with backdrop
+  if (isMobile) {
+    if (!open) return null;
+    return createPortal(
+      <div className="sidebar-overlay">
+        <button
+          type="button"
+          className="sidebar-overlay__backdrop"
+          aria-label="Close navigation"
+          onClick={() => context.setOpen(false)}
+        />
+        {sidebarContent}
+      </div>,
+      document.body
+    );
+  }
+
+  // Desktop: render inline (expanded or collapsed)
+  return sidebarContent;
 }

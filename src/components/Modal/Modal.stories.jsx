@@ -3,7 +3,7 @@ import { Modal } from "./Modal";
 import { Button } from "../Button/Button";
 
 export default {
-  title: "Components/Modal",
+  title: "P1 Components/Modal",
   component: Modal,
   parameters: { layout: "centered" },
   argTypes: {
@@ -89,7 +89,8 @@ export const NonDismissable = {
             <Button variant="primary" size="lg" onClick={() => setOpen(false)}>Acknowledge</Button>
           }
         >
-          Scrim clicks and the Escape key are disabled — you must use an explicit action to continue.
+          Scrim clicks and the Escape key are disabled, and the header close
+          button is hidden by default — you must use an explicit action to continue.
         </Modal>
       </>
     );

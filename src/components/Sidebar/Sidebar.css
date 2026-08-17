@@ -6,13 +6,16 @@
   border-right: 1px solid var(--border);
   width: 240px;
   min-height: 100%;
+  transition: width var(--dur-2) var(--ease);
 }
 .sidebar__scroll {
   display: flex;
   flex-direction: column;
   gap: var(--space-6);
-  padding: var(--space-7) var(--space-4);
+  padding: var(--space-7) 0 var(--space-7) var(--space-4);
   height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 .sidebar__top {
   display: flex;
@@ -20,8 +23,10 @@
   gap: var(--space-6);
   flex: 1 1 auto;
   min-height: 0;
-  overflow-y: auto;
+  padding-right: var(--space-4);
 }
+/* Lock scroll when company dropdown is open */
+.sidebar__scroll.is-scroll-locked { overflow-y: hidden; }
 
 .sidebar__brand { display: flex; flex-direction: column; align-items: center; gap: var(--space-1); }
 .sidebar__brand-sub { font: var(--body-small); color: var(--interactive-active); text-align: center; }
@@ -189,6 +194,7 @@
   align-items: center;
   gap: var(--space-2);
   padding: var(--space-2) 10px;
+  margin-right: var(--space-4);
   border-radius: var(--radius-md);
   background: var(--surface-secondary);
   flex: 0 0 auto;
@@ -209,7 +215,7 @@
 .sidebar.is-sandbox .nav-item:hover,
 .sidebar.is-sandbox .nav-item.is-hovered,
 .sidebar.is-sandbox .subitem:hover {
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--sidebar-sandbox-hover, rgba(255, 255, 255, 0.08));
 }
 .sidebar.is-sandbox .nav-item.is-active,
 .sidebar.is-sandbox .subitem.is-active {
@@ -219,3 +225,58 @@
 .sidebar.is-sandbox .nav-item.is-active .material-symbols-rounded {
   color: var(--sidebar-sandbox-text);
 }
+
+/* ─── Mobile overlay — offcanvas drawer + backdrop ─── */
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: flex;
+}
+.sidebar-overlay__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+.sidebar-overlay .sidebar {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  width: 240px;
+  min-height: unset;
+  box-shadow: var(--shadow-lg, 0 8px 24px rgba(0, 0, 0, 0.12));
+  animation: sidebar-slide-in var(--dur-2) var(--ease);
+}
+
+@keyframes sidebar-slide-in {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+/* Hide the inline sidebar on mobile — it's only accessible via the
+ * overlay triggered from TopNavigation's hamburger button.
+ * Breakpoint matches BREAKPOINTS.DESKTOP (1280px). */
+@media (max-width: 1279px) {
+  .sidebar:not(.sidebar-overlay .sidebar) {
+    display: none;
+  }
+}
+
+/* ─── SidebarTrigger button reset ─── */
+.sidebar-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: transparent;
+  padding: var(--space-2);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: background var(--dur-1) var(--ease);
+}
+.sidebar-trigger:hover { background: var(--surface-secondary); }
+.sidebar-trigger .material-symbols-rounded { font-size: 24px; }

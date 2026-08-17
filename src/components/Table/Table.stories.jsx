@@ -7,7 +7,7 @@ import { IconButton } from "../IconButton/IconButton";
 import { ToastProvider, useToast } from "../Toast/Toast";
 
 export default {
-  title: "Components/Table",
+  title: "P1 Components/Table",
   component: Table,
   args: { zebra: false },
   argTypes: {

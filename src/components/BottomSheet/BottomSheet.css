@@ -23,6 +23,17 @@
   from { opacity: 0; transform: translateY(24px); }
   to { opacity: 1; transform: translateY(0); }
 }
+@keyframes scrim-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bsheet-scrim,
+  .bsheet {
+    animation: none;
+  }
+}
 .bsheet__handle {
   width: 40px;
   height: 4px;

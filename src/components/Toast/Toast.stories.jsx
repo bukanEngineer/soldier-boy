@@ -3,7 +3,7 @@ import { Toast, ToastProvider, useToast } from "./Toast";
 import { Button } from "../Button/Button";
 
 export default {
-  title: "Components/Toast",
+  title: "P1 Components/Toast",
   component: Toast,
   parameters: { layout: "centered" },
   argTypes: {

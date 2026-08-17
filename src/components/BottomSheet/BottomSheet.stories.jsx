@@ -3,7 +3,7 @@ import { BottomSheet } from "./BottomSheet";
 import { Button } from "../Button/Button";
 
 export default {
-  title: "Components/Bottom Sheet",
+  title: "P1 Components/Bottom Sheet",
   component: BottomSheet,
   parameters: { layout: "centered" },
   argTypes: {

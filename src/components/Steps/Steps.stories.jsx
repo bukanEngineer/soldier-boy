@@ -2,7 +2,7 @@ import React from "react";
 import { HorizontalSteps, VerticalSteps, BadgeSteps } from "./Steps";
 
 export default {
-  title: "Components/Steps",
+  title: "P1 Components/Steps",
   component: HorizontalSteps,
   parameters: { layout: "padded" },
   argTypes: {
@@ -15,7 +15,7 @@ export default {
     total: 3,
     current: 1,
     showCount: true,
-    label: "Text",
+    label: "Steps",
   },
 };
 

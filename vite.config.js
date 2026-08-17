@@ -56,7 +56,7 @@ export default defineConfig({
         test: {
           name: 'unit',
           environment: 'jsdom',
-          include: ['src/**/*.test.jsx'],
+          include: ['src/**/*.test.{jsx,tsx}'],
           setupFiles: ['./vitest.setup.js'],
         },
       },
