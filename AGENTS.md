@@ -2,7 +2,7 @@
 
 ## Cursor Cloud specific instructions
 
-This repo is `prohellox-designsystem` — the StraitsX design system: a React 19 component
+This repo is `soldier-boy` — the StraitsX design system: a React 19 component
 library + design tokens, developed and previewed through **Storybook**. There is no backend,
 database, or server component; "running the product" means running Storybook and the
 Vitest/lint/build checks. Standard commands live in `package.json` `scripts` and `README.md`.

@@ -19,12 +19,12 @@ npx chromatic --project-token=<your-token>
 Install it as a dependency, then import components and stylesheets from the built `dist/` output:
 
 ```bash
-npm install prohellox-designsystem
+npm install soldier-boy
 ```
 
 ```jsx
-import "prohellox-designsystem/global.css"; // resets + tokens + @font-face (once, at your app's entry)
-import { Button, Tag, Card } from "prohellox-designsystem";
+import "soldier-boy/global.css"; // resets + tokens + @font-face (once, at your app's entry)
+import { Button, Tag, Card } from "soldier-boy";
 
 export default function Example() {
   return (
@@ -38,11 +38,11 @@ export default function Example() {
 
 Each component imports its own CSS (`import "./Button.css"` etc.) as part of the package — this requires a bundler that handles CSS-from-JS imports (Vite, webpack, Next.js, Remix, CRA all do this out of the box, including for `node_modules` dependencies). Running the package's compiled output directly under plain Node (no bundler) is not a supported consumption path.
 
-`prohellox-designsystem/tokens.css` is also available on its own if you only want the CSS variables and `@font-face` rules without the body reset from `global.css`.
+`soldier-boy/tokens.css` is also available on its own if you only want the CSS variables and `@font-face` rules without the body reset from `global.css`.
 
 ### Building the package
 
-`npm run build` compiles `src/` with Babel into `dist/` (ESM, `.jsx` extensions preserved, cross-file imports rewritten to match), generates type declarations with `tsc`, and copies fonts/assets/CSS alongside — mirroring the `src/` layout so relative asset paths keep resolving. `npm run prepublishOnly` runs lint + test + build automatically before `npm publish`.
+`npm run build` compiles `src/` with Babel into `dist/` (ESM, `.jsx`/`.tsx` extensions preserved, cross-file imports rewritten to match), generates type declarations with `tsc`, and copies fonts/assets/CSS alongside — mirroring the `src/` layout so relative asset paths keep resolving. `npm run prepublishOnly` runs lint + test + build + a smoke test of the packed tarball automatically before `npm publish`.
 
 ## Wiring up Chromatic
 
@@ -56,9 +56,7 @@ The workflow uses `onlyChanged: true` (TurboSnap) so only stories whose dependen
 
 ## Stable Storybook URL (Vercel)
 
-Production Storybook (stable URL): **https://prohellox-stx.vercel.app**
-
-Chromatic build URLs change per run. Vercel serves the static Storybook and updates that same URL on every push to `main` (Git integration on `bukanEngineer/prohellox-stx`). PRs get preview URLs automatically.
+Chromatic build URLs change per run. Vercel serves the static Storybook at a stable URL and updates it on every push to `main` (Git integration on `bukanEngineer/soldier-boy`). PRs get preview URLs automatically.
 
 Build is locked to Storybook via `vercel.json` and project settings:
 
@@ -70,8 +68,10 @@ Chromatic (visual regression) and Vercel (hosted Storybook) both run from git pu
 
 ## Project layout
 
+The source follows the `straitsx-frontend/packages/design-system` structure — TypeScript components with per-folder barrels, plus `constants/`, `shared/`, and `theme/` — while keeping the plain CSS + tokens approach and an ESM-only build.
+
 ```
-testing-design-system/
+soldier-boy/
 ├── package.json
 ├── vite.config.js
 ├── chromatic.config.json
@@ -81,33 +81,22 @@ testing-design-system/
 │   └── preview.js              ← global styles + backgrounds + story sort
 ├── .github/workflows/
 │   └── chromatic.yml           ← visual regression on every PR
+├── scripts/                    ← build assets, logo generation, pack smoke test
 ├── src/
-│   ├── index.js                ← package exports
-│   ├── styles/
+│   ├── index.ts                ← package exports (component + constant + theme barrels)
+│   ├── theme/
 │   │   ├── tokens.css          ← --sx-* CSS variables + @font-face
+│   │   ├── theme.ts            ← typed theme object backed by CSS variables
+│   │   └── ThemeContext.tsx    ← ThemeProvider / useTheme
+│   ├── styles/
 │   │   └── global.css          ← resets, body defaults, Material Symbols
+│   ├── constants/              ← Colors/, Typography/, Spacing/, spacing, breakpoints, shadow
+│   ├── shared/                 ← ColorStyles.ts, TypographyStyles.ts
 │   ├── fonts/                  ← Hanken Grotesk + Red Hat Display ttfs
-│   ├── assets/                 ← logomark SVGs
-│   ├── stories/
-│   │   ├── Colors.stories.jsx
-│   │   ├── Typography.stories.jsx
-│   │   ├── Spacing.stories.jsx
-│   │   └── Examples.stories.jsx
-│   └── components/
-│       ├── Logomark/           ← Logomark.jsx + .stories.jsx
-│       ├── Button/             ← Button.{jsx,css,stories.jsx}
-│       ├── Tag/
-│       ├── Input/
-│       ├── Card/
-│       ├── EmptyState/
-│       ├── Sidebar/
-│       ├── TopBar/
-│       ├── TransferPanel/
-│       └── OtcBanner/
-├── examples/
-│   ├── PersonalAccount.jsx     ← full dashboard composition
-│   └── PersonalAccount.css
-├── preview/                    ← legacy HTML preview cards (kept for the
-│                                  Design System tab; not part of the package)
-└── ui_kits/personal-account/   ← legacy HTML demo (kept for reference)
+│   ├── assets/                 ← logomark + partner SVGs
+│   ├── hooks/
+│   ├── stories/                ← Examples.stories.jsx
+│   └── components/             ← one folder per component: {Component}.tsx + .css
+│                                  + index.tsx barrel + .stories.tsx (+ .test.tsx)
+└── examples/                   ← full dashboard compositions
 ```

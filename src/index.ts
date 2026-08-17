@@ -1,7 +1,7 @@
 // Package entry — re-exports every component.
 // CSS is NOT auto-imported here; consumers import what they want:
-//   import "prohellox-designsystem/global.css";
-//   import "prohellox-designsystem/tokens.css";
+//   import "soldier-boy/global.css";
+//   import "soldier-boy/tokens.css";
 
 // ─── Theme & Constants ───
 export { theme } from "./theme/theme";
