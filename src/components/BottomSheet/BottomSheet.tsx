@@ -110,6 +110,8 @@ export function BottomSheet({
   const cls = ["bsheet", className].filter(Boolean).join(" ");
 
   return createPortal(
+    // Backdrop is a mouse convenience; keyboard dismissal is handled via onKeyDown on the dialog below.
+    // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <div className="bsheet-scrim" onClick={handleScrim}>
       <div
         ref={sheetRef}

@@ -42,8 +42,10 @@ export function SidebarProvider({ defaultOpen = true, open: controlledOpen, onOp
 
   const toggleSidebar = React.useCallback(() => setOpen(!open), [setOpen, open]);
 
-  // Auto-close on mobile, auto-open on desktop when crossing breakpoint
+  // Auto-close on mobile, auto-open on desktop when crossing breakpoint.
+  // Intentionally syncs open state to the media-query result on breakpoint change.
   React.useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (responsive) setOpen(!isMobile);
   }, [isMobile, responsive, setOpen]);
 

@@ -167,6 +167,8 @@ export function Modal({
   }
 
   return createPortal(
+    // Backdrop is a mouse convenience; keyboard dismissal is handled via onKeyDown on the dialog below.
+    // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <div className="modal-scrim" onClick={handleScrim}>
       <div
         ref={modalRef}
