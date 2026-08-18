@@ -256,7 +256,7 @@ export const ScrollBehavior = {
             <ul style={{ lineHeight: 1.8, paddingLeft: 20 }}>
               <li>The entire sidebar content scrolls when items overflow</li>
               <li>The MAS badge scrolls naturally with the nav items</li>
-              <li>Expand "Mint" or "Transfers" groups to add more items and trigger scroll</li>
+              <li>Expand &ldquo;Mint&rdquo; or &ldquo;Transfers&rdquo; groups to add more items and trigger scroll</li>
               <li>Scroll is locked when the company dropdown is open</li>
             </ul>
           </div>
