@@ -196,6 +196,76 @@ export const Sandbox = {
   ),
 };
 
+// ─── Scroll Behavior ─────────────────────────────────────────────────────────
+
+const MANY_NAV_ITEMS = [
+  { id: "home", icon: "home", label: "Home", href: "#home" },
+  { id: "dashboard", icon: "dashboard", label: "Dashboard", href: "#dashboard" },
+  {
+    id: "mint", icon: "account_balance_wallet", label: "Mint", tag: "New",
+    subItems: [
+      { id: "mint-buy", label: "Buy", href: "#mint-buy" },
+      { id: "mint-sell", label: "Sell", href: "#mint-sell" },
+      { id: "mint-swap", label: "Swap", href: "#mint-swap" },
+      { id: "mint-convert", label: "Convert", href: "#mint-convert" },
+    ],
+  },
+  { id: "history", icon: "receipt_long", label: "Transaction History", href: "#history" },
+  { id: "statement", icon: "description", label: "Account Statement", href: "#statement" },
+  { id: "payments", icon: "payments", label: "Payments", href: "#payments" },
+  { id: "cards", icon: "credit_card", label: "Cards", href: "#cards" },
+  {
+    id: "transfers", icon: "swap_horiz", label: "Transfers",
+    subItems: [
+      { id: "transfers-local", label: "Local Transfer", href: "#transfers-local" },
+      { id: "transfers-intl", label: "International", href: "#transfers-intl" },
+      { id: "transfers-scheduled", label: "Scheduled", href: "#transfers-scheduled" },
+    ],
+  },
+  { id: "beneficiaries", icon: "group", label: "Beneficiaries", href: "#beneficiaries" },
+  { id: "devtools", icon: "developer_mode", label: "Developer Tools", href: "#devtools" },
+  { id: "webhooks", icon: "webhook", label: "Webhooks", href: "#webhooks" },
+  { id: "api-keys", icon: "key", label: "API Keys", href: "#api-keys" },
+  { id: "team", icon: "badge", label: "Team", href: "#team" },
+  { id: "audit-log", icon: "history", label: "Audit Log", href: "#audit-log" },
+  { id: "settings", icon: "tune", label: "Settings", href: "#settings" },
+  { id: "support", icon: "support_agent", label: "Support", href: "#support" },
+];
+
+export const ScrollBehavior = {
+  args: {
+    account: "business",
+    activeItemId: "mint-buy",
+  },
+  render: (args) => {
+    const { showCompany, companyDropdown, ...sidebarArgs } = args;
+    const [activeItemId, setActiveItemId] = useState(args.activeItemId);
+    useEffect(() => setActiveItemId(args.activeItemId), [args.activeItemId]);
+    return (
+      <Frame>
+        <Sidebar
+          {...sidebarArgs}
+          company={{ name: "ABC Pte. Ltd", type: "Business Account" }}
+          items={MANY_NAV_ITEMS}
+          activeItemId={activeItemId}
+          onSelect={setActiveItemId}
+        />
+        <MainContent account={args.account} user={{ name: "John Doe", company: "ABC Pte. Ltd.", initials: "JD" }}>
+          <div style={{ maxWidth: 480 }}>
+            <h3 style={{ margin: "0 0 12px", color: "var(--text-primary)" }}>Sidebar Scroll Behavior</h3>
+            <ul style={{ lineHeight: 1.8, paddingLeft: 20 }}>
+              <li>The entire sidebar content scrolls when items overflow</li>
+              <li>The MAS badge scrolls naturally with the nav items</li>
+              <li>Expand "Mint" or "Transfers" groups to add more items and trigger scroll</li>
+              <li>Scroll is locked when the company dropdown is open</li>
+            </ul>
+          </div>
+        </MainContent>
+      </Frame>
+    );
+  },
+};
+
 // ─── Mobile ───────────────────────────────────────────────────────────────────
 
 export const Mobile = {

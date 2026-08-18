@@ -28,7 +28,9 @@ export const Business = {
   args: {
     account: "business",
     notifications: 12,
-    user: { name: "John Doe", company: "ABC Pte. Ltd.", initials: "AB" },
+    // Business leads with the person; `role` comes from an API (e.g. Admin,
+    // Operations, Developer). No company name is shown.
+    user: { name: "John Doe", role: "Admin", initials: "JD" },
     onMenuAction: () => {},
     onMenuClick: () => {},
   },

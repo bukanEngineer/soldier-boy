@@ -122,6 +122,40 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* ───── Sandbox — matches the Sidebar sandbox theme (dark surface, white
+   text/icons). Uses the same --sidebar-sandbox-* tokens so the app-shell reads
+   as one surface. ───── */
+.topnav[data-account="sandbox"] {
+  background: var(--sidebar-sandbox-bg);
+  border-bottom-color: transparent;
+  color: var(--sidebar-sandbox-text);
+}
+
+.topnav[data-account="sandbox"] .topnav__profile,
+.topnav[data-account="sandbox"] .topnav__profile-name,
+.topnav[data-account="sandbox"] .topnav__initials,
+.topnav[data-account="sandbox"] .topnav__chevron,
+.topnav[data-account="sandbox"] .topnav__avatar .material-symbols-rounded {
+  color: var(--sidebar-sandbox-text);
+}
+
+.topnav[data-account="sandbox"] .topnav__profile-sub {
+  color: var(--sidebar-sandbox-text);
+  opacity: 0.72;
+}
+
+.topnav[data-account="sandbox"] .topnav__avatar {
+  background: var(--sidebar-sandbox-active);
+}
+
+.topnav[data-account="sandbox"] .topnav__profile:hover {
+  background: var(--sidebar-sandbox-hover, rgba(255, 255, 255, 0.08));
+}
+
+.topnav[data-account="sandbox"] .topnav__profile:active {
+  background: var(--sidebar-sandbox-active);
+}
+
 /* ───── Mobile — pure responsive behavior, no platform prop ───── */
 @media (max-width: 1279px) {
   .topnav__hamburger {

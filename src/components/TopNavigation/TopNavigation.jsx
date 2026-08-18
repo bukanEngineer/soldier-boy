@@ -41,10 +41,20 @@ export function TopNavigation({
   const isSandbox = account === "sandbox";
   const isBusiness = account === "business";
 
-  // Personal → user name; Business/Sandbox → company name (fall back to name).
-  const primaryLabel = isBusiness || isSandbox
+  // Primary line: Personal & Business → user name; Sandbox → company name
+  // (fall back to name). Business intentionally leads with the person, not the
+  // company.
+  const primaryLabel = isSandbox
     ? (user.company || user.name || "")
     : (user.name || "");
+
+  // Sub line: Business → role (sourced from an API, e.g. "Admin",
+  // "Operations", "Developer"); Sandbox → user name; Personal → none.
+  const subLabel = isBusiness
+    ? (user.role || "")
+    : isSandbox
+      ? (user.name || "")
+      : "";
   const initials =
     user.initials ||
     (user.name || "")
@@ -118,8 +128,8 @@ export function TopNavigation({
             {primaryLabel && (
               <span className="topnav__profile-text">
                 <span className="topnav__profile-name">{primaryLabel}</span>
-                {(isBusiness || isSandbox) && user.name && (
-                  <span className="topnav__profile-sub">{user.name}</span>
+                {subLabel && (
+                  <span className="topnav__profile-sub">{subLabel}</span>
                 )}
               </span>
             )}
