@@ -171,9 +171,9 @@ export function TopNavigation({
             </span>
           </button>
           {profileOpen && (
+            // eslint-disable-next-line jsx-a11y/no-static-element-interactions
             <div
               className="topnav__profile-menu"
-              role="menu"
               ref={menuRef}
               onKeyDown={handleMenuKeyDown}
             >
