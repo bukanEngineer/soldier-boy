@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { Badge } from "../Badge/Badge";
-import { Tag } from "../Tag/Tag";
 import { IconButton } from "../IconButton/IconButton";
 import { TopNavProfileMenu } from "../TopNavProfileMenu/TopNavProfileMenu";
 import { SidebarContext } from "../Sidebar/SidebarContext";
@@ -18,11 +17,46 @@ export function TopNavigation({
 }) {
   const [profileOpen, setProfileOpen] = useState(false);
   const profileRef = useRef(null);
+  const triggerRef = useRef(null);
+  const menuRef = useRef(null);
 
   // Auto-wire to SidebarContext when available (Option A).
   // Falls back to onMenuClick prop if no provider is present.
   const sidebarCtx = useContext(SidebarContext);
   const handleMenuClick = sidebarCtx ? sidebarCtx.toggleSidebar : onMenuClick;
+
+  // Focus management: move focus into the menu on open, restore on close.
+  const prevOpenRef = useRef(false);
+  useEffect(() => {
+    if (profileOpen && !prevOpenRef.current) {
+      // Menu just opened — focus first menu item
+      requestAnimationFrame(() => {
+        const firstItem = menuRef.current?.querySelector('[role="menuitem"]');
+        firstItem?.focus();
+      });
+    } else if (!profileOpen && prevOpenRef.current) {
+      // Menu just closed — return focus to the trigger
+      triggerRef.current?.focus();
+    }
+    prevOpenRef.current = profileOpen;
+  }, [profileOpen]);
+
+  // Arrow-key navigation within the profile menu
+  const handleMenuKeyDown = useCallback((e) => {
+    const items = menuRef.current?.querySelectorAll('[role="menuitem"]');
+    if (!items?.length) return;
+    const currentIdx = Array.from(items).indexOf(document.activeElement);
+
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      const next = (currentIdx + 1) % items.length;
+      items[next]?.focus();
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      const prev = (currentIdx - 1 + items.length) % items.length;
+      items[prev]?.focus();
+    }
+  }, []);
 
   useEffect(() => {
     if (!profileOpen) return undefined;
@@ -88,11 +122,6 @@ export function TopNavigation({
         onClick={handleMenuClick}
         className="topnav__hamburger"
       />
-      {isSandbox && (
-        <Tag tone="warning" size="small" className="topnav__sandbox">
-          Sandbox
-        </Tag>
-      )}
 
       <div className="topnav__right">
         {children}
@@ -117,6 +146,7 @@ export function TopNavigation({
 
         <div className="topnav__profile-wrap" ref={profileRef}>
           <button
+            ref={triggerRef}
             type="button"
             className="topnav__profile"
             onClick={() => setProfileOpen((o) => !o)}
@@ -141,7 +171,11 @@ export function TopNavigation({
             </span>
           </button>
           {profileOpen && (
-            <div className="topnav__profile-menu">
+            <div
+              className="topnav__profile-menu"
+              ref={menuRef}
+              onKeyDown={handleMenuKeyDown}
+            >
               <TopNavProfileMenu
                 account={account}
                 onAction={(id) => {

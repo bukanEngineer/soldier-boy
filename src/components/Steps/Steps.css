@@ -49,6 +49,10 @@
   flex: 1 0 var(--space-1);
   background: var(--border);
 }
+/* Pin top connector so dot aligns with the first line of text */
+.v-steps__line > .v-steps__connector:first-child {
+  flex: 0 0 5px;
+}
 .v-steps__connector.is-done {
   background: var(--status-positive);
 }

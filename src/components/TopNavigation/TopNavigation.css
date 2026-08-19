@@ -135,8 +135,9 @@
 .topnav[data-account="sandbox"] .topnav__profile-name,
 .topnav[data-account="sandbox"] .topnav__initials,
 .topnav[data-account="sandbox"] .topnav__chevron,
-.topnav[data-account="sandbox"] .topnav__avatar .material-symbols-rounded {
-  color: var(--sidebar-sandbox-text);
+.topnav[data-account="sandbox"] .topnav__avatar .material-symbols-rounded,
+.topnav[data-account="sandbox"] .icon-btn {
+  color: var(--text-inverse);
 }
 
 .topnav[data-account="sandbox"] .topnav__profile-sub {
