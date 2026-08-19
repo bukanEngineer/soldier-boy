@@ -1,3 +1,5 @@
+import React from "react";
+
 export { TopNavigation } from "./TopNavigation";
 
 export interface TopNavigationUser {

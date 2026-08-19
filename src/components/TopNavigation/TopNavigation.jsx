@@ -173,6 +173,7 @@ export function TopNavigation({
           {profileOpen && (
             <div
               className="topnav__profile-menu"
+              role="menu"
               ref={menuRef}
               onKeyDown={handleMenuKeyDown}
             >
