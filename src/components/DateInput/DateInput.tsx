@@ -4,7 +4,6 @@ import "../Input/Input.css";
 import "./DateInput.css";
 
 const DATE_FMT = new Intl.DateTimeFormat("en-SG", { day: "numeric", month: "long", year: "numeric" });
-const RANGE_DATE_FMT = new Intl.DateTimeFormat("en-US", { day: "2-digit", month: "short", year: "numeric" });
 
 function parseISO(value?: string): Date | undefined {
   if (!value) return undefined;
@@ -117,8 +116,8 @@ export function DateInput({
   let isPlaceholder = true;
   if (range && (startDate || endDate)) {
     displayText = startDate && endDate
-      ? `${RANGE_DATE_FMT.format(startDate)} - ${RANGE_DATE_FMT.format(endDate)}`
-      : `${RANGE_DATE_FMT.format((startDate || endDate)!)} - …`;
+      ? `${DATE_FMT.format(startDate)} - ${DATE_FMT.format(endDate)}`
+      : `${DATE_FMT.format((startDate || endDate)!)} - …`;
     isPlaceholder = false;
   } else if (!range && selectedDate) {
     displayText = DATE_FMT.format(selectedDate);

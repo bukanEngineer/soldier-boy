@@ -53,7 +53,7 @@ export const CTARight = {
     tone: "info",
     title: "Verification pending",
     children: "Complete your identity verification to raise your limits.",
-    actionPlacement: "right",
+    actionPlacement: "inline",
     actions: <Button size="sm" variant="primary">Verify</Button>,
   },
 };

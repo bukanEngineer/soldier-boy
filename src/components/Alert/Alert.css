@@ -14,13 +14,12 @@
   font-size: 22px;
   margin-top: 1px;
 }
-.alert__body { flex: 1; min-width: 0; }
+.alert__content { flex: 1; min-width: 0; }
 .alert__title { font: var(--label-medium); }
-.alert__text { font: var(--body-medium); color: var(--text-secondary); margin-top: 2px; }
+.alert__body { font: var(--body-medium); color: var(--text-secondary); margin-top: 2px; }
 .alert__actions { display: flex; gap: var(--space-2); margin-top: 10px; }
-/* Right-aligned inline CTA — sits beside the body, vertically centered. */
-.alert--actions-right { align-items: center; }
-.alert__actions--right { flex: 0 0 auto; margin-top: 0; align-self: center; }
+/* Inline CTA: sits beside the content, vertically centered. */
+.alert__actions--inline { flex: 0 0 auto; margin-top: 0; align-self: center; }
 .alert__close {
   flex: 0 0 auto;
   background: transparent;
