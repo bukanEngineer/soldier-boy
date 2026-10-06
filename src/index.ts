@@ -34,6 +34,8 @@ export {
   INTERACTIVE_COLORS,
 } from "./shared/ColorStyles";
 
+export { cn, withClass } from "./lib/cn";
+
 export {
   FONT_WEIGHT,
   FONT_STYLE,
@@ -54,6 +56,8 @@ export { Badge } from "./components/Badge";
 export type { BadgeProps } from "./components/Badge";
 
 // Form
+export { Field } from "./components/Field";
+export type { FieldRootProps, FieldLabelProps, FieldDescriptionProps, FieldErrorProps } from "./components/Field";
 export { Input } from "./components/Input";
 export type { InputProps } from "./components/Input";
 export { Textarea } from "./components/Textarea";
@@ -81,7 +85,7 @@ export { Upload } from "./components/Upload";
 export { Card } from "./components/Card";
 export type { CardProps } from "./components/Card";
 export { Tabs } from "./components/Tabs";
-export type { TabsProps, TabItem } from "./components/Tabs";
+export type { TabsRootProps, TabsListProps, TabsTabProps, TabsPanelProps } from "./components/Tabs";
 export { Table } from "./components/Table";
 export { Pagination } from "./components/Pagination";
 export type { PaginationProps } from "./components/Pagination";

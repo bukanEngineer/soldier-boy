@@ -1,6 +1,6 @@
 /**
- * Button CSS class constants — typed mapping to Button.css class names.
- * Components import from here instead of hardcoding class strings.
+ * Button CSS class constants: typed mapping to Button.css class names.
+ * Interactive states are styled with :hover / :active / [data-disabled], not classes.
  */
 
 export const buttonClasses = {
@@ -14,11 +14,6 @@ export const buttonClasses = {
     lg: "btn--lg",
     md: "btn--md",
     sm: "btn--sm",
-  },
-  state: {
-    hovered: "is-hovered",
-    pressed: "is-pressed",
-    focused: "is-focused",
   },
 } as const;
 

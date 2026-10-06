@@ -83,6 +83,9 @@ export default [{
     "jsx-a11y/interactive-supports-focus": "warn",
     "jsx-a11y/no-noninteractive-tabindex": "warn",
     "jsx-a11y/no-noninteractive-element-interactions": "warn",
+    // Base UI `render={(props) => <a {...props} />}` injects children at
+    // runtime, which this rule can't see.
+    "jsx-a11y/anchor-has-content": "off",
   },
 }, {
   // Storybook CSF3 `render` functions are valid components, but their name

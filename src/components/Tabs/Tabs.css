@@ -1,4 +1,4 @@
-.tabs__strip {
+.tabs__list {
   display: flex;
   border-bottom: 1px solid var(--border);
   gap: 0;
@@ -16,8 +16,9 @@
   transition: color var(--dur-1) var(--ease);
 }
 .tabs__tab:hover { color: var(--text-primary); }
-.tabs__tab.is-active { color: var(--text-primary); }
-.tabs__tab.is-active::after {
+.tabs__tab:focus-visible { outline: 2px solid var(--status-information); outline-offset: -2px; }
+.tabs__tab[data-active] { color: var(--text-primary); }
+.tabs__tab[data-active]::after {
   content: "";
   position: absolute;
   left: 12px;
@@ -27,12 +28,12 @@
   background: var(--text-primary);
   border-radius: 2px 2px 0 0;
 }
-.tabs__tab[disabled] { color: var(--disabled-on-surface); cursor: not-allowed; }
+.tabs__tab[data-disabled] { color: var(--disabled-on-surface); cursor: not-allowed; }
 
-.tabs--fill .tabs__tab { flex: 1; }
+.tabs__list[data-fill] .tabs__tab { flex: 1; }
 
-/* Secondary tab (Figma Secondary Tab) — surface-secondary pill group with active filled chip */
-.tabs--secondary .tabs__strip {
+/* Secondary tab (Figma Secondary Tab): surface-secondary pill group with active filled chip */
+.tabs__list[data-variant="secondary"] {
   border-bottom: 0;
   gap: 4px;
   padding: 4px;
@@ -40,19 +41,23 @@
   border-radius: var(--radius-md);
   display: inline-flex;
 }
-.tabs--secondary .tabs__tab {
+.tabs__list[data-variant="secondary"][data-fill] { display: flex; }
+.tabs__list[data-variant="secondary"] .tabs__tab {
   height: 36px;
   padding: 0 16px;
   border-radius: var(--radius-sm);
   color: var(--text-secondary);
 }
-.tabs--secondary .tabs__tab:hover:not(.is-active) { background: var(--surface-hovered); color: var(--text-primary); }
-.tabs--secondary .tabs__tab.is-active {
+.tabs__list[data-variant="secondary"] .tabs__tab:hover:not([data-active]):not([data-disabled]) {
+  background: var(--surface-hovered);
+  color: var(--text-primary);
+}
+.tabs__list[data-variant="secondary"] .tabs__tab[data-active] {
   background: var(--surface);
   color: var(--text-primary);
   box-shadow: var(--shadow-1);
 }
-.tabs--secondary .tabs__tab.is-active::after { display: none; }
-.tabs--secondary.tabs--fill .tabs__strip { display: flex; }
+.tabs__list[data-variant="secondary"] .tabs__tab[data-active]::after { display: none; }
 
 .tabs__panel { padding: 24px 0; }
+.tabs__panel:focus-visible { outline: 2px solid var(--status-information); outline-offset: 2px; }

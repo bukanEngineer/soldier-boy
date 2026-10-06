@@ -12,7 +12,10 @@ Status legend: `[ ]` todo, `[~]` in progress, `[x]` done. Update this file as wo
 - Styling: keep plain CSS + `tokens.css`. No Tailwind. Style Base UI parts with `className` and `[data-*]` selectors.
 - Language: TypeScript only. Convert `.jsx` components as they are touched.
 - Release: breaking changes ship as a 0.x minor bump (e.g. `0.3.0`) with a migration section in `CHANGELOG`/README. Dashboard app needs a matching update PR.
-- Old APIs: no long-term compatibility shims. Where cheap, keep a thin legacy wrapper for one release and mark it `@deprecated`.
+- Old APIs: clean break in `0.3.0`, no deprecated wrappers. Migration snippets go in `docs/migration-0.3.md`.
+- Form controls (`Input`, `Textarea`, `Select`, ...) are bare controls; label / helper / error come from `Field` (shadcn style). Control-level features (clear button, password reveal, trailing button) stay on the control.
+- Domain components (`Dropdown*`, `Field*`, `List*`, `BottomSheet*`, `Modal*`, `Card*`) stay exported for now but are rebuilt as thin compositions over the generic primitives, with shared code deduplicated.
+- Reference implementations to copy: `Button` (single part + `render`), `Tabs` (compound namespace), `Field` (form wiring). Shared helpers: `cn()` and `withClass()` in `src/lib/cn.ts`.
 
 ## Conventions (apply to every migrated component)
 
@@ -29,12 +32,12 @@ Status legend: `[ ]` todo, `[~]` in progress, `[x]` done. Update this file as wo
 
 ## Phase 0: foundation
 
-- [ ] Install `@base-ui/react` (exact version) as a dependency; confirm it builds through Babel and is externalized correctly in `dist`.
-- [ ] Add `src/lib/cn.ts` and use it in new code.
-- [ ] Add a portal root / `isolation: isolate` note to `global.css` per Base UI setup docs.
-- [ ] Add `docs/component-template/` (or update `docs/story-template.stories.jsx`) showing a compound component, its CSS with data-attribute selectors, story and test.
-- [ ] Decide how story-only states are rendered (e.g. `storybook-addon-pseudo-states`) and remove `is-hovered` / `is-pressed` / `is-focused` from `Button.css` and others.
-- [ ] Update `AGENTS.md` with the conventions above (short pointer to this file).
+- [x] Install `@base-ui/react` (exact version) as a dependency; confirm it builds through Babel and is externalized correctly in `dist`.
+- [x] Add `src/lib/cn.ts` (`cn()` + `withClass()` for Base UI state-function classNames) and use it in new code.
+- [x] Add `isolation: isolate` on the app root and `body { position: relative }` to `global.css` per Base UI setup docs.
+- [x] Reference implementations instead of a template: `src/components/{Button,Tabs,Field}` (component, CSS with data-attribute selectors, TS story, TS test).
+- [x] Story-only states use `storybook-addon-pseudo-states` (`parameters.pseudo`, see `Button.stories.tsx` `States`). Removed from `Button.css`; remaining components are removed as they migrate.
+- [x] Update `AGENTS.md` with a pointer to this file.
 - [ ] Delete or rewrite stale `src/COMPONENT_AUDIT.md` (it names another repo and an old count).
 
 ## Phase 1: behavior-heavy primitives (highest value, known bugs)
@@ -74,7 +77,7 @@ Order matters: later items depend on earlier ones.
 - [ ] Consumers to update: `InputCurrency`, `Table`.
 
 ### 1.6 Field and form controls
-- [ ] Add `Field` on Base UI `Field` (`Root`, `Label`, `Control`, `Description`, `Error`) and optionally `Fieldset` / `Form`.
+- [x] Add `Field` on Base UI `Field` (`Root`, `Label`, `Control`, `Description`, `Error`) and optionally `Fieldset` / `Form`.
 - [ ] `Input`, `Textarea`, `InputCurrency`, `DateInput`: become bare controls used inside `Field`. Remove baked-in `label` / `helper` / `error` props (or keep a thin `TextField` convenience wrapper; decide once).
 - [ ] `Checkbox` on Base UI `Checkbox` (+ `CheckboxGroup`), `onCheckedChange`, indeterminate support.
 - [ ] `Radio` on Base UI `RadioGroup` + `Radio` (arrow-key group nav).
@@ -82,8 +85,8 @@ Order matters: later items depend on earlier ones.
 - [ ] `SelectionBox`: evaluate as a styled `RadioGroup` / `CheckboxGroup` item.
 
 ### 1.7 Tabs
-- [ ] Rebuild on Base UI `Tabs` (`Root`, `List`, `Tab`, `Indicator`, `Panel`). `items=[]` becomes children; `activeTab`/`onTabChange` becomes `value`/`onValueChange`.
-- [ ] `variant="secondary"` and `fill` stay as props on `Tabs.List` (or `Root`).
+- [x] Rebuild on Base UI `Tabs` (`Root`, `List`, `Tab`, `Indicator`, `Panel`). `items=[]` becomes children; `activeTab`/`onTabChange` becomes `value`/`onValueChange`.
+- [x] `variant="secondary"` and `fill` are props on `Tabs.List` (exposed as `data-variant` / `data-fill`).
 
 ### 1.8 Toast
 - [ ] Rebuild on Base UI `Toast` (`Provider`, `Viewport`, `Root`, `Title`, `Description`, `Close`) with `useToastManager`.
@@ -93,7 +96,8 @@ Order matters: later items depend on earlier ones.
 
 No Base UI primitive; apply the conventions (TS, ref + prop spread, `cn()`, data attributes, children over content props).
 
-- [ ] `Button`: add `render` prop (via `useRender`) so it can render as a link; remove story-only state classes. Consider merging `LinkButton` / `IconButton` into `Button` variants/sizes.
+- [x] `Button`: built on Base UI `Button` (`render` + `nativeButton={false}` for links); story-only state classes removed.
+- [ ] Merge decision for `LinkButton` / `IconButton`: consider merging them into `Button` variants/sizes.
 - [ ] Add `ButtonGroup` (shadcn style: `role="group"`, orientation, separator). New component.
 - [ ] `Card` and `Card*` family (`CardAsset`, `CardAttribute`, `CardChecklist`, `CardStatus`, `CardSteps`, `CardSummary`, `CardSwap`): base `Card` becomes `Card` / `CardHeader` / `CardTitle` / `CardDescription` / `CardContent` / `CardFooter`; domain cards become recipes.
 - [ ] `Tag`, `Badge`, `Alert`, `EmptyState`, `ImportantNotes`, `ErrorResponse`, `PageTitle`, `StatusIcon`: children-based parts, ref + spread.
