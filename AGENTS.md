@@ -33,3 +33,9 @@ force-prepends to `PATH` on every command. The correct Node 24 is installed via 
 
 - Chromatic visual regression (`npm run chromatic`) is a cloud SaaS and needs
   `CHROMATIC_PROJECT_TOKEN`; it is optional and not required for local development or testing.
+
+### Component architecture migration
+
+Components are being migrated to Base UI compound primitives. Before changing any
+component, read `docs/base-ui-migration.md` for the conventions, phase order and
+current status, and tick off items there as they land.
