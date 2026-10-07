@@ -48,26 +48,6 @@
   gap: var(--space-3);
   margin: 0;
 }
-.card-status__item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-2);
-}
-.card-status__item-label {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-1);
-  font: var(--body-medium);
-  color: var(--text-secondary);
-}
-.card-status__info { color: var(--text-secondary); }
-.card-status__item-value {
-  font: var(--body-medium);
-  color: var(--text-primary);
-  margin: 0;
-  text-align: right;
-}
 
 .card-status__total-wrap {
   display: flex;

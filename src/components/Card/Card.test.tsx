@@ -7,6 +7,7 @@ import {
   CardDescription,
   CardContent,
   CardFooter,
+  CardDetailRow,
 } from "./Card";
 import {
   renderSmoke,
@@ -72,5 +73,39 @@ describe("Card", () => {
       </Card>,
     );
     expect(container.querySelectorAll("section")).toHaveLength(21);
+  });
+});
+
+describe("CardDetailRow", () => {
+  it("puts the info icon on the label by default", () => {
+    const { container } = render(
+      <dl>
+        <CardDetailRow label="Fee" value="0.50 SGD" info />
+      </dl>,
+    );
+    const label = container.querySelector(".card-detail-row__label");
+    const value = container.querySelector(".card-detail-row__value");
+    expect(label?.querySelector(".card-detail-row__info")).not.toBeNull();
+    expect(value?.querySelector(".card-detail-row__info")).toBeNull();
+    expect(container.querySelector(".card-detail-row")).toHaveAttribute(
+      "data-info-placement",
+      "label",
+    );
+  });
+
+  it("can put the info icon on the value", () => {
+    const { container } = render(
+      <dl>
+        <CardDetailRow label="Fee" value="0.50 SGD" info infoPlacement="value" infoSize={18} />
+      </dl>,
+    );
+    const label = container.querySelector(".card-detail-row__label");
+    const value = container.querySelector(".card-detail-row__value");
+    expect(label?.querySelector(".card-detail-row__info")).toBeNull();
+    expect(value?.querySelector(".card-detail-row__info")).not.toBeNull();
+    expect(container.querySelector(".card-detail-row")).toHaveAttribute(
+      "data-info-placement",
+      "value",
+    );
   });
 });

@@ -1,8 +1,7 @@
 import React from "react";
 import { StatusIcon } from "../StatusIcon/StatusIcon";
-import { Icon } from "../Icon/Icon";
 import { LinkButton } from "../LinkButton/LinkButton";
-import { Card } from "../Card/Card";
+import { Card, CardDetailRow } from "../Card/Card";
 import { cn } from "../../lib/cn";
 import "./CardStatus.css";
 
@@ -54,13 +53,14 @@ export function CardStatus({
             {section.title && <p className="card-status__section-title">{section.title}</p>}
             <dl className="card-status__items">
               {section.items.map((item, j) => (
-                <div key={String(item.label) || j} className="card-status__item">
-                  <dt className="card-status__item-label">
-                    {item.label}
-                    {item.info && <Icon name="info" size={16} className="card-status__info" />}
-                  </dt>
-                  <dd className="card-status__item-value">{item.value}</dd>
-                </div>
+                <CardDetailRow
+                  key={String(item.label) || j}
+                  label={item.label}
+                  value={item.value}
+                  info={item.info}
+                  infoPlacement="label"
+                  infoSize={16}
+                />
               ))}
             </dl>
           </div>
