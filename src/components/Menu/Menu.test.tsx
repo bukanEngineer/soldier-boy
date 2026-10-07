@@ -42,6 +42,12 @@ describe("Menu", () => {
     expect(within(menu).getByRole("menuitem", { name: "Delete" })).toBeInTheDocument();
   });
 
+  it("keeps scrollable popups keyboard-focusable", async () => {
+    render(<Demo defaultOpen />);
+    const menu = await screen.findByRole("menu");
+    expect(menu).toHaveAttribute("tabindex", "0");
+  });
+
   it("supports defaultOpen", async () => {
     render(<Demo defaultOpen />);
     expect(await screen.findByRole("menu")).toBeInTheDocument();

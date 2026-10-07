@@ -18,6 +18,10 @@
   transform-origin: var(--transform-origin);
   transition: opacity 120ms var(--ease), transform 120ms var(--ease);
 }
+.menu__popup:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: -2px;
+}
 .menu__popup[data-starting-style],
 .menu__popup[data-ending-style] {
   opacity: 0;

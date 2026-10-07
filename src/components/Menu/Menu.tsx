@@ -39,7 +39,17 @@ function MenuPopup({
         className={withClass("menu__positioner", positionerClassName)}
         {...restPositioner}
       >
-        <BaseMenu.Popup className={withClass("menu__popup", className)} {...props} />
+        {/*
+         * The popup can become a scroll container when its available height is
+         * constrained. Keep it keyboard-focusable so users can scroll menus
+         * that do not fit in the viewport (and so automated accessibility
+         * checks can identify the scroll region).
+         */}
+        <BaseMenu.Popup
+          className={withClass("menu__popup", className)}
+          tabIndex={0}
+          {...props}
+        />
       </BaseMenu.Positioner>
     </BaseMenu.Portal>
   );
