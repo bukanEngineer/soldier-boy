@@ -2,6 +2,7 @@ import React from "react";
 import { Icon } from "../Icon/Icon";
 import { Button } from "../Button/Button";
 import { IconButton } from "../IconButton/IconButton";
+import { Card } from "../Card/Card";
 import { InputCurrency } from "../InputCurrency/InputCurrency";
 import type { InputCurrencyAssetOption } from "../InputCurrency/InputCurrency";
 import { cn } from "../../lib/cn";
@@ -35,9 +36,9 @@ export function CardSwap({
   title = "Swap",
   from = {},
   to = {},
-  rate = "1 XSGD ≈ 0.7233 USDT",
+  rate,
   highlight,
-  footnote = "No fees · Rate refreshes every minute.",
+  footnote,
   buttonLabel = "Swap",
   onSwap,
   onReverse,
@@ -45,7 +46,7 @@ export function CardSwap({
   ...rest
 }: CardSwapProps) {
   return (
-    <section className={cn("card-swap", className)} {...rest}>
+    <Card className={cn("card-swap", className)} {...rest}>
       <p className="card-swap__title">{title}</p>
 
       <Leg label="From" leg={from} />
@@ -76,7 +77,7 @@ export function CardSwap({
       </Button>
 
       {footnote && <p className="card-swap__footnote">{footnote}</p>}
-    </section>
+    </Card>
   );
 }
 

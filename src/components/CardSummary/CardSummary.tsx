@@ -1,6 +1,7 @@
 import React from "react";
 import { Icon } from "../Icon/Icon";
 import { Button } from "../Button/Button";
+import { Card } from "../Card/Card";
 import { cn } from "../../lib/cn";
 import "./CardSummary.css";
 
@@ -40,7 +41,7 @@ export function CardSummary({
   ...rest
 }: CardSummaryProps) {
   return (
-    <section className={cn("card-summary", className)} {...rest}>
+    <Card className={cn("card-summary", className)} {...rest}>
       <p className="card-summary__title">{title}</p>
 
       {conversion && (
@@ -93,7 +94,7 @@ export function CardSummary({
           {button.label}
         </Button>
       )}
-    </section>
+    </Card>
   );
 }
 

@@ -1,11 +1,7 @@
-.card-checklist {
+.card.card-checklist {
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
-  background: var(--surface);
-  border-radius: var(--radius-md);
-  padding: var(--space-5);
-  color: var(--text-primary);
   width: 100%;
 }
 
@@ -64,23 +60,24 @@
 
 /* ── List ── */
 .card-checklist__list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-1);
+  --list-gap: var(--space-1);
 }
 .card-checklist__item {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
+  --list-item-gap: var(--space-3);
   padding: var(--space-3);
   border-radius: var(--radius-lg);
 }
 .card-checklist__item[data-active] {
   background: var(--surface-secondary);
   box-shadow: var(--shadow-1);
+}
+.card-checklist .list-item__title { font: var(--body-medium); }
+.card-checklist .list-item__description { font: var(--body-small); }
+.card-checklist__item-details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-1);
 }
 
 .card-checklist__mark {
@@ -94,13 +91,4 @@
 .card-checklist__mark[data-status="active"] { color: var(--status-positive); }
 .card-checklist__mark[data-status="locked"] { color: var(--disabled-on-surface); }
 
-.card-checklist__item-body {
-  flex: 1 0 0;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-1);
-}
-.card-checklist__item-title { font: var(--body-medium); color: var(--text-primary); margin: 0; }
-.card-checklist__item-desc { font: var(--body-small); color: var(--text-secondary); margin: 0; }
 .card-checklist__item-trailing { color: var(--text-secondary); flex-shrink: 0; }

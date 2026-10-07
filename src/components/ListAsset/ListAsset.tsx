@@ -1,4 +1,6 @@
 import React from "react";
+import { ListItem } from "../List/List";
+import { IconButton } from "../IconButton/IconButton";
 import { ListSupportedNetwork } from "../ListSupportedNetwork/ListSupportedNetwork";
 import { cn } from "../../lib/cn";
 import "./ListAsset.css";
@@ -6,11 +8,12 @@ import "./ListAsset.css";
 export type ListAssetVariant = "stablecoin" | "fiat" | string;
 export type ListAssetPlatform = "desktop" | "mobile";
 
-export type ListAssetProps = React.ComponentProps<"div"> & {
+export type ListAssetProps = Omit<React.ComponentProps<"div">, "title"> & {
   symbol?: React.ReactNode;
   subtitle?: React.ReactNode;
   balance?: React.ReactNode;
   balanceSub?: React.ReactNode;
+  /** Asset mark. Falls back to the symbol's first two letters. */
   icon?: React.ReactNode;
   variant?: ListAssetVariant;
   platform?: ListAssetPlatform;
@@ -23,10 +26,11 @@ export type ListAssetProps = React.ComponentProps<"div"> & {
   showAction?: boolean;
 };
 
+/** Asset row: mark, symbol, balance, supported networks and actions. Built on `ListItem`. */
 export function ListAsset({
-  symbol = "XSGD",
-  subtitle = "1:1 to SGD",
-  balance = "0.00",
+  symbol,
+  subtitle,
+  balance,
   balanceSub,
   icon,
   variant = "stablecoin",
@@ -45,9 +49,37 @@ export function ListAsset({
   const hasNetworks =
     variant === "stablecoin" &&
     ((networks && networks.length > 0) || networkOverflow > 0 || networkIsNew);
+  const mark =
+    icon ?? (typeof symbol === "string" && symbol ? symbol.slice(0, 2).toUpperCase() : null);
+
+  let trailing: React.ReactNode = null;
+  if (isMobile) {
+    trailing = (
+      <span className="list-asset__chevron material-symbols-rounded" aria-hidden="true">
+        arrow_forward_ios
+      </span>
+    );
+  } else if (showAction) {
+    trailing = (
+      <div className="list-asset__actions">
+        {actions ?? (
+          <>
+            <IconButton variant="secondary" size="sm" icon="add" label="Add" onClick={onAdd} />
+            <IconButton
+              variant="secondary"
+              size="sm"
+              icon="arrow_outward"
+              label="Send"
+              onClick={onSend}
+            />
+          </>
+        )}
+      </div>
+    );
+  }
 
   return (
-    <div
+    <ListItem
       data-platform={platform}
       data-variant={variant}
       className={cn(
@@ -56,20 +88,16 @@ export function ListAsset({
         `list-asset--${variant}`,
         className,
       )}
+      leading={mark != null ? <span className="list-asset__icon">{mark}</span> : undefined}
+      title={symbol}
+      description={subtitle != null && subtitle !== "" ? subtitle : undefined}
+      trailing={trailing}
       {...rest}
     >
-      <div className="list-asset__lead">
-        {icon != null && <span className="list-asset__icon">{icon}</span>}
-        <div className="list-asset__currency">
-          <span className="list-asset__symbol">{symbol}</span>
-          {subtitle != null && subtitle !== "" && (
-            <span className="list-asset__subtitle">{subtitle}</span>
-          )}
-        </div>
-      </div>
-
       <div className="list-asset__balance">
-        <span className="list-asset__balance-value numeric">{balance}</span>
+        {balance != null && (
+          <span className="list-asset__balance-value numeric">{balance}</span>
+        )}
         {balanceSub != null && (
           <span className="list-asset__balance-sub">{balanceSub}</span>
         )}
@@ -83,43 +111,6 @@ export function ListAsset({
           isNew={networkIsNew}
         />
       )}
-
-      {showAction && !isMobile && (
-        <div className="list-asset__actions">
-          {actions != null ? (
-            actions
-          ) : (
-            <>
-              <button
-                type="button"
-                className="list-asset__icon-btn"
-                aria-label="Add"
-                onClick={onAdd}
-              >
-                <span className="material-symbols-rounded" aria-hidden="true">
-                  add
-                </span>
-              </button>
-              <button
-                type="button"
-                className="list-asset__icon-btn"
-                aria-label="Send"
-                onClick={onSend}
-              >
-                <span className="material-symbols-rounded" aria-hidden="true">
-                  arrow_outward
-                </span>
-              </button>
-            </>
-          )}
-        </div>
-      )}
-
-      {isMobile && (
-        <span className="list-asset__chevron material-symbols-rounded" aria-hidden="true">
-          arrow_forward_ios
-        </span>
-      )}
-    </div>
+    </ListItem>
   );
 }

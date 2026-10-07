@@ -1,11 +1,8 @@
 /* ListBank — Figma: List / Bank (5323:3843) */
 .list-bank {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
+  --list-item-gap: var(--space-2);
+  --list-item-lead-gap: var(--space-2);
   padding: var(--space-3);
-  width: 100%;
-  box-sizing: border-box;
   background: var(--surface);
 }
 .list-bank[data-variant="verified"] {
@@ -13,45 +10,31 @@
 }
 .list-bank[data-variant="unverified"],
 .list-bank[data-variant="rejected"] {
-  align-items: center;
   background: var(--surface-disabled);
 }
-
-.list-bank__main {
-  display: flex;
-  flex: 1 0 0;
-  gap: var(--space-2);
+.list-bank .list-item__lead {
   align-items: flex-start;
-  min-width: 0;
 }
+
 .list-bank__logo {
   display: flex;
   align-items: center;
   width: 48px;
-  flex-shrink: 0;
   overflow: hidden;
   color: var(--text-secondary);
 }
 .list-bank__logo > * {
   max-width: 100%;
 }
-.list-bank__text {
+
+.list-bank .list-item__main,
+.list-bank__details {
   display: flex;
-  flex: 1 0 0;
   flex-direction: column;
-  justify-content: center;
   gap: var(--space-1);
-  min-width: 0;
 }
-.list-bank__name {
-  font: var(--body-bold-medium);
-  color: var(--text-primary);
-  word-break: break-word;
-}
-.list-bank__sub {
-  font: var(--body-medium);
-  color: var(--text-secondary);
-  word-break: break-word;
+.list-bank .list-item__main {
+  flex: 1 0 0;
 }
 .list-bank__tag {
   align-self: flex-start;
@@ -59,19 +42,9 @@
 }
 
 /* Disabled state text */
-.list-bank[data-variant="unverified"] .list-bank__name,
-.list-bank[data-variant="unverified"] .list-bank__sub,
-.list-bank[data-variant="rejected"] .list-bank__name,
-.list-bank[data-variant="rejected"] .list-bank__sub {
+.list-bank[data-variant="unverified"] .list-item__title,
+.list-bank[data-variant="unverified"] .list-item__description,
+.list-bank[data-variant="rejected"] .list-item__title,
+.list-bank[data-variant="rejected"] .list-item__description {
   color: var(--disabled-on-surface);
-}
-
-/* ── Container (Dropdown / Bank) ── */
-.list-bank-group {
-  display: flex;
-  flex-direction: column;
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  background: var(--surface);
-  box-shadow: 0 1px 2px rgba(10, 13, 18, 0.06), 0 1px 3px rgba(10, 13, 18, 0.1);
 }

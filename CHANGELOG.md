@@ -8,6 +8,7 @@
 - `BottomSheetSelect` is now exported: single-select list sheet on `OptionList` with optional `searchable`, `description` and an empty state.
 - `BottomSheet` detents via `snapPoints` (e.g. `[0.5, 1]`) and keyboard handling for forms (`keyboardAware`, on by default).
 - Layering tokens `--z-overlay`, `--z-popup`, `--z-toast`.
+- `List` / `ListItem`: shared row primitives (`leading`, `title`, `description`, `trailing` slots). `List` renders a `<ul>` and supports `divided`; `ListItem` renders an `<li>` inside a `List` and a `<div>` on its own.
 - `IconButton` `touchTarget` prop: keeps the small (36px) look and extends the tap area to 48x48 without taking up layout space.
 
 ### Changed
@@ -19,6 +20,10 @@
 - Title uses the `--title-small` type token.
 - `Modal.Close` is now a small `IconButton` (square, tertiary) with a 48px touch target, matching `BottomSheet.Close`. The glyph is the tertiary-button colour instead of `--text-secondary`; text-only `<Modal.Close>Cancel</Modal.Close>` is unstyled apart from inheriting the font.
 - `BottomSheet` no longer accepts `swipeDirection` (it is always `down`).
+- `ListAsset`, `ListBank` and `ListBlockchain` are built on `ListItem`; `CardAsset` and `CardChecklist` render their rows with `List`. Every `Card*` variant now uses `Card` as its surface.
+- `ListAsset` shows the symbol's first two letters when no `icon` is given, uses `IconButton` for its actions, and gives the network column an equal share so columns align across rows. `ListAsset`, `ListBank` and `ListBlockchain` no longer accept the HTML `title` attribute (it is a content slot).
+- `ListBlockchain`'s Verify action is a `LinkButton`, matching `ListBank`.
+- Removed placeholder defaults: `ListAsset` (`symbol`, `subtitle`, `balance`), `ListBank` / `ListBlockchain` (`name`), `CardSwap` (`rate`, `footnote`) and `CardChecklist` (`title`). Pass them explicitly.
 
 ## [0.3.0] — 2026-10-07
 

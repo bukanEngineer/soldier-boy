@@ -1,0 +1,57 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--list-gap, var(--space-4));
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.list[data-divided] {
+  gap: 0;
+}
+.list[data-divided] > .list-item + .list-item {
+  border-top: 1px solid var(--border);
+}
+
+/* Spacing is tunable per preset via --list-item-gap / --list-item-lead-gap. */
+.list-item {
+  display: flex;
+  align-items: center;
+  gap: var(--list-item-gap, var(--space-4));
+  width: 100%;
+  box-sizing: border-box;
+  min-width: 0;
+}
+.list-item__lead {
+  display: flex;
+  align-items: center;
+  gap: var(--list-item-lead-gap, var(--space-3));
+  flex: 1 0 0;
+  min-width: 0;
+}
+.list-item__leading {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+.list-item__main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+}
+.list-item__title {
+  font: var(--body-bold-medium);
+  color: var(--text-primary);
+  word-break: break-word;
+}
+.list-item__description {
+  font: var(--body-medium);
+  color: var(--text-secondary);
+  word-break: break-word;
+}
+.list-item__trailing {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}

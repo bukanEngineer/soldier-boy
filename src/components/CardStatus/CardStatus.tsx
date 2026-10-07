@@ -2,6 +2,7 @@ import React from "react";
 import { StatusIcon } from "../StatusIcon/StatusIcon";
 import { Icon } from "../Icon/Icon";
 import { LinkButton } from "../LinkButton/LinkButton";
+import { Card } from "../Card/Card";
 import { cn } from "../../lib/cn";
 import "./CardStatus.css";
 
@@ -40,7 +41,7 @@ export function CardStatus({
 }: CardStatusProps) {
   return (
     <div className={cn("card-status", className)} {...rest}>
-      <section className="card-status__card">
+      <Card shadow={2} className="card-status__card">
         <header className="card-status__head">
           <StatusIcon variant={status} icon={statusIcon} size={36} />
           {title && <h3 className="card-status__title">{title}</h3>}
@@ -74,7 +75,7 @@ export function CardStatus({
             </div>
           </div>
         )}
-      </section>
+      </Card>
 
       {footerLink && (
         <LinkButton trailingIcon="arrow_forward" onClick={footerLink.onClick}>

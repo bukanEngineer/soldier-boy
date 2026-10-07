@@ -1,6 +1,7 @@
 import React from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { ListBlockchain } from "./ListBlockchain";
+import { List as ListGroup } from "../List/List";
 
 const ChainIcon = ({
   label = "Ξ",
@@ -47,7 +48,7 @@ const meta: Meta<typeof ListBlockchain> = {
   },
   decorators: [
     (Story) => (
-      <div style={{ maxWidth: 400, border: "1px solid var(--border)", borderRadius: 8 }}>
+      <div style={{ maxWidth: 400 }}>
         <Story />
       </div>
     ),
@@ -70,14 +71,7 @@ export const Verify: Story = {
 
 export const List: Story = {
   render: () => (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        border: "1px solid var(--border)",
-        borderRadius: 8,
-      }}
-    >
+    <ListGroup divided>
       <ListBlockchain
         variant="verifiedPrivateWallet"
         name="Metamask"
@@ -88,6 +82,6 @@ export const List: Story = {
       <ListBlockchain variant="verifiedCustodial" name="Wallet 3" address={ADDRESS} icon={<ChainIcon />} />
       <ListBlockchain variant="pending" name="Wallet 2" address={ADDRESS} icon={<ChainIcon />} />
       <ListBlockchain variant="verify" name="Wallet 3" address={ADDRESS} icon={<ChainIcon />} />
-    </div>
+    </ListGroup>
   ),
 };

@@ -1,6 +1,7 @@
 import React from "react";
 import { SelectionBox } from "../SelectionBox/SelectionBox";
 import { Radio } from "../Radio/Radio";
+import { Card } from "../Card/Card";
 import { cn } from "../../lib/cn";
 import "./CardSteps.css";
 
@@ -20,7 +21,7 @@ export function CardSteps({
   ...rest
 }: CardStepsProps) {
   return (
-    <section className={cn("card-steps", className)} {...rest}>
+    <Card className={cn("card-steps", className)} {...rest}>
       <div className="card-steps__head">
         <span className="card-steps__counter num">{step}</span>
         {title != null && <p className="card-steps__title">{title}</p>}
@@ -31,7 +32,7 @@ export function CardSteps({
           {helperText && <p className="card-steps__helper">{helperText}</p>}
         </div>
       )}
-    </section>
+    </Card>
   );
 }
 

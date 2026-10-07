@@ -1,6 +1,8 @@
 import React from "react";
 import { Icon } from "../Icon/Icon";
 import { LinkButton } from "../LinkButton/LinkButton";
+import { Card } from "../Card/Card";
+import { List, ListItem } from "../List/List";
 import { cn } from "../../lib/cn";
 import "./CardChecklist.css";
 
@@ -28,7 +30,7 @@ export type CardChecklistProps = Omit<React.ComponentProps<"section">, "title"> 
 
 /** Onboarding checklist card with tabs and progress. */
 export function CardChecklist({
-  title = "Start your journey with StraitsX",
+  title,
   tabs = [],
   active,
   onTabChange,
@@ -38,8 +40,8 @@ export function CardChecklist({
   ...rest
 }: CardChecklistProps) {
   return (
-    <section className={cn("card-checklist", className)} {...rest}>
-      <h3 className="card-checklist__title">{title}</h3>
+    <Card className={cn("card-checklist", className)} {...rest}>
+      {title != null && <h3 className="card-checklist__title">{title}</h3>}
 
       {tabs.length > 0 && (
         <div className="card-checklist__tabs" role="tablist">
@@ -69,35 +71,38 @@ export function CardChecklist({
         <span className="card-checklist__progress-pct num">{progress}%</span>
       </div>
 
-      <ul className="card-checklist__list">
+      <List className="card-checklist__list">
         {items.map((item, i) => (
-          <li
+          <ListItem
             key={String(item.title) || i}
             className="card-checklist__item"
             data-active={item.status === "active" || undefined}
             data-status={item.status || undefined}
-          >
-            <ChecklistMark status={item.status} />
-            <div className="card-checklist__item-body">
-              <p className="card-checklist__item-title">{item.title}</p>
-              {item.description && (
-                <p className="card-checklist__item-desc">{item.description}</p>
-              )}
-              {item.linkText && (
-                <LinkButton size="sm" trailingIcon="arrow_forward" onClick={item.onLink}>
-                  {item.linkText}
-                </LinkButton>
-              )}
-            </div>
-            <Icon
-              name={item.status === "locked" ? "lock" : "chevron_right"}
-              size={20}
-              className="card-checklist__item-trailing"
-            />
-          </li>
+            leading={<ChecklistMark status={item.status} />}
+            title={item.title}
+            description={
+              item.description || item.linkText ? (
+                <span className="card-checklist__item-details">
+                  {item.description && <span>{item.description}</span>}
+                  {item.linkText && (
+                    <LinkButton size="sm" trailingIcon="arrow_forward" onClick={item.onLink}>
+                      {item.linkText}
+                    </LinkButton>
+                  )}
+                </span>
+              ) : undefined
+            }
+            trailing={
+              <Icon
+                name={item.status === "locked" ? "lock" : "chevron_right"}
+                size={20}
+                className="card-checklist__item-trailing"
+              />
+            }
+          />
         ))}
-      </ul>
-    </section>
+      </List>
+    </Card>
   );
 }
 

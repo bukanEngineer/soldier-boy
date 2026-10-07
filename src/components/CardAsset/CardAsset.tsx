@@ -1,6 +1,8 @@
 import React from "react";
 import { Icon } from "../Icon/Icon";
-import { IconButton } from "../IconButton/IconButton";
+import { Card } from "../Card/Card";
+import { List } from "../List/List";
+import { ListAsset } from "../ListAsset/ListAsset";
 import { cn } from "../../lib/cn";
 import "./CardAsset.css";
 
@@ -39,7 +41,7 @@ export function CardAsset({
   ...rest
 }: CardAssetProps) {
   return (
-    <section className={cn("card-asset", className)} {...rest}>
+    <Card className={cn("card-asset", className)} {...rest}>
       <header className="card-asset__header">
         <div className="card-asset__title">
           <span>{title}</span>
@@ -63,64 +65,32 @@ export function CardAsset({
         </div>
       )}
 
-      <ul className="card-asset__list">
-        {assets.map((a, i) => (
-          <li key={a.symbol || i} className="card-asset__row">
-            <div className="card-asset__coin">
-              <Coin logo={a.logo} symbol={a.symbol} />
-              <div className="card-asset__currency">
-                <span className="card-asset__symbol">{a.symbol}</span>
-                {a.subtitle && <span className="card-asset__subtitle">{a.subtitle}</span>}
-              </div>
-            </div>
-
-            <div className="card-asset__balance">
-              <span className="card-asset__amount num">{a.balance}</span>
-              {a.fiat && <span className="card-asset__fiat">{a.fiat}</span>}
-            </div>
-
-            {a.networks && a.networks.length > 0 && (
-              <div className="card-asset__networks">
-                {a.networks.slice(0, 4).map((n, j) => (
-                  <Network key={n.name || j} logo={n.logo} name={n.name} />
-                ))}
-                {a.networks.length > 4 && (
-                  <span className="card-asset__networks-more">+{a.networks.length - 4}</span>
-                )}
-              </div>
-            )}
-
-            <div className="card-asset__actions">
-              <IconButton
-                variant="secondary"
-                size="sm"
-                icon="add"
-                label="Add"
-                onClick={onAdd ? () => onAdd(a) : undefined}
-              />
-              <IconButton
-                variant="secondary"
-                size="sm"
-                icon="arrow_outward"
-                label="Send"
-                onClick={onSend ? () => onSend(a) : undefined}
-              />
-            </div>
-          </li>
-        ))}
-      </ul>
-    </section>
+      <List className="card-asset__list">
+        {assets.map((a, i) => {
+          const networks = a.networks ?? [];
+          return (
+            <ListAsset
+              key={a.symbol || i}
+              symbol={a.symbol}
+              subtitle={a.subtitle}
+              icon={a.logo}
+              balance={a.balance}
+              balanceSub={a.fiat}
+              networks={networks.slice(0, MAX_NETWORKS).map((n, j) => (
+                <Network key={n.name || j} logo={n.logo} name={n.name} />
+              ))}
+              networkOverflow={Math.max(0, networks.length - MAX_NETWORKS)}
+              onAdd={onAdd ? () => onAdd(a) : undefined}
+              onSend={onSend ? () => onSend(a) : undefined}
+            />
+          );
+        })}
+      </List>
+    </Card>
   );
 }
 
-function Coin({ logo, symbol }: { logo?: React.ReactNode; symbol?: string }) {
-  if (logo) return <span className="card-asset__coin-logo">{logo}</span>;
-  return (
-    <span className="card-asset__coin-logo card-asset__coin-logo--placeholder" aria-hidden="true">
-      {(symbol || "?").slice(0, 2)}
-    </span>
-  );
-}
+const MAX_NETWORKS = 4;
 
 function Network({ logo, name }: { logo?: React.ReactNode; name?: string }) {
   return (

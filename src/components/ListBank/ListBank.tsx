@@ -1,12 +1,13 @@
 import React from "react";
 import { cn } from "../../lib/cn";
+import { ListItem } from "../List/List";
 import { Tag } from "../Tag/Tag";
 import { LinkButton } from "../LinkButton/LinkButton";
 import "./ListBank.css";
 
 export type ListBankVariant = "unverified" | "verified" | "rejected";
 
-export type ListBankProps = Omit<React.ComponentProps<"div">, "children"> & {
+export type ListBankProps = Omit<React.ComponentProps<"div">, "children" | "title"> & {
   name?: React.ReactNode;
   account?: React.ReactNode;
   swift?: React.ReactNode;
@@ -16,9 +17,9 @@ export type ListBankProps = Omit<React.ComponentProps<"div">, "children"> & {
   actionLabel?: string;
 };
 
-/** Bank account row with verify / reject states. */
+/** Bank account row with verify / reject states. Built on `ListItem`. */
 export function ListBank({
-  name = "John Doe",
+  name,
   account,
   swift,
   logo,
@@ -31,27 +32,36 @@ export function ListBank({
   const isVerified = variant === "verified";
   const isRejected = variant === "rejected";
   const label = actionLabel || (isRejected ? "Resubmit" : "Verify");
+  const showSwift = isVerified && swift;
+  const hasDetails = account || showSwift || isRejected;
 
   return (
-    <div className={cn("list-bank", className)} data-variant={variant} {...rest}>
-      <div className="list-bank__main">
-        {logo != null && <span className="list-bank__logo">{logo}</span>}
-        <div className="list-bank__text">
-          <span className="list-bank__name">{name}</span>
-          {account && <span className="list-bank__sub">{account}</span>}
-          {isVerified && swift && <span className="list-bank__sub">{swift}</span>}
-          {isRejected && (
-            <Tag tone="critical" className="list-bank__tag">
-              Rejected
-            </Tag>
-          )}
-        </div>
-      </div>
-      {!isVerified && (
-        <LinkButton size="md" onClick={onAction}>
-          {label}
-        </LinkButton>
-      )}
-    </div>
+    <ListItem
+      className={cn("list-bank", className)}
+      data-variant={variant}
+      leading={logo != null ? <span className="list-bank__logo">{logo}</span> : undefined}
+      title={name}
+      description={
+        hasDetails ? (
+          <span className="list-bank__details">
+            {account && <span>{account}</span>}
+            {showSwift && <span>{swift}</span>}
+            {isRejected && (
+              <Tag tone="critical" className="list-bank__tag">
+                Rejected
+              </Tag>
+            )}
+          </span>
+        ) : undefined
+      }
+      trailing={
+        !isVerified ? (
+          <LinkButton size="md" onClick={onAction}>
+            {label}
+          </LinkButton>
+        ) : undefined
+      }
+      {...rest}
+    />
   );
 }

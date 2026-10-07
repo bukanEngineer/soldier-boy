@@ -310,6 +310,7 @@ export function BusinessDashboard() {
                 onCurrencyChange: setSwapToCurrency,
               }}
               rate={`1 ${swapToCurrency} ≈ 0.7233 ${swapFromCurrency}`}
+              footnote="No fees · Rate refreshes every minute."
             />
             <div className="ex-bd__otc">
               <OtcBanner />

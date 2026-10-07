@@ -25,18 +25,9 @@
 .card__content {
   margin-top: 12px;
 }
-.card__header + .card__content {
-  margin-top: 12px;
-}
 .card__footer {
   display: flex;
   align-items: center;
   gap: 8px;
   margin-top: 16px;
-}
-/* Legacy alias kept for any leftover class usage during migration */
-.card__body {
-  font: var(--body-medium);
-  color: var(--text-secondary);
-  margin: 0;
 }

@@ -2,6 +2,7 @@ import React from "react";
 import { Icon } from "../Icon/Icon";
 import { Tag } from "../Tag/Tag";
 import { Button } from "../Button/Button";
+import { Card } from "../Card/Card";
 import { cn } from "../../lib/cn";
 import "./CardAttribute.css";
 
@@ -38,7 +39,7 @@ export function CardAttribute({
   ...rest
 }: CardAttributeProps) {
   return (
-    <section className={cn("card-attribute", className)} {...rest}>
+    <Card className={cn("card-attribute", className)} {...rest}>
       <header className="card-attribute__head">
         <h3 className="card-attribute__title">{title}</h3>
         {status && <Tag tone={status.tone || "positive"}>{status.label}</Tag>}
@@ -93,6 +94,6 @@ export function CardAttribute({
           </div>
         </>
       )}
-    </section>
+    </Card>
   );
 }

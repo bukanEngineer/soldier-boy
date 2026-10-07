@@ -1,20 +1,8 @@
 /* ListAsset — Figma: List / Asset (5554:8405) */
 .list-asset {
-  display: flex;
-  align-items: center;
-  gap: var(--space-4);
-  width: 100%;
-  box-sizing: border-box;
   background: var(--surface);
 }
 
-.list-asset__lead {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  flex: 1 0 0;
-  min-width: 0;
-}
 .list-asset__icon {
   display: inline-flex;
   align-items: center;
@@ -30,22 +18,9 @@
 }
 .list-asset__icon > * { width: 100%; height: 100%; }
 
-.list-asset__currency {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  min-width: 0;
-}
-.list-asset__symbol {
-  font: var(--title-small);
-  color: var(--text-primary);
-  word-break: break-word;
-}
-.list-asset__subtitle {
-  font: var(--body-bold-medium);
-  color: var(--text-secondary);
-  word-break: break-word;
-}
+/* Typography on the ListItem title / description slots */
+.list-asset .list-item__title { font: var(--title-small); }
+.list-asset .list-item__description { font: var(--body-bold-medium); }
 
 .list-asset__balance {
   display: flex;
@@ -64,34 +39,14 @@
   color: var(--text-secondary);
 }
 
-.list-asset__networks { flex-shrink: 0; }
+/* Equal share with lead / balance so columns line up across rows */
+.list-asset__networks { flex: 1 0 0; min-width: 0; }
 
 .list-asset__actions {
   display: flex;
   align-items: center;
   gap: var(--space-4);
-  flex-shrink: 0;
 }
-.list-asset__icon-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-full);
-  background: transparent;
-  color: var(--text-primary);
-  cursor: pointer;
-  flex-shrink: 0;
-  transition: background var(--dur-1) var(--ease);
-}
-.list-asset__icon-btn:hover { background: var(--surface-hovered); }
-.list-asset__icon-btn:focus-visible {
-  outline: 2px solid var(--link);
-  outline-offset: 2px;
-}
-.list-asset__icon-btn .material-symbols-rounded { font-size: 20px; }
 
 .list-asset__chevron {
   font-size: 16px;
@@ -100,6 +55,5 @@
 }
 
 /* ── Mobile ── */
-.list-asset--mobile .list-asset__symbol { font: var(--title-small); }
 .list-asset--mobile .list-asset__balance { align-items: flex-end; }
 .list-asset--mobile .list-asset__balance-value { font: var(--title-small); }
