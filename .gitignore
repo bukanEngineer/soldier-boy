@@ -21,6 +21,13 @@ pnpm-debug.log*
 *.swp
 .DS_Store
 
+# Local agent / IDE tooling (not part of the published package)
+.claude/
+.cursor/
+.conductor/
+AGENTS.md
+skills-lock.json
+
 # Source materials (kept locally, not version-controlled — fonts already in src/fonts/)
 uploads/
 

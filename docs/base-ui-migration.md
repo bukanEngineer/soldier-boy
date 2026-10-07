@@ -37,7 +37,6 @@ Status legend: `[ ]` todo, `[~]` in progress, `[x]` done. Update this file as wo
 - [x] Add `isolation: isolate` on the app root and `body { position: relative }` to `global.css` per Base UI setup docs.
 - [x] Reference implementations instead of a template: `src/components/{Button,Tabs,Field}` (component, CSS with data-attribute selectors, TS story, TS test).
 - [x] Story-only states use `storybook-addon-pseudo-states` (`parameters.pseudo`, see `Button.stories.tsx` `States`). Removed from `Button.css`; remaining components are removed as they migrate.
-- [x] Update `AGENTS.md` with a pointer to this file.
 - [x] Deleted stale `src/COMPONENT_AUDIT.md` (wrong repo / outdated counts). `docs/base-ui-migration.md` is the status source of truth.
 
 ## Phase 1: behavior-heavy primitives (highest value, known bugs)
