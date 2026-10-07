@@ -1,5 +1,5 @@
 .tooltip__positioner {
-  z-index: 50;
+  z-index: var(--z-popup, 50);
 }
 .tooltip__popup {
   position: relative;

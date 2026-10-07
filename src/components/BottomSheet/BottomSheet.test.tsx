@@ -91,4 +91,47 @@ describe("BottomSheet", () => {
     await screen.findByRole("dialog");
     expect(screen.getByRole("button", { name: "Close" })).toHaveClass("bsheet__close");
   });
+
+  it("icon close button is a small IconButton (touch target is extended in CSS)", async () => {
+    render(<Demo defaultOpen />);
+    await screen.findByRole("dialog");
+    expect(screen.getByRole("button", { name: "Close" })).toHaveClass("icon-btn", "icon-btn--sm");
+  });
+
+  it("text close renders children without the icon button", async () => {
+    render(<Demo defaultOpen />);
+    await screen.findByRole("dialog");
+    expect(screen.getByRole("button", { name: "Done" })).toHaveClass("bsheet__close-text");
+    expect(screen.getByRole("button", { name: "Done" })).not.toHaveClass("icon-btn");
+  });
+
+  it("marks the panel when snapPoints are set", async () => {
+    const { unmount } = render(<Demo defaultOpen snapPoints={[0.5, 1]} />);
+    expect(await screen.findByTestId("sheet")).toHaveAttribute("data-snap-points", "true");
+    unmount();
+    render(<Demo defaultOpen />);
+    expect(await screen.findByTestId("sheet")).not.toHaveAttribute("data-snap-points");
+  });
+
+  it("exposes the keyboard inset variable on the viewport by default", async () => {
+    render(<Demo defaultOpen />);
+    const sheet = await screen.findByTestId("sheet");
+    await waitFor(() =>
+      expect(sheet.parentElement?.style.getPropertyValue("--drawer-keyboard-inset")).toBe("0px"),
+    );
+  });
+
+  it("does not wire the keyboard provider when keyboardAware is false", async () => {
+    render(
+      <BottomSheet.Root defaultOpen>
+        <BottomSheet.Popup keyboardAware={false} data-testid="sheet">
+          <BottomSheet.Title>Static</BottomSheet.Title>
+        </BottomSheet.Popup>
+      </BottomSheet.Root>,
+    );
+    const sheet = await screen.findByTestId("sheet");
+    // The provider sets the variable in an effect; give it time to (not) run.
+    await new Promise((resolve) => setTimeout(resolve, 50));
+    expect(sheet.parentElement?.style.getPropertyValue("--drawer-keyboard-inset")).toBe("");
+  });
 });

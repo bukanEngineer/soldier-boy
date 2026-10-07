@@ -13,6 +13,7 @@ export const iconButtonClasses = {
     lg: "icon-btn--lg",
     sm: "icon-btn--sm",
   },
+  touchTarget: "icon-btn--touch",
 } as const;
 
 export type IconButtonVariant = keyof typeof iconButtonClasses.variant;

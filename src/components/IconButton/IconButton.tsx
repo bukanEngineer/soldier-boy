@@ -20,6 +20,11 @@ export type IconButtonProps = Omit<BaseButton.Props, "children"> & {
   size?: IconButtonSize;
   /** Accessible label (required for icon-only buttons) */
   label: string;
+  /**
+   * Extend the tap area to 48x48 without changing the visual size or layout.
+   * Use for small buttons on touch screens; `lg` is already 48px, so it has no effect there.
+   */
+  touchTarget?: boolean;
 };
 
 /**
@@ -34,6 +39,7 @@ export function IconButton({
   shape = "circle",
   size = "lg",
   label,
+  touchTarget = false,
   type = "button",
   className,
   ...props
@@ -48,6 +54,7 @@ export function IconButton({
           iconButtonClasses.variant[variant],
           iconButtonClasses.shape[shape],
           iconButtonClasses.size[size],
+          touchTarget && iconButtonClasses.touchTarget,
         ],
         className,
       )}

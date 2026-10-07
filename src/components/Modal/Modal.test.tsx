@@ -147,4 +147,15 @@ describe("Modal", () => {
     expect(popupRef.current).toBe(screen.getByRole("dialog"));
     expect(bodyRef.current).toBeInstanceOf(HTMLDivElement);
   });
+
+  it("icon close button is a small IconButton with a 48px touch target", async () => {
+    render(<Demo defaultOpen />);
+    await screen.findByRole("dialog");
+    expect(screen.getByRole("button", { name: "Close" })).toHaveClass(
+      "icon-btn",
+      "icon-btn--sm",
+      "icon-btn--touch",
+      "modal__close",
+    );
+  });
 });

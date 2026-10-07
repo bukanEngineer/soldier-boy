@@ -211,6 +211,12 @@
   --dur-2: 200ms;
   --dur-3: 320ms;
 
+  /* ── Layering ──
+   * Popups (select, menu, popover, tooltip) must sit above modals and sheets,
+   * otherwise a dropdown opened inside a sheet renders behind it. */
+  --z-overlay: 1100;   /* modal, bottom sheet */
+  --z-popup:   1300;   /* select, menu, popover, tooltip */
+  --z-toast:   1400;
 }
 
 /* ───── Element defaults ───── */

@@ -19,6 +19,15 @@
 .icon-btn--lg .material-symbols-rounded { font-size: 24px; }
 .icon-btn--sm .material-symbols-rounded { font-size: 20px; }
 
+/* touch target: the small button keeps its 36px look, the ::after grows the tap area to
+ * 48x48 (6px each side) without taking up layout space. */
+.icon-btn--touch { position: relative; }
+.icon-btn--sm.icon-btn--touch::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+}
+
 /* shapes */
 .icon-btn--circle { border-radius: var(--radius-full); }
 .icon-btn--square { border-radius: var(--radius-md); }

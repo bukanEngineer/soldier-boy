@@ -1,42 +1,45 @@
 import React from "react";
 import { Drawer as BaseDrawer } from "@base-ui/react/drawer";
 import { cn, withClass } from "../../lib/cn";
+import { LIGHT_DISMISS_REASONS, guardLightDismiss } from "../../lib/dismissable";
+import { IconButton } from "../IconButton";
 import "./BottomSheet.css";
 
-/** Close reasons that count as "light dismiss" (blocked when `dismissable` is false). */
-const LIGHT_DISMISS_REASONS = new Set<string>([
-  "escape-key",
-  "outside-press",
-  "focus-out",
+/** Light dismiss for a sheet also includes swipe-down and the Android back gesture. */
+const SHEET_DISMISS_REASONS: ReadonlySet<string> = new Set([
+  ...LIGHT_DISMISS_REASONS,
   "close-watcher",
   "swipe",
 ]);
 
-export type BottomSheetRootProps = BaseDrawer.Root.Props & {
+/** Lets the popup know the sheet has detents, so it can size itself for them. */
+const SnapPointsContext = React.createContext(false);
+
+export type BottomSheetRootProps = Omit<BaseDrawer.Root.Props, "swipeDirection"> & {
   /** Allow closing via backdrop click, Escape and swipe down. Close buttons still work. */
   dismissable?: boolean;
 };
 
+/**
+ * `snapPoints` gives the sheet detents: fractions of the viewport height
+ * (`0.5`), pixels (`320`) or CSS lengths (`"20rem"`), e.g. `[0.5, 1]` for
+ * half height that can be dragged up to full height.
+ */
 function BottomSheetRoot({
   dismissable = true,
   disablePointerDismissal,
   onOpenChange,
   ...props
 }: BottomSheetRootProps) {
-  const handleOpenChange: BaseDrawer.Root.Props["onOpenChange"] = (open, details) => {
-    if (!dismissable && !open && LIGHT_DISMISS_REASONS.has(details.reason)) {
-      details.cancel();
-      return;
-    }
-    onOpenChange?.(open, details);
-  };
   return (
-    <BaseDrawer.Root
-      swipeDirection="down"
-      disablePointerDismissal={disablePointerDismissal ?? !dismissable}
-      onOpenChange={handleOpenChange}
-      {...props}
-    />
+    <SnapPointsContext.Provider value={Boolean(props.snapPoints?.length)}>
+      <BaseDrawer.Root
+        swipeDirection="down"
+        disablePointerDismissal={disablePointerDismissal ?? !dismissable}
+        onOpenChange={guardLightDismiss(dismissable, onOpenChange, SHEET_DISMISS_REASONS)}
+        {...props}
+      />
+    </SnapPointsContext.Provider>
   );
 }
 
@@ -49,20 +52,41 @@ function BottomSheetTrigger(props: BottomSheetTriggerProps) {
 export type BottomSheetPopupProps = BaseDrawer.Popup.Props & {
   /** Props for the portal container */
   portalProps?: BaseDrawer.Portal.Props;
+  /**
+   * Lift the sheet above the on-screen keyboard and scroll the focused field
+   * into view. Turn off for sheets with no text input.
+   */
+  keyboardAware?: boolean;
 };
 
 /** Portal + backdrop + bottom-anchored viewport + the sheet panel with its drag handle. */
-function BottomSheetPopup({ portalProps, className, children, ...props }: BottomSheetPopupProps) {
-  return (
+function BottomSheetPopup({
+  portalProps,
+  keyboardAware = true,
+  className,
+  children,
+  ...props
+}: BottomSheetPopupProps) {
+  const hasSnapPoints = React.useContext(SnapPointsContext);
+  const portal = (
     <BaseDrawer.Portal {...portalProps}>
       <BaseDrawer.Backdrop className="bsheet-backdrop" />
       <BaseDrawer.Viewport className="bsheet-viewport">
-        <BaseDrawer.Popup className={withClass("bsheet", className)} {...props}>
+        <BaseDrawer.Popup
+          data-snap-points={hasSnapPoints || undefined}
+          className={withClass("bsheet", className)}
+          {...props}
+        >
           <div className="bsheet__handle" aria-hidden="true" />
           {children}
         </BaseDrawer.Popup>
       </BaseDrawer.Viewport>
     </BaseDrawer.Portal>
+  );
+  return keyboardAware ? (
+    <BaseDrawer.VirtualKeyboardProvider>{portal}</BaseDrawer.VirtualKeyboardProvider>
+  ) : (
+    portal
   );
 }
 
@@ -89,8 +113,11 @@ function BottomSheetDescription({ className, ...props }: BottomSheetDescriptionP
 export type BottomSheetCloseProps = BaseDrawer.Close.Props;
 
 /**
- * Icon close button. Pass `render` to turn another element into a close
- * action instead, e.g. `<BottomSheet.Close render={<Button />}>Done</BottomSheet.Close>`.
+ * Icon close button: a small (36px) `IconButton` with a 48px touch target
+ * (`touchTarget`), so the header stays compact without a tiny tap area.
+ * Pass `render` to turn another element into a close action instead, e.g.
+ * `<BottomSheet.Close render={<Button />}>Done</BottomSheet.Close>`. With only
+ * `children` it renders a plain text close action.
  */
 function BottomSheetClose({ className, render, children, ...props }: BottomSheetCloseProps) {
   if (render) {
@@ -100,14 +127,19 @@ function BottomSheetClose({ className, render, children, ...props }: BottomSheet
       </BaseDrawer.Close>
     );
   }
+  if (children) {
+    return (
+      <BaseDrawer.Close className={withClass("bsheet__close-text", className)} {...props}>
+        {children}
+      </BaseDrawer.Close>
+    );
+  }
   return (
     <BaseDrawer.Close
-      aria-label={children ? undefined : "Close"}
       className={withClass("bsheet__close", className)}
+      render={<IconButton icon="close" label="Close" variant="tertiary" size="sm" touchTarget />}
       {...props}
-    >
-      {children ?? <span className="material-symbols-rounded" aria-hidden="true">close</span>}
-    </BaseDrawer.Close>
+    />
   );
 }
 

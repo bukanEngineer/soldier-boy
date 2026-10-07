@@ -1,12 +1,18 @@
 /* BottomSheet: Base UI Drawer parts. State comes from Base UI data attributes
- * ([data-starting-style], [data-ending-style], [data-swiping]) and swipe
- * CSS variables (--drawer-swipe-movement-y, --drawer-swipe-progress). */
+ * ([data-starting-style], [data-ending-style], [data-swiping]) and CSS variables
+ * (--drawer-swipe-movement-y, --drawer-swipe-progress, --drawer-snap-point-offset,
+ * --drawer-keyboard-inset).
+ *
+ * Mobile web notes:
+ * - Heights use dvh so the sheet is not cut off by the browser toolbar.
+ * - Bottom padding uses env(safe-area-inset-bottom) (home indicator). It only
+ *   resolves to a non-zero value when the page sets `viewport-fit=cover`. */
 
 .bsheet-backdrop {
   position: fixed;
   inset: 0;
   background: var(--overlay);
-  z-index: 1100;
+  z-index: var(--z-overlay, 1100);
   opacity: calc(1 - var(--drawer-swipe-progress, 0));
   transition: opacity var(--dur-3) var(--ease);
 }
@@ -19,24 +25,36 @@
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  z-index: 1100;
+  /* Lifts the sheet above the on-screen keyboard (set by the keyboard provider). */
+  padding-bottom: var(--drawer-keyboard-inset, 0px);
+  z-index: var(--z-overlay, 1100);
 }
 
 .bsheet {
+  box-sizing: border-box;
   width: 100%;
   max-width: 560px;
   background: var(--surface);
   border-radius: var(--radius-lg) var(--radius-lg) 0 0;
   box-shadow: var(--shadow-3);
   max-height: calc(100vh - 24px);
+  max-height: calc(100dvh - var(--drawer-keyboard-inset, 0px) - 24px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
   display: flex;
   flex-direction: column;
   outline: none;
-  transform: translateY(var(--drawer-swipe-movement-y, 0px));
-  transition: opacity var(--dur-3) var(--ease), transform var(--dur-3) var(--ease);
+  transform: translateY(
+    calc(var(--drawer-snap-point-offset, 0px) + var(--drawer-swipe-movement-y, 0px))
+  );
+  transition: transform var(--dur-3) var(--ease);
 }
-.bsheet[data-starting-style] { opacity: 0; transform: translateY(24px); }
+/* Slides in from, and back out to, the bottom edge like a native sheet. */
+.bsheet[data-starting-style],
 .bsheet[data-ending-style] { transform: translateY(100%); }
+
+/* With detents the panel is as tall as the largest one and is translated down
+ * to show the active detent; the body scrolls inside it. */
+.bsheet[data-snap-points] { height: calc(100vh - 24px); height: calc(100dvh - 24px); }
 
 .bsheet[data-swiping],
 .bsheet-backdrop[data-swiping] { transition-duration: 0ms; }
@@ -58,22 +76,39 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 20px 0;
+  min-height: 36px;
+  /* Right padding is smaller so the 20px close glyph lines up with the 20px content inset. */
+  padding: 0 12px 0 20px;
 }
-.bsheet__title { flex: 1; font: 700 18px/1.3 var(--font-display); color: var(--text-primary); }
+.bsheet__title { flex: 1; font: var(--title-small); color: var(--text-primary); }
 .bsheet__description { margin: 0; font: var(--body-medium); color: var(--text-secondary); }
-.bsheet__close {
+.bsheet__close { flex: 0 0 auto; }
+/* Same 48px tap area as the icon close (36px + 6px each side) without extra layout space. */
+.bsheet__close-text {
+  position: relative;
   flex: 0 0 auto;
+  min-height: 36px;
+  padding: 0 12px;
   background: transparent;
   border: 0;
   cursor: pointer;
   color: var(--text-secondary);
-  padding: 6px;
-  margin: -6px;
-  border-radius: var(--radius-md);
+  font: var(--label-medium);
 }
-.bsheet__close:hover { background: var(--surface-secondary); color: var(--text-primary); }
-.bsheet__body { padding: 16px 20px 24px; overflow-y: auto; font: var(--body-medium); color: var(--text-secondary); }
+.bsheet__close-text::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+}
+.bsheet__body {
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: 16px 20px 24px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  font: var(--body-medium);
+  color: var(--text-secondary);
+}
 .bsheet__foot {
   flex: 0 0 auto;
   display: flex;

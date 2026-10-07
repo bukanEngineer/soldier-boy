@@ -1,5 +1,5 @@
 .menu__positioner {
-  z-index: 60;
+  z-index: var(--z-popup, 60);
   outline: 0;
 }
 .menu__popup {

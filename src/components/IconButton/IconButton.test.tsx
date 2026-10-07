@@ -86,4 +86,11 @@ describe("IconButton", () => {
     await userEvent.keyboard(" ");
     expect(onClick).toHaveBeenCalledTimes(2);
   });
+
+  it("adds the touch-target class only when touchTarget is set", () => {
+    const { rerender } = render(<IconButton {...baseProps} size="sm" />);
+    expect(screen.getByRole("button", { name: "Close" })).not.toHaveClass("icon-btn--touch");
+    rerender(<IconButton {...baseProps} size="sm" touchTarget />);
+    expect(screen.getByRole("button", { name: "Close" })).toHaveClass("icon-btn--sm", "icon-btn--touch");
+  });
 });

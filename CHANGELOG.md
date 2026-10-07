@@ -1,5 +1,25 @@
 # Changelog
 
+## [Unreleased]
+
+### Added
+
+- `ResponsiveSheet`: one parts API that renders a `BottomSheet` below 600px and a `Modal` above (`breakpoint` prop).
+- `BottomSheetSelect` is now exported: single-select list sheet on `OptionList` with optional `searchable`, `description` and an empty state.
+- `BottomSheet` detents via `snapPoints` (e.g. `[0.5, 1]`) and keyboard handling for forms (`keyboardAware`, on by default).
+- Layering tokens `--z-overlay`, `--z-popup`, `--z-toast`.
+- `IconButton` `touchTarget` prop: keeps the small (36px) look and extends the tap area to 48x48 without taking up layout space.
+
+### Changed
+
+- `BottomSheet.Close` is a small (36px) `IconButton` with a 48px touch target; text-only close is `BottomSheet.Close` with children.
+- Mobile web: sheet height uses `dvh`, bottom padding uses `env(safe-area-inset-bottom)` (set `viewport-fit=cover` in your viewport meta tag), the body no longer scroll-chains, and the sheet slides fully in from the bottom without a fade.
+- Select, MultiSelect, Menu, Popover and Tooltip now layer above Modal / BottomSheet, so dropdowns opened inside a sheet are visible. Toasts also layer above them.
+- Bank / Blockchain / Network sheets use listbox semantics (`role="option"`, `aria-selected`) instead of pressed buttons; marks are 24px like `OptionList`.
+- Title uses the `--title-small` type token.
+- `Modal.Close` is now a small `IconButton` (square, tertiary) with a 48px touch target, matching `BottomSheet.Close`. The glyph is the tertiary-button colour instead of `--text-secondary`; text-only `<Modal.Close>Cancel</Modal.Close>` is unstyled apart from inheriting the font.
+- `BottomSheet` no longer accepts `swipeDirection` (it is always `down`).
+
 ## [0.3.0] — 2026-10-07
 
 Breaking Base UI migration. See `docs/migration-0.3.md` for old → new snippets.

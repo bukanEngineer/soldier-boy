@@ -1,40 +1,37 @@
 /* Single-select list inside the BottomSheet shell (Bank / Blockchain / Network). */
 
-.bsheet-select .bsheet__body { padding-left: 0; padding-right: 0; }
+.bsheet-select .bsheet__body { padding-left: 0; padding-right: 0; padding-top: 8px; }
+.bsheet-select__intro { padding: 0 20px; }
+.bsheet-select__search { padding: 8px 20px 0; }
 
-.bsheet-select__list { list-style: none; margin: 0; padding: 0; }
-.bsheet-select__item {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  padding: var(--space-3) var(--space-5);
+/* OptionList ships with card chrome; inside a sheet it should sit flat. */
+.bsheet-select .option-list {
   background: transparent;
-  border: 0;
-  text-align: left;
-  cursor: pointer;
+  border-radius: 0;
+  box-shadow: none;
 }
-.bsheet-select__item:hover { background: var(--surface-hovered); }
-.bsheet-select__item[data-selected] { background: var(--surface-secondary); }
-
-.bsheet-select__mark {
-  flex: 0 0 auto;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: var(--radius-full);
-  background: var(--surface-secondary);
-  color: var(--text-primary);
-  font: var(--label-small);
-  overflow: hidden;
+.bsheet-select .option-list__row {
+  padding: var(--space-3) var(--space-5);
+  gap: var(--space-3);
+  min-height: 56px;
+  -webkit-tap-highlight-color: transparent;
 }
-.bsheet-select__mark > * { width: 100%; height: 100%; }
+.bsheet-select .option-list__row:active:not([data-disabled]) { background: var(--surface-hovered); }
 
-.bsheet-select__text { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
-.bsheet-select__name { font: var(--label-medium); color: var(--text-primary); }
-.bsheet-select__desc { font: var(--body-small); color: var(--text-secondary); }
+/* Touch screens have no real hover: don't leave a row highlighted after a tap. */
+@media (hover: none) {
+  .bsheet-select .option-list__row:hover:not(:active):not([data-selected]):not([data-disabled]) {
+    background: transparent;
+  }
+}
 
-.bsheet-select__check { flex: 0 0 auto; color: var(--text-secondary); font-size: 22px; }
-.bsheet-select__item[data-selected] .bsheet-select__check { color: var(--status-positive); }
+.bsheet-select__check { color: var(--text-secondary); font-size: 22px; }
+.bsheet-select .option-list__row[data-selected] .bsheet-select__check { color: var(--status-positive); }
+
+.bsheet-select__empty {
+  margin: 0;
+  padding: var(--space-6) var(--space-5);
+  text-align: center;
+  font: var(--body-medium);
+  color: var(--text-secondary);
+}

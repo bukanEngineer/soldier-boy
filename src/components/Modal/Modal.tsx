@@ -1,10 +1,9 @@
 import React from "react";
 import { Dialog as BaseDialog } from "@base-ui/react/dialog";
 import { cn, withClass } from "../../lib/cn";
+import { guardLightDismiss } from "../../lib/dismissable";
+import { IconButton } from "../IconButton";
 import "./Modal.css";
-
-/** Close reasons that count as "light dismiss" (blocked when `dismissable` is false). */
-const LIGHT_DISMISS_REASONS = new Set<string>(["escape-key", "outside-press", "focus-out"]);
 
 export type ModalRootProps = BaseDialog.Root.Props & {
   /** Allow closing via backdrop click / Escape. Close buttons still work. */
@@ -17,17 +16,10 @@ function ModalRoot({
   onOpenChange,
   ...props
 }: ModalRootProps) {
-  const handleOpenChange: BaseDialog.Root.Props["onOpenChange"] = (open, details) => {
-    if (!dismissable && !open && LIGHT_DISMISS_REASONS.has(details.reason)) {
-      details.cancel();
-      return;
-    }
-    onOpenChange?.(open, details);
-  };
   return (
     <BaseDialog.Root
       disablePointerDismissal={disablePointerDismissal ?? !dismissable}
-      onOpenChange={handleOpenChange}
+      onOpenChange={guardLightDismiss(dismissable, onOpenChange)}
       {...props}
     />
   );
@@ -87,21 +79,30 @@ function ModalDescription({ className, ...props }: ModalDescriptionProps) {
 export type ModalCloseProps = BaseDialog.Close.Props;
 
 /**
- * Icon close button. Pass `render` to turn another element into a close
- * action instead, e.g. `<Modal.Close render={<Button />}>Cancel</Modal.Close>`.
+ * Icon close button: a small `IconButton` with a 48px touch target. Pass
+ * `render` to turn another element into a close action instead, e.g.
+ * `<Modal.Close render={<Button />}>Cancel</Modal.Close>`. With only
+ * `children` it renders a plain close action around them.
  */
 function ModalClose({ className, render, children, ...props }: ModalCloseProps) {
   if (render) {
     return <BaseDialog.Close render={render} className={className} {...props}>{children}</BaseDialog.Close>;
   }
+  if (children) {
+    return (
+      <BaseDialog.Close className={withClass("modal__close-text", className)} {...props}>
+        {children}
+      </BaseDialog.Close>
+    );
+  }
   return (
     <BaseDialog.Close
-      aria-label={children ? undefined : "Close"}
       className={withClass("modal__close", className)}
+      render={
+        <IconButton icon="close" label="Close" variant="tertiary" shape="square" size="sm" touchTarget />
+      }
       {...props}
-    >
-      {children ?? <span className="material-symbols-rounded" aria-hidden="true">close</span>}
-    </BaseDialog.Close>
+    />
   );
 }
 

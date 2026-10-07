@@ -5,7 +5,7 @@
   position: fixed;
   inset: 0;
   background: var(--overlay);
-  z-index: 1100;
+  z-index: var(--z-overlay, 1100);
   transition: opacity var(--dur-3) var(--ease);
 }
 .modal-backdrop[data-starting-style],
@@ -18,7 +18,7 @@
   align-items: center;
   justify-content: center;
   padding: 24px;
-  z-index: 1100;
+  z-index: var(--z-overlay, 1100);
 }
 
 .modal {
@@ -85,17 +85,20 @@
 /* Below media (new-feature), the title row gets top padding too. */
 .modal__media + .modal__head[data-variant="centered"] { padding-top: 16px; }
 
+/* Small IconButton (36px, 20px glyph): negative margins keep the header row compact and
+ * line the glyph up with the 20px content inset. */
 .modal__close {
+  flex: 0 0 auto;
+  margin: -6px -8px -6px 0;
+}
+.modal__close-text {
   flex: 0 0 auto;
   background: transparent;
   border: 0;
   cursor: pointer;
   color: var(--text-secondary);
-  margin: -8px -8px -8px 0;
-  padding: 8px;
-  border-radius: var(--radius-md);
+  font: inherit;
 }
-.modal__close:hover { background: var(--surface-secondary); color: var(--text-primary); }
 
 .modal__illustration {
   display: flex;

@@ -10,3 +10,5 @@ export type {
   BottomSheetBodyProps,
   BottomSheetFooterProps,
 } from "./BottomSheet";
+export { BottomSheetSelect } from "./BottomSheetSelect";
+export type { BottomSheetSelectProps, BottomSheetSelectItem } from "./BottomSheetSelect";

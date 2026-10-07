@@ -2,11 +2,18 @@ import React from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { BottomSheet } from "./BottomSheet";
 import { Button } from "../Button";
+import { Field } from "../Field/Field";
+import { Input } from "../Input";
+import { Select } from "../Select";
 
 const meta: Meta<typeof BottomSheet.Root> = {
   title: "P1 Components/Bottom Sheet",
   component: BottomSheet.Root,
-  parameters: { layout: "centered" },
+  parameters: {
+    layout: "centered",
+    // Sheets are a phone pattern: Chromatic should capture them at phone width too.
+    chromatic: { viewports: [360, 1024] },
+  },
   argTypes: {
     dismissable: { control: "boolean" },
   },
@@ -118,4 +125,129 @@ export const Controlled: Story = {
       </>
     );
   },
+};
+
+/** Detents: opens at half height; drag the handle area up for full height, down to dismiss. */
+export const SnapPoints: Story = {
+  render: (args) => (
+    <BottomSheet.Root {...args} snapPoints={[0.5, 1]}>
+      <BottomSheet.Trigger render={<Button />}>Open with detents</BottomSheet.Trigger>
+      <BottomSheet.Popup>
+        <BottomSheet.Header>
+          <BottomSheet.Title>Recent recipients</BottomSheet.Title>
+          <BottomSheet.Close />
+        </BottomSheet.Header>
+        <BottomSheet.Body>
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            {Array.from({ length: 14 }, (_, i) => (
+              <Button key={i} variant="secondary">
+                Recipient {i + 1}
+              </Button>
+            ))}
+          </div>
+        </BottomSheet.Body>
+      </BottomSheet.Popup>
+    </BottomSheet.Root>
+  ),
+};
+
+/** Long content scrolls inside the body; header and footer stay put. */
+export const LongContent: Story = {
+  render: (args) => (
+    <BottomSheet.Root {...args}>
+      <BottomSheet.Trigger render={<Button />}>Open long sheet</BottomSheet.Trigger>
+      <BottomSheet.Popup>
+        <BottomSheet.Header>
+          <BottomSheet.Title>Terms</BottomSheet.Title>
+          <BottomSheet.Close />
+        </BottomSheet.Header>
+        <BottomSheet.Body>
+          {Array.from({ length: 12 }, (_, i) => (
+            <p key={i} style={{ ...text, marginBottom: 12 }}>
+              Section {i + 1}. Transfers settle within one business day. Fees are shown before you
+              confirm and are never charged twice.
+            </p>
+          ))}
+        </BottomSheet.Body>
+        <BottomSheet.Footer>
+          <BottomSheet.Close render={<Button variant="primary" />}>Accept</BottomSheet.Close>
+        </BottomSheet.Footer>
+      </BottomSheet.Popup>
+    </BottomSheet.Root>
+  ),
+};
+
+/** Form content: the sheet lifts above the on-screen keyboard and the focused field scrolls into view. */
+export const WithForm: Story = {
+  render: (args) => (
+    <BottomSheet.Root {...args}>
+      <BottomSheet.Trigger render={<Button />}>Open form</BottomSheet.Trigger>
+      <BottomSheet.Popup>
+        <BottomSheet.Header>
+          <BottomSheet.Title>Add recipient</BottomSheet.Title>
+          <BottomSheet.Close />
+        </BottomSheet.Header>
+        <BottomSheet.Body>
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            <Field.Root>
+              <Field.Label>Name</Field.Label>
+              <Input placeholder="Full name" />
+            </Field.Root>
+            <Field.Root>
+              <Field.Label>Account number</Field.Label>
+              <Input inputMode="numeric" placeholder="0000000000" />
+            </Field.Root>
+            <Field.Root>
+              <Field.Label>Reference</Field.Label>
+              <Input placeholder="Optional" />
+            </Field.Root>
+          </div>
+        </BottomSheet.Body>
+        <BottomSheet.Footer>
+          <BottomSheet.Close render={<Button variant="secondary" />}>Cancel</BottomSheet.Close>
+          <BottomSheet.Close render={<Button variant="primary" />}>Save</BottomSheet.Close>
+        </BottomSheet.Footer>
+      </BottomSheet.Popup>
+    </BottomSheet.Root>
+  ),
+};
+
+const currencies = [
+  { value: "xsgd", label: "XSGD — Singapore Dollar" },
+  { value: "xidr", label: "XIDR — Indonesian Rupiah" },
+  { value: "xusd", label: "XUSD — US Dollar" },
+];
+
+/** A dropdown opened inside the sheet must render above it (see the `--z-popup` token). */
+export const WithDropdown: Story = {
+  render: (args) => (
+    <BottomSheet.Root {...args}>
+      <BottomSheet.Trigger render={<Button />}>Open with dropdown</BottomSheet.Trigger>
+      <BottomSheet.Popup>
+        <BottomSheet.Header>
+          <BottomSheet.Title>Choose currency</BottomSheet.Title>
+          <BottomSheet.Close />
+        </BottomSheet.Header>
+        <BottomSheet.Body>
+          <Select.Root items={currencies} defaultValue={null}>
+            <Select.Control>
+              <Select.Trigger>
+                <Select.Value placeholder="Select…" />
+                <Select.Icon />
+              </Select.Trigger>
+            </Select.Control>
+            <Select.Popup>
+              <Select.List>
+                {currencies.map((c) => (
+                  <Select.Item key={c.value} value={c.value}>
+                    {c.label}
+                  </Select.Item>
+                ))}
+              </Select.List>
+            </Select.Popup>
+          </Select.Root>
+        </BottomSheet.Body>
+      </BottomSheet.Popup>
+    </BottomSheet.Root>
+  ),
 };

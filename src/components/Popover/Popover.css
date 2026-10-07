@@ -1,5 +1,5 @@
 .popover__positioner {
-  z-index: 50;
+  z-index: var(--z-popup, 50);
 }
 .popover__popup {
   position: relative;
