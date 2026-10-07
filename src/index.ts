@@ -51,7 +51,7 @@ export type { IconButtonProps } from "./components/IconButton";
 export { LinkButton } from "./components/LinkButton";
 export type { LinkButtonProps } from "./components/LinkButton";
 export { ButtonGroup } from "./components/ButtonGroup";
-export type { ButtonGroupProps, ButtonGroupOrientation } from "./components/ButtonGroup";
+export type { ButtonGroupProps } from "./components/ButtonGroup";
 export { Tag } from "./components/Tag";
 export type { TagProps } from "./components/Tag";
 export { Badge } from "./components/Badge";
@@ -247,6 +247,10 @@ export { Modal } from "./components/Modal";
 export type { ModalRootProps, ModalTriggerProps, ModalPopupProps, ModalHeaderProps, ModalTitleProps, ModalDescriptionProps, ModalCloseProps, ModalMediaProps, ModalIllustrationProps, ModalBodyProps, ModalFooterProps } from "./components/Modal";
 export { BottomSheet } from "./components/BottomSheet";
 export type { BottomSheetRootProps, BottomSheetTriggerProps, BottomSheetPopupProps, BottomSheetHeaderProps, BottomSheetTitleProps, BottomSheetDescriptionProps, BottomSheetCloseProps, BottomSheetBodyProps, BottomSheetFooterProps } from "./components/BottomSheet";
+export { BottomSheetSelect } from "./components/BottomSheet";
+export type { BottomSheetSelectProps, BottomSheetSelectItem } from "./components/BottomSheet";
+export { ResponsiveSheet } from "./components/ResponsiveSheet";
+export type { ResponsiveSheetRootProps, ResponsiveSheetTriggerProps, ResponsiveSheetPopupProps, ResponsiveSheetHeaderProps, ResponsiveSheetTitleProps, ResponsiveSheetDescriptionProps, ResponsiveSheetCloseProps, ResponsiveSheetBodyProps, ResponsiveSheetFooterProps } from "./components/ResponsiveSheet";
 export { Tooltip } from "./components/Tooltip";
 export type {
   TooltipProviderProps,
@@ -343,6 +347,8 @@ export { CardSteps } from "./components/CardSteps";
 export type { CardStepsProps, CardStepsOption, CardStepsOptionsProps } from "./components/CardSteps";
 export { EstimatedBalance } from "./components/EstimatedBalance";
 export type { EstimatedBalanceProps } from "./components/EstimatedBalance";
+export { List, ListItem } from "./components/List";
+export type { ListProps, ListItemProps } from "./components/List";
 export { ListAsset } from "./components/ListAsset";
 export type { ListAssetProps, ListAssetVariant, ListAssetPlatform } from "./components/ListAsset";
 export { ListBlockchain } from "./components/ListBlockchain";

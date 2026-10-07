@@ -46,6 +46,8 @@
   border: 0;
   outline: 0;
   background: transparent;
+  padding: 0;
+  margin: 0;
   font: var(--body-large);
   color: var(--text-primary);
 }
@@ -73,7 +75,7 @@
   display: flex;
   align-items: center;
   gap: var(--space-1);
-  height: 100%;
+  align-self: stretch;
   padding: 0 var(--space-3) 0 var(--space-2);
   border: 0;
   border-left: 1px solid var(--border);
@@ -88,13 +90,13 @@
   outline-offset: -2px;
 }
 .input-currency--suffix .input-currency__adornment {
-  border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+  border-radius: 0 calc(var(--radius-lg) - 1px) calc(var(--radius-lg) - 1px) 0;
 }
 .input-currency--prefix .input-currency__adornment {
   border-left: 0;
   border-right: 1px solid var(--border);
   padding: 0 var(--space-2) 0 var(--space-3);
-  border-radius: var(--radius-lg) 0 0 var(--radius-lg);
+  border-radius: calc(var(--radius-lg) - 1px) 0 0 calc(var(--radius-lg) - 1px);
 }
 button.input-currency__adornment {
   cursor: pointer;
