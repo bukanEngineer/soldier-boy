@@ -1,5 +1,5 @@
-/* Copybox — Figma: Non-Editable Field / Copybox (node 1452:11770).
- * Layout: [body — bg=disabled-surface, flex-1] + [copy btn — bg=surface/white].
+/* Copybox: Figma: Non-Editable Field / Copybox (node 1452:11770).
+ * Layout: [body: bg=disabled-surface, flex-1] + [copy btn: bg=surface/white].
  * In "no-action" mode the body takes full rounding with no button. */
 
 .copybox { display: flex; align-items: stretch; }
@@ -23,42 +23,30 @@
 }
 
 /* When there is a copy button: body rounds only on the left */
-.copybox--action .copybox__body {
+.copybox[data-action] .copybox__body {
   border-radius: var(--radius-lg) 0 0 var(--radius-lg);
 }
 
 /* Small size */
-.copybox--sm .copybox__body { min-height: 36px; padding: 8px 12px; }
+.copybox[data-size="sm"] .copybox__body { min-height: 36px; padding: 8px 12px; }
 
-/* Error */
-.copybox.is-error .copybox__body { border-color: var(--status-critical); }
-.copybox.is-error .copybox__btn  { border-color: var(--status-critical); }
+/* Error: own `invalid` prop or an invalid parent <Field.Root> */
+.copybox[data-invalid] .copybox__body,
+.copybox[data-invalid] .copybox__btn,
+.field[data-invalid] .copybox__body,
+.field[data-invalid] .copybox__btn { border-color: var(--status-critical); }
 
 /* Multiline */
-.copybox--multiline .copybox__body {
+.copybox[data-multiline] .copybox__body {
   align-items: flex-start;
   min-height: 96px;
   height: auto;
 }
-.copybox--multiline .copybox__value {
+.copybox[data-multiline] .copybox__value {
   white-space: pre-wrap;
   word-break: break-all;
   overflow: auto;
 }
-
-/* ── Label / info ────────────────────────────── */
-.copybox__label {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-}
-.copybox__info {
-  display: inline-flex;
-  align-items: center;
-  color: var(--text-secondary);
-  cursor: help;
-}
-.copybox__info .material-symbols-rounded { font-size: 16px; }
 
 /* ── Lead icon (bank logo, blockchain mark, etc.) ── */
 .copybox__lead {
@@ -112,5 +100,6 @@
   transition: background var(--dur-1) var(--ease), color var(--dur-1) var(--ease);
 }
 .copybox__btn:hover { background: var(--surface-hovered); }
+.copybox__btn:focus-visible { outline: 2px solid var(--status-information); outline-offset: -2px; }
 .copybox__btn .material-symbols-rounded { font-size: 20px; }
-.copybox.is-copied .copybox__btn { color: var(--status-positive); }
+.copybox[data-copied] .copybox__btn { color: var(--status-positive); }

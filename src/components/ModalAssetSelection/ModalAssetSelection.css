@@ -1,8 +1,9 @@
-/* ModalAssetSelection — header + tappable asset list. Composes Modal shell. */
+/* ModalAssetSelection: header + tappable asset list. Composes Modal shell. */
 
 .asset-sel .modal__body { padding-top: 0; padding-left: 0; padding-right: 0; }
 
-.asset-sel__header { display: flex; flex-direction: column; gap: 2px; }
+.asset-sel__header { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+.asset-sel__header .modal__title { flex: 0 0 auto; }
 .asset-sel__title { font: var(--title-small); color: var(--text-primary); }
 .asset-sel__desc { font: var(--body-medium); color: var(--text-secondary); }
 

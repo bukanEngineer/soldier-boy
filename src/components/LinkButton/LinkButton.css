@@ -23,8 +23,9 @@
 .link-btn--md { font-size: 14px; line-height: 1.4; }
 .link-btn--sm { font-size: 12px; line-height: 1.4; }
 
-.link-btn--onDark { color: var(--primary); }
-.link-btn--onDark:hover { color: var(--brand-seamless-mint); }
+.link-btn[data-on-dark] { color: var(--primary); }
+.link-btn[data-on-dark]:hover { color: var(--brand-seamless-mint); }
 
 .link-btn .material-symbols-rounded { font-size: 1.15em; }
+.link-btn[data-disabled],
 .link-btn[disabled] { color: var(--disabled-on-surface); cursor: not-allowed; }

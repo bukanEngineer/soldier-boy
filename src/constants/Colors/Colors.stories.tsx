@@ -70,7 +70,7 @@ export const Semantic: Story = {
         <div className="tk-section-label">Utility</div>
         <div className="tk-grid tk-grid--4" style={{ marginTop: 12 }}>
           <Swatch name="border"    cssVar="--border"    hex="#D8D8D8" dark usage="Default borders and dividers" />
-          <Swatch name="text-link" cssVar="--link"      hex="#187D97" usage="Interactive text links" />
+          <Swatch name="text-link" cssVar="--link"      hex="#146A80" usage="Interactive text links" />
           <Swatch name="overlay"   cssVar="--overlay"   hex="rgba(5,21,19,0.70)" usage="Modal/bottom sheet scrim" />
         </div>
       </div>
@@ -80,7 +80,8 @@ export const Semantic: Story = {
         <div className="tk-grid tk-grid--4" style={{ marginTop: 12 }}>
           <Swatch name="positive"    cssVar="--status-positive"    hex="#257C58" usage="Success text, icons, borders" />
           <Swatch name="critical"    cssVar="--status-critical"    hex="#DF1312" usage="Error/critical text, icons, borders" />
-          <Swatch name="warning"     cssVar="--status-warning"     hex="#FC9A07" usage="Warning text, icons, borders" />
+          <Swatch name="warning"     cssVar="--status-warning"     hex="#FC9A07" usage="Warning accent / borders" />
+          <Swatch name="warning-strong" cssVar="--status-warning-strong" hex="#A65F00" usage="Warning text + solid fills with white glyphs" />
           <Swatch name="information" cssVar="--status-information" hex="#0C45E1" usage="Info text, icons, borders" />
         </div>
       </div>
@@ -167,8 +168,8 @@ export const Primitives: Story = {
           <Swatch name="Vibrant Green"      cssVar="--brand-vibrant-green"     hex="#00D37E" usage="Primary brand — signature highlight" />
           <Swatch name="Stable Deep Ivy"    cssVar="--brand-stable-deep-ivy"   hex="#002B2A" usage="Dark brand — text, brand black" />
           <Swatch name="Secure Teal"        cssVar="--brand-secure-teal"       hex="#054948" usage="Deep teal — grounding, surfaces" />
-          <Swatch name="Wealthy Gold"       cssVar="--brand-wealthy-gold"      hex="#B59B58" usage="Gold accent" />
-          <Swatch name="Credible Blue"      cssVar="--brand-credible-blue"     hex="#187D97" usage="Blue — links, info" />
+          <Swatch name="Wealthy Gold"       cssVar="--brand-wealthy-gold"      hex="#8A7339" usage="Gold accent" />
+          <Swatch name="Credible Blue"      cssVar="--brand-credible-blue"     hex="#146A80" usage="Blue — links, info" />
           <Swatch name="Seamless Mint"      cssVar="--brand-seamless-mint"     hex="#79FFCA" dark usage="Mint accent" />
           <Swatch name="Innovative Grey"    cssVar="--brand-innovative-grey"   hex="#D8D8D8" dark usage="Default borders" />
           <Swatch name="Modern Light Grey"  cssVar="--brand-modern-light-grey" hex="#F0F0F0" dark usage="Light backgrounds" />

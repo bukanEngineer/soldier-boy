@@ -1,18 +1,32 @@
 import React, { useState } from "react";
 import { IconButton } from "../IconButton/IconButton";
+import { cn } from "../../lib/cn";
 import "./Calendar.css";
 
 const WEEKDAYS = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 const MONTH_NAMES = [
-  "January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December",
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
 ];
 
 function isSameDay(a: Date | undefined, b: Date | undefined): boolean {
-  return !!a && !!b
-    && a.getFullYear() === b.getFullYear()
-    && a.getMonth() === b.getMonth()
-    && a.getDate() === b.getDate();
+  return (
+    !!a &&
+    !!b &&
+    a.getFullYear() === b.getFullYear() &&
+    a.getMonth() === b.getMonth() &&
+    a.getDate() === b.getDate()
+  );
 }
 
 function addMonths(date: Date, delta: number): Date {
@@ -37,7 +51,10 @@ function buildWeeks(viewMonth: Date): Cell[][] {
   }
   while (cells.length % 7 !== 0) {
     const last = cells[cells.length - 1].date;
-    cells.push({ date: new Date(last.getFullYear(), last.getMonth(), last.getDate() + 1), outside: true });
+    cells.push({
+      date: new Date(last.getFullYear(), last.getMonth(), last.getDate() + 1),
+      outside: true,
+    });
   }
 
   const weeks: Cell[][] = [];
@@ -50,7 +67,7 @@ export type CalendarRangeValue = {
   to?: Date;
 };
 
-export type CalendarProps = {
+export type CalendarProps = Omit<React.ComponentProps<"div">, "onSelect"> & {
   /** "single" (default) or "range" */
   mode?: "single" | "range";
   /** Selected value (Date for single, {from, to} for range) */
@@ -61,11 +78,22 @@ export type CalendarProps = {
   onSelect?: (value: Date | CalendarRangeValue) => void;
   /** Number of months to display */
   numberOfMonths?: number;
-  /** Additional CSS class names */
-  className?: string;
 };
 
-export function Calendar({ mode = "single", value, defaultMonth, onSelect, numberOfMonths = 1, className = "" }: CalendarProps) {
+/**
+ * Lightweight custom calendar (single + range). Kept instead of `react-day-picker`
+ * to avoid a new dependency while the surface stays small and token-styled.
+ * Pair with `DateInput` / `Popover` for form use.
+ */
+export function Calendar({
+  mode = "single",
+  value,
+  defaultMonth,
+  onSelect,
+  numberOfMonths = 1,
+  className,
+  ...rest
+}: CalendarProps) {
   const isRange = mode === "range";
   const from = isRange ? (value as CalendarRangeValue)?.from : undefined;
   const to = isRange ? (value as CalendarRangeValue)?.to : undefined;
@@ -81,21 +109,24 @@ export function Calendar({ mode = "single", value, defaultMonth, onSelect, numbe
 
   const handleDayClick = (date: Date) => {
     if (!isRange) {
-      onSelect && onSelect(date);
+      onSelect?.(date);
       return;
     }
     if (!from || (from && to)) {
-      onSelect && onSelect({ from: date, to: undefined });
+      onSelect?.({ from: date, to: undefined });
     } else if (date < from) {
-      onSelect && onSelect({ from: date, to: from });
+      onSelect?.({ from: date, to: from });
     } else {
-      onSelect && onSelect({ from, to: date });
+      onSelect?.({ from, to: date });
     }
   };
 
   const renderDay = ({ date, outside }: Cell) => {
     const isToday = isSameDay(date, today);
-    let selected = false, rangeStart = false, rangeEnd = false, inRange = false;
+    let selected = false;
+    let rangeStart = false;
+    let rangeEnd = false;
+    let inRange = false;
     if (isRange) {
       rangeStart = isSameDay(date, from);
       rangeEnd = isSameDay(date, to);
@@ -109,15 +140,13 @@ export function Calendar({ mode = "single", value, defaultMonth, onSelect, numbe
         key={date.toISOString()}
         type="button"
         role="gridcell"
-        className={[
-          "calendar__day",
-          outside && "is-outside",
-          selected && "is-selected",
-          inRange && "is-in-range",
-          rangeStart && "is-range-start",
-          rangeEnd && "is-range-end",
-          isToday && !selected && "is-today",
-        ].filter(Boolean).join(" ")}
+        data-outside={outside || undefined}
+        data-selected={selected || undefined}
+        data-in-range={inRange || undefined}
+        data-range-start={rangeStart || undefined}
+        data-range-end={rangeEnd || undefined}
+        data-today={isToday && !selected ? "" : undefined}
+        className="calendar__day"
         aria-current={isToday ? "date" : undefined}
         aria-selected={selected}
         onClick={() => handleDayClick(date)}
@@ -128,13 +157,22 @@ export function Calendar({ mode = "single", value, defaultMonth, onSelect, numbe
   };
 
   return (
-    <div className={"calendar " + (numberOfMonths > 1 ? "calendar--multi " : "") + className}>
+    <div
+      className={cn("calendar", numberOfMonths > 1 && "calendar--multi", className)}
+      {...rest}
+    >
       <div className="calendar__months">
         {months.map((month, i) => (
           <div className="calendar__month" key={`${month.getFullYear()}-${month.getMonth()}`}>
             <div className="calendar__header">
               {i === 0 ? (
-                <IconButton icon="chevron_left" variant="tertiary" size="sm" label="Previous month" onClick={() => goto(-1)} />
+                <IconButton
+                  icon="chevron_left"
+                  variant="tertiary"
+                  size="sm"
+                  label="Previous month"
+                  onClick={() => goto(-1)}
+                />
               ) : (
                 <span className="calendar__nav-spacer" aria-hidden="true" />
               )}
@@ -142,7 +180,13 @@ export function Calendar({ mode = "single", value, defaultMonth, onSelect, numbe
                 {MONTH_NAMES[month.getMonth()]} {month.getFullYear()}
               </span>
               {i === months.length - 1 ? (
-                <IconButton icon="chevron_right" variant="tertiary" size="sm" label="Next month" onClick={() => goto(1)} />
+                <IconButton
+                  icon="chevron_right"
+                  variant="tertiary"
+                  size="sm"
+                  label="Next month"
+                  onClick={() => goto(1)}
+                />
               ) : (
                 <span className="calendar__nav-spacer" aria-hidden="true" />
               )}
@@ -150,7 +194,9 @@ export function Calendar({ mode = "single", value, defaultMonth, onSelect, numbe
 
             <div className="calendar__weekdays" aria-hidden="true">
               {WEEKDAYS.map((w) => (
-                <span key={w} className="calendar__weekday">{w}</span>
+                <span key={w} className="calendar__weekday">
+                  {w}
+                </span>
               ))}
             </div>
 

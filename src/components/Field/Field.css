@@ -1,5 +1,10 @@
 /* Field: shared label / description / error layout for form controls. */
 .field { display: flex; flex-direction: column; gap: 6px; }
+.field__label-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
 .field__label { font: var(--body-medium); color: var(--text-primary); }
 .field__label[data-disabled] { color: var(--disabled-on-surface); }
 .field__description,

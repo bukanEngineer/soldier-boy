@@ -82,8 +82,8 @@
   --brand-vibrant-green:     #00d37e;  /* Vibrant Green */
   --brand-stable-deep-ivy:   #002b2a;  /* Stable Deep Ivy */
   --brand-secure-teal:       #054948;  /* Secure Teal */
-  --brand-wealthy-gold:      #b59b58;  /* Wealthy Gold */
-  --brand-credible-blue:     #187d97;  /* Credible Blue */
+  --brand-wealthy-gold:      #8a7339;  /* Wealthy Gold — darkened for WCAG AA with white glyphs */
+  --brand-credible-blue:     #146a80;  /* Credible Blue — darkened for WCAG AA on --surface-secondary */
   --brand-seamless-mint:     #79ffca;  /* Seamless Mint */
   --brand-innovative-grey:   #d8d8d8;  /* Innovative Grey */
   --brand-modern-light-grey: #f0f0f0;  /* Modern Light Grey */
@@ -112,7 +112,7 @@
   --surface:             #ffffff;  /* cards, sidebars, highest-prominence surfaces */
   --surface-secondary:   #f6f7f9;
   --surface-disabled:    #f2f4f5;
-  --disabled-on-surface: #9d9e9f;  /* disabled content/icon on surface */
+  --disabled-on-surface: #6e6f70;  /* disabled content/icon on surface — WCAG AA on --surface-disabled */
   --surface-hovered:     #ececec;
   --surface-pressed:     #e3e3e3;
   --skeleton-gradient:   linear-gradient(90deg, #e0e0e0 0%, #f2f4f5 88.71%); /* loading placeholders */
@@ -120,7 +120,8 @@
   /* ── Status/* ── */
   --status-positive:            #257c58;
   --status-critical:            #df1312;
-  --status-warning:             #fc9a07;
+  --status-warning:             #fc9a07;  /* accent / border */
+  --status-warning-strong:      #a65f00;  /* text on warning surfaces + solid fills with white glyphs */
   --status-information:         #0c45e1;
   --status-surface-positive:    #f0f9f4;
   --status-surface-critical:    #fff1f1;
@@ -137,11 +138,11 @@
   --btn-tertiary-pressed:  rgba(5, 73, 72, 0.15);
 
   /* ── Component/Input ── */
-  --input-placeholder: #b6b6b6;
+  --input-placeholder: #767676;  /* WCAG AA on --surface */
 
   /* ── Component/Sidebar ── */
   --sidebar-active:               #d7efe2;  /* default active item background */
-  --sidebar-menuitem-text:        #257c58;  /* default active item text/icon */
+  --sidebar-menuitem-text:        #1f6849;  /* default active item text/icon — AA on --sidebar-active */
   --sidebar-sandbox-bg:           #002b2a;  /* sandbox sidebar background */
   --sidebar-sandbox-active:       #005755;  /* sandbox active item background */
   --sidebar-sandbox-text:         #ffffff;  /* sandbox active item text/icon */

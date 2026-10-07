@@ -1,17 +1,23 @@
-/* DateInput — popover trigger button + Calendar popover anchor. */
-.date-input__wrap {
-  position: relative;
-}
-
+/* DateInput — Popover trigger + light calendar surface. */
 .date-input__trigger {
   width: 100%;
   cursor: pointer;
   text-align: left;
   font-family: inherit;
 }
-
+.date-input__trigger[data-disabled],
 .date-input__trigger[disabled] {
   cursor: not-allowed;
+}
+.date-input__trigger[data-popup-open] {
+  border-color: var(--interactive-active);
+  box-shadow: 0 0 0 3px rgba(0, 211, 126, 0.16);
+}
+.field[data-invalid] .date-input__trigger {
+  border-color: var(--status-critical);
+}
+.field[data-invalid] .date-input__trigger[data-popup-open] {
+  box-shadow: 0 0 0 3px rgba(223, 19, 18, 0.16);
 }
 
 .date-input__value {
@@ -21,20 +27,20 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-
-.date-input__value.is-placeholder {
+.date-input__value[data-placeholder] {
   color: var(--input-placeholder);
 }
 
-.date-input__popover {
-  position: absolute;
-  top: calc(100% + var(--space-2));
-  left: 0;
-  z-index: 60;
-  animation: date-input-popover-in 120ms var(--ease);
+/* Light surface override — default Popover is inverse (rich tips). */
+.popover__popup.date-input__popover {
+  background: var(--surface);
+  color: var(--text-primary);
+  max-width: none;
+  width: max-content;
+  padding: var(--space-2);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-2);
 }
-
-@keyframes date-input-popover-in {
-  from { opacity: 0; transform: translateY(-2px); }
-  to { opacity: 1; transform: translateY(0); }
+.popover__popup.date-input__popover .popover__arrow {
+  display: none;
 }

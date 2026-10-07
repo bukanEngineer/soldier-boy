@@ -1,47 +1,58 @@
 import React, { useState } from "react";
-import { Radio, RadioGroup } from "./Radio";
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { Radio } from "./Radio";
 
-const meta: Meta<typeof Radio> = {
-  title: "Atoms/Radio",
-  component: Radio,
-  args: { label: "XSGD", disabled: false, error: false },
-  argTypes: {
-    label: { control: "text" },
-    sub: { control: "text" },
-    checked: { control: "boolean" },
-    disabled: { control: "boolean" },
-    error: { control: "boolean" },
-    name: { control: "text" },
-    value: { control: "text" },
-    onChange: { action: "onChange" },
-  },
+const meta: Meta = {
+  title: "Components/Radio",
   parameters: { layout: "padded" },
 };
 export default meta;
 
-type Story = StoryObj<typeof Radio>;
-
-export const Default: Story = { args: { label: "XSGD", name: "stablecoin" } };
-export const Selected: Story = { args: { label: "XSGD", defaultChecked: true, name: "stablecoin" } };
-export const Disabled: Story = { args: { label: "XUSD", disabled: true, name: "stablecoin" } };
-export const SelectedDisabled: Story = { args: { label: "XSGD", defaultChecked: true, disabled: true, name: "stablecoin" } };
+type Story = StoryObj;
 
 export const Group: Story = {
-  render: () => {
-    const [v, setV] = useState("xsgd");
+  render: function Render() {
+    const [value, setValue] = useState("personal");
     return (
-      <RadioGroup
-        name="coin"
-        legend="Select stablecoin"
-        value={v}
-        onChange={setV}
-        options={[
-          { value: "xsgd", label: "XSGD", sub: "Singapore Dollar — pegged 1:1" },
-          { value: "xidr", label: "XIDR", sub: "Indonesian Rupiah — pegged 1:1" },
-          { value: "xusd", label: "XUSD", sub: "US Dollar — pegged 1:1" },
-        ]}
-      />
+      <Radio.Group value={value} onValueChange={setValue} aria-label="Account type">
+        <label className="control has-sub" htmlFor="radio-personal">
+          <Radio.Root id="radio-personal" value="personal">
+            <Radio.Indicator />
+          </Radio.Root>
+          <span className="control__label">
+            Personal
+            <span className="control__sub">For individuals</span>
+          </span>
+        </label>
+        <label className="control has-sub" htmlFor="radio-business">
+          <Radio.Root id="radio-business" value="business">
+            <Radio.Indicator />
+          </Radio.Root>
+          <span className="control__label">
+            Business
+            <span className="control__sub">For companies</span>
+          </span>
+        </label>
+      </Radio.Group>
     );
   },
+};
+
+export const Disabled: Story = {
+  render: () => (
+    <Radio.Group defaultValue="a" disabled aria-label="Locked group">
+      <label className="control" htmlFor="radio-a">
+        <Radio.Root id="radio-a" value="a">
+          <Radio.Indicator />
+        </Radio.Root>
+        <span className="control__label">Locked A</span>
+      </label>
+      <label className="control" htmlFor="radio-b">
+        <Radio.Root id="radio-b" value="b">
+          <Radio.Indicator />
+        </Radio.Root>
+        <span className="control__label">Locked B</span>
+      </label>
+    </Radio.Group>
+  ),
 };

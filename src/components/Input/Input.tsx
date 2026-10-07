@@ -1,4 +1,6 @@
-import React, { useId, useState } from "react";
+import React, { useState } from "react";
+import { Field } from "../Field/Field";
+import { cn } from "../../lib/cn";
 import { inputClasses, type InputSize } from "./styles";
 import "./Input.css";
 
@@ -9,133 +11,110 @@ export type InputTrailingButton = {
 };
 
 export type InputProps = {
-  /** Field label */
-  label?: string;
-  /** Helper text below the input */
-  helper?: string;
-  /** Error message (replaces helper when present) */
-  error?: string;
-  /** HTML input type */
-  type?: string;
   /** Input height */
   size?: InputSize;
-  /** Disables interaction */
-  disabled?: boolean;
-  /** Element id */
-  id?: string;
-  /** Additional CSS class names */
-  className?: string;
-  /** Controlled value */
-  value?: string;
-  /** Uncontrolled default value */
-  defaultValue?: string;
-  /** Change handler */
-  onChange?: (e: React.ChangeEvent<HTMLInputElement> | { target: { value: string } }) => void;
-  /** Trailing action button config */
+  /** HTML input type */
+  type?: string;
+  /** Trailing action button (e.g. Apply) */
   trailingButton?: InputTrailingButton;
-} & Omit<React.InputHTMLAttributes<HTMLInputElement>, "size" | "type" | "onChange">;
+  /** Additional CSS class names on the chrome wrapper */
+  className?: string;
+  value?: string;
+  defaultValue?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onValueChange?: (value: string) => void;
+} & Omit<
+  React.ComponentProps<typeof Field.Control>,
+  "size" | "type" | "value" | "defaultValue" | "onChange" | "onValueChange" | "className"
+>;
 
+/**
+ * Bare text control for use inside `Field`. Keeps clear / password reveal /
+ * search icon / trailing button. Label, helper and error come from `Field`.
+ *
+ *   <Field.Root>
+ *     <Field.Label>Email</Field.Label>
+ *     <Input type="email" placeholder="hello@straitsx.com" />
+ *     <Field.Description>We'll never share it.</Field.Description>
+ *   </Field.Root>
+ */
 export function Input({
-  label,
-  helper,
-  error,
   type = "text",
   size = "large",
   disabled = false,
-  id: idProp,
-  className = "",
+  className,
   value,
   defaultValue,
   onChange,
+  onValueChange,
   trailingButton,
   ...inputProps
 }: InputProps) {
-  const autoId = useId();
-  const id = idProp || autoId;
-  const isError = !!error;
   const isPassword = type === "password";
   const isSearch = type === "search";
-
   const [reveal, setReveal] = useState(false);
-  const [internal, setInternal] = useState(defaultValue ?? "");
+  const [internal, setInternal] = useState(String(defaultValue ?? ""));
   const isControlled = value !== undefined;
-  const currentValue = isControlled ? value : internal;
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!isControlled) setInternal(e.target.value);
-    onChange && onChange(e);
-  };
+  const currentValue = isControlled ? String(value) : internal;
 
-  const wrapCls = [
-    inputClasses.root,
-    inputClasses.size[size],
-    isError && inputClasses.state.error,
-    disabled && inputClasses.state.disabled,
-    trailingButton && inputClasses.withButton,
-    className,
-  ].filter(Boolean).join(" ");
-
-  const effectiveType = isPassword ? (reveal ? "text" : "password") : type;
-
-  const handleClear = () => {
-    if (isControlled) {
-      onChange && onChange({ target: { value: "" } });
-    } else {
-      setInternal("");
-    }
+  const commit = (next: string) => {
+    if (!isControlled) setInternal(next);
+    onValueChange?.(next);
+    onChange?.({ target: { value: next } } as React.ChangeEvent<HTMLInputElement>);
   };
 
   const showClear = !!currentValue && !disabled;
+  const effectiveType = isPassword ? (reveal ? "text" : "password") : type;
 
   return (
-    <div className="field">
-      {label && <label htmlFor={id} className="field__label">{label}</label>}
-      <div className={wrapCls}>
-        {isSearch && (
-          <span className="material-symbols-rounded input__lead" aria-hidden="true">search</span>
-        )}
-        <input
-          id={id}
-          type={effectiveType}
-          disabled={disabled}
-          value={currentValue}
-          onChange={handleChange}
-          {...inputProps}
-        />
-        {showClear && (
-          <button
-            type="button"
-            className="input__icon-btn"
-            onClick={handleClear}
-            aria-label="Clear"
-          >
-            <span className="material-symbols-rounded">close</span>
-          </button>
-        )}
-        {isPassword && !disabled && (
-          <button
-            type="button"
-            className="input__icon-btn"
-            onClick={() => setReveal((r) => !r)}
-            aria-label={reveal ? "Hide password" : "Show password"}
-          >
-            <span className="material-symbols-rounded">{reveal ? "visibility_off" : "visibility"}</span>
-          </button>
-        )}
-        {trailingButton && (
-          <button
-            type="button"
-            className="input__trailing-btn"
-            onClick={trailingButton.onClick}
-            disabled={disabled || trailingButton.disabled}
-          >
-            {trailingButton.label}
-          </button>
-        )}
-      </div>
-      {(helper || error) && (
-        <span className={"field__helper" + (isError ? " is-error" : "")}>
-          {error || helper}
+    <div
+      className={cn(
+        inputClasses.root,
+        inputClasses.size[size],
+        trailingButton && inputClasses.withButton,
+        className,
+      )}
+      data-disabled={disabled || undefined}
+    >
+      {isSearch && (
+        <span className="material-symbols-rounded input__lead" aria-hidden="true">
+          search
         </span>
+      )}
+      <Field.Control
+        type={effectiveType}
+        disabled={disabled}
+        value={currentValue}
+        onValueChange={commit}
+        className="input__control"
+        {...inputProps}
+      />
+      {showClear && (
+        <button type="button" className="input__icon-btn" onClick={() => commit("")} aria-label="Clear">
+          <span className="material-symbols-rounded" aria-hidden="true">close</span>
+        </button>
+      )}
+      {isPassword && !disabled && (
+        <button
+          type="button"
+          className="input__icon-btn"
+          onClick={() => setReveal((r) => !r)}
+          aria-label={reveal ? "Hide password" : "Show password"}
+        >
+          <span className="material-symbols-rounded" aria-hidden="true">
+            {reveal ? "visibility_off" : "visibility"}
+          </span>
+        </button>
+      )}
+      {trailingButton && (
+        <button
+          type="button"
+          className="input__trailing-btn"
+          onClick={trailingButton.onClick}
+          disabled={disabled || trailingButton.disabled}
+        >
+          {trailingButton.label}
+        </button>
       )}
     </div>
   );

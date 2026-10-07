@@ -73,20 +73,20 @@
   transition: background var(--dur-1) var(--ease);
 }
 
-.calendar__day:hover:not(.is-selected) {
+.calendar__day:hover:not([data-selected]) {
   background: var(--surface-hovered);
 }
 
-.calendar__day.is-outside {
-  color: var(--text-secondary);
-  opacity: 0.6;
+.calendar__day[data-outside] {
+  /* Solid muted color (not opacity) so contrast stays WCAG AA */
+  color: var(--input-placeholder);
 }
 
-.calendar__day.is-today:not(.is-selected) {
+.calendar__day[data-today]:not([data-selected]) {
   border-color: var(--border);
 }
 
-.calendar__day.is-selected {
+.calendar__day[data-selected] {
   background: var(--text-primary);
   color: var(--text-inverse);
 }
@@ -94,19 +94,19 @@
 /* Range mode — in-range fill is a flat band; endpoints keep the solid
    selected fill but round only their outer edge so the band reads as one
    continuous shape. */
-.calendar__day.is-in-range {
+.calendar__day[data-in-range] {
   background: var(--surface-secondary);
   border-radius: 0;
 }
 
-.calendar__day.is-range-start {
+.calendar__day[data-range-start] {
   border-radius: var(--radius-md) 0 0 var(--radius-md);
 }
 
-.calendar__day.is-range-end {
+.calendar__day[data-range-end] {
   border-radius: 0 var(--radius-md) var(--radius-md) 0;
 }
 
-.calendar__day.is-range-start.is-range-end {
+.calendar__day[data-range-start][data-range-end] {
   border-radius: var(--radius-md);
 }

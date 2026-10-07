@@ -87,43 +87,33 @@
 .selbox__label { font: var(--body-large); color: var(--text-primary); }
 .selbox__desc { font: var(--body-medium); color: var(--text-secondary); }
 
-/* ════════ Selected ════════ */
-.selbox.is-selected {
+/* ════════ Selected (driven by Base UI data-checked) ════════ */
+.selbox:has([data-checked]) {
   border: 2px solid var(--interactive-active);
   background: var(--surface);
 }
-.selbox.is-selected:hover { background: var(--surface-hovered); }
-
-.selbox.is-selected .selbox__box--radio { border-color: var(--interactive-active); }
-.selbox.is-selected .selbox__box--radio::after { opacity: 1; transform: scale(1); }
-
-.selbox.is-selected .selbox__box--check {
-  background: var(--interactive-active);
-  border-color: var(--interactive-active);
-}
-.selbox.is-selected .selbox__box--check svg { opacity: 1; transform: scale(1); }
-
-.selbox.is-selected .selbox__indicator--custom { color: var(--interactive-active); }
+.selbox:has([data-checked]):hover { background: var(--surface-hovered); }
+.selbox:has([data-checked]) .selbox__indicator--custom { color: var(--interactive-active); }
 
 /* ════════ Disabled ════════ */
-/* Figma: disabled surface + 1px line border (even when selected); text muted;
- * the selected indicator keeps its colour but is dimmed to 50%. */
-.selbox.is-disabled {
+.selbox:has([data-disabled]) {
   cursor: not-allowed;
   background: var(--surface-disabled);
   border: 1px solid var(--border);
   color: var(--disabled-on-surface);
 }
-.selbox.is-disabled:hover { background: var(--surface-disabled); }
-.selbox.is-disabled .selbox__label,
-.selbox.is-disabled .selbox__desc { color: var(--disabled-on-surface); }
-.selbox.is-disabled .selbox__indicator--custom { color: var(--disabled-on-surface); }
+.selbox:has([data-disabled]):hover { background: var(--surface-disabled); }
+.selbox:has([data-disabled]) .selbox__label,
+.selbox:has([data-disabled]) .selbox__desc { color: var(--disabled-on-surface); }
+.selbox:has([data-disabled]) .selbox__indicator--custom { color: var(--disabled-on-surface); }
+.selbox:has([data-disabled][data-checked]) .selbox__control,
+.selbox:has([data-disabled][data-checked]) .selbox__indicator--custom { opacity: 0.5; }
 
-/* unselected: plain grey indicator outline over the disabled surface */
-.selbox.is-disabled .selbox__box {
-  background: transparent;
-  border-color: var(--border);
+.selbox__control--hidden {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  pointer-events: none;
 }
-/* selected: retain the selected colour, dimmed (matches Figma opacity 50%) */
-.selbox.is-disabled.is-selected .selbox__box,
-.selbox.is-disabled.is-selected .selbox__indicator--custom { opacity: 0.5; }

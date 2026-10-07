@@ -8,8 +8,7 @@
   color: var(--text-primary);
   transition: background var(--dur-1) var(--ease), color var(--dur-1) var(--ease);
 }
-.icon-btn:focus-visible,
-.icon-btn.is-focused {
+.icon-btn:focus-visible {
   outline: 2px solid var(--status-information);
   outline-offset: 2px;
 }
@@ -29,30 +28,25 @@
   background: var(--primary);
   color: var(--text-primary);
 }
-.icon-btn--primary:hover,
-.icon-btn--primary.is-hovered { background: var(--btn-primary-hovered); }
-.icon-btn--primary:active,
-.icon-btn--primary.is-pressed { background: var(--btn-primary-pressed); color: var(--text-inverse); }
+.icon-btn--primary:hover { background: var(--btn-primary-hovered); }
+.icon-btn--primary:active { background: var(--btn-primary-pressed); color: var(--text-inverse); }
 
 .icon-btn--secondary {
   background: transparent;
   color: var(--btn-secondary-text);
   border: 1.5px solid var(--border);
 }
-.icon-btn--secondary:hover,
-.icon-btn--secondary.is-hovered { background: var(--btn-secondary-hovered); }
-.icon-btn--secondary:active,
-.icon-btn--secondary.is-pressed { background: var(--btn-secondary-pressed); }
+.icon-btn--secondary:hover { background: var(--btn-secondary-hovered); }
+.icon-btn--secondary:active { background: var(--btn-secondary-pressed); }
 
 .icon-btn--tertiary {
   background: transparent;
   color: var(--btn-secondary-text);
 }
-.icon-btn--tertiary:hover,
-.icon-btn--tertiary.is-hovered { background: var(--btn-tertiary-hovered); }
-.icon-btn--tertiary:active,
-.icon-btn--tertiary.is-pressed { background: var(--btn-tertiary-pressed); }
+.icon-btn--tertiary:hover { background: var(--btn-tertiary-hovered); }
+.icon-btn--tertiary:active { background: var(--btn-tertiary-pressed); }
 
+.icon-btn[data-disabled],
 .icon-btn[disabled] {
   background: var(--surface-disabled);
   color: var(--disabled-on-surface);

@@ -26,7 +26,7 @@ export default defineConfig({
   // bundling it (and its testing-library consumer) with esbuild produces a
   // proper ESM interop wrapper with the named exports detected.
   optimizeDeps: {
-    include: ["aria-query", "@testing-library/dom"],
+    include: ["aria-query", "@testing-library/dom", "@base-ui/react"],
   },
   test: {
     projects: [

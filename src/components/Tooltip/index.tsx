@@ -1,3 +1,7 @@
-// @ts-ignore Tooltip will be fully typed in a later migration pass
 export { Tooltip } from "./Tooltip";
-export type TooltipProps = Record<string, unknown>;
+export type {
+  TooltipProviderProps,
+  TooltipRootProps,
+  TooltipTriggerProps,
+  TooltipPopupProps,
+} from "./Tooltip";

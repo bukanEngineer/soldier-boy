@@ -1,3 +1,24 @@
-// @ts-ignore Table will be fully typed in a later migration pass (depends on Tooltip)
-export { Table } from "./Table";
-export type TableProps = Record<string, unknown>;
+export {
+  Table,
+  TableWrap,
+  TableHeader,
+  TableBody,
+  TableFooter,
+  TableRow,
+  TableHead,
+  TableCell,
+  TableCaption,
+} from "./Table";
+export type {
+  TableProps,
+  TableWrapProps,
+  TableHeaderProps,
+  TableBodyProps,
+  TableFooterProps,
+  TableRowProps,
+  TableHeadProps,
+  TableCellProps,
+  TableCaptionProps,
+} from "./Table";
+export { DataTable } from "./DataTable";
+export type { DataTableProps, DataTableColumn, DataTableSort } from "./DataTable";

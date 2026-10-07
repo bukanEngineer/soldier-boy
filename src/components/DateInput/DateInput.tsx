@@ -1,5 +1,8 @@
-import React, { useEffect, useId, useRef, useState } from "react";
+import React, { useId, useState } from "react";
 import { Calendar } from "../Calendar/Calendar";
+import { Popover } from "../Popover/Popover";
+import { cn } from "../../lib/cn";
+import { inputClasses, type InputSize } from "../Input/styles";
 import "../Input/Input.css";
 import "./DateInput.css";
 
@@ -20,14 +23,8 @@ function toISO(date: Date): string {
 }
 
 export type DateInputProps = {
-  /** Field label */
-  label?: string;
-  /** Helper text */
-  helper?: string;
-  /** Error message */
-  error?: string;
   /** Input size */
-  size?: "large" | "small";
+  size?: InputSize;
   /** Enable range mode */
   range?: boolean;
   /** Placeholder text */
@@ -38,6 +35,8 @@ export type DateInputProps = {
   defaultValue?: string;
   /** Change handler (single mode) */
   onChange?: (e: { target: { value: string } }) => void;
+  /** Value change handler (single mode) */
+  onValueChange?: (value: string) => void;
   /** Range start value (ISO) */
   startValue?: string;
   /** Range end value (ISO) */
@@ -46,32 +45,47 @@ export type DateInputProps = {
   onRangeChange?: (range: { start?: string; end?: string }) => void;
   /** Disables interaction */
   disabled?: boolean;
+  /** Controlled open state */
+  open?: boolean;
+  /** Uncontrolled default open */
+  defaultOpen?: boolean;
+  /** Open change handler */
+  onOpenChange?: (open: boolean) => void;
   /** Element id */
   id?: string;
-  /** Additional CSS class names */
+  /** Additional CSS class names on the trigger */
   className?: string;
 };
 
+/**
+ * Bare date picker control for use inside `Field`. Label, helper and error
+ * come from `Field`. Calendar opens in a `Popover`.
+ *
+ *   <Field.Root>
+ *     <Field.Label>Date of birth</Field.Label>
+ *     <DateInput defaultValue="1990-04-15" />
+ *   </Field.Root>
+ */
 export function DateInput({
-  label,
-  helper,
-  error,
   size = "large",
   range = false,
   placeholder,
   value,
   defaultValue,
   onChange,
+  onValueChange,
   startValue,
   endValue,
   onRangeChange,
   disabled = false,
+  open: openProp,
+  defaultOpen = false,
+  onOpenChange,
   id: idProp,
-  className = "",
+  className,
 }: DateInputProps) {
-  const id = useId();
-  const isError = !!error;
-  const sizeCls = `input--${size === "small" ? "small" : "large"}`;
+  const autoId = useId();
+  const id = idProp || autoId;
 
   const [internalValue, setInternalValue] = useState(defaultValue);
   const isControlled = value !== undefined;
@@ -80,32 +94,26 @@ export function DateInput({
   const startDate = parseISO(startValue);
   const endDate = parseISO(endValue);
 
-  const [open, setOpen] = useState(false);
-  const wrapRef = useRef<HTMLDivElement>(null);
+  const isOpenControlled = openProp !== undefined;
+  const [internalOpen, setInternalOpen] = useState(defaultOpen);
+  const open = isOpenControlled ? openProp : internalOpen;
 
-  useEffect(() => {
-    if (!open) return undefined;
-    const onClickAway = (e: MouseEvent) => {
-      if (wrapRef.current && !wrapRef.current.contains(e.target as Node)) setOpen(false);
-    };
-    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
-    document.addEventListener("mousedown", onClickAway);
-    document.addEventListener("keydown", onKey);
-    return () => {
-      document.removeEventListener("mousedown", onClickAway);
-      document.removeEventListener("keydown", onKey);
-    };
-  }, [open]);
+  const setOpen = (next: boolean) => {
+    if (disabled) return;
+    if (!isOpenControlled) setInternalOpen(next);
+    onOpenChange?.(next);
+  };
 
   const handleSelect = (date: Date) => {
     const iso = toISO(date);
     if (!isControlled) setInternalValue(iso);
-    onChange && onChange({ target: { value: iso } });
+    onValueChange?.(iso);
+    onChange?.({ target: { value: iso } });
     setOpen(false);
   };
 
   const handleRangeSelect = ({ from, to }: { from?: Date; to?: Date }) => {
-    onRangeChange && onRangeChange({
+    onRangeChange?.({
       start: from ? toISO(from) : undefined,
       end: to ? toISO(to) : undefined,
     });
@@ -115,62 +123,51 @@ export function DateInput({
   let displayText = placeholder || (range ? "Pick a date range" : "Pick a date");
   let isPlaceholder = true;
   if (range && (startDate || endDate)) {
-    displayText = startDate && endDate
-      ? `${DATE_FMT.format(startDate)} - ${DATE_FMT.format(endDate)}`
-      : `${DATE_FMT.format((startDate || endDate)!)} - …`;
+    displayText =
+      startDate && endDate
+        ? `${DATE_FMT.format(startDate)} - ${DATE_FMT.format(endDate)}`
+        : `${DATE_FMT.format((startDate || endDate)!)} - …`;
     isPlaceholder = false;
   } else if (!range && selectedDate) {
     displayText = DATE_FMT.format(selectedDate);
     isPlaceholder = false;
   }
 
-  const wrapCls = [
-    "input",
-    sizeCls,
-    isError && "is-error",
-    disabled && "is-disabled",
-    open && "is-focused",
-    "date-input__trigger",
-    className,
-  ].filter(Boolean).join(" ");
-
   return (
-    <div className="field">
-      {label && <label htmlFor={idProp || id} className="field__label">{label}</label>}
-      <div className="date-input__wrap" ref={wrapRef}>
-        <button
-          id={idProp || id}
-          type="button"
-          className={wrapCls}
-          disabled={disabled}
-          onClick={() => setOpen((o) => !o)}
-          aria-haspopup="dialog"
-          aria-expanded={open}
+    <Popover.Root open={open} onOpenChange={setOpen}>
+      <Popover.Trigger
+        id={id}
+        disabled={disabled}
+        className={cn(inputClasses.root, inputClasses.size[size], "date-input__trigger", className)}
+        data-disabled={disabled || undefined}
+      >
+        <span className="material-symbols-rounded input__lead" aria-hidden="true">
+          calendar_today
+        </span>
+        <span
+          className="date-input__value"
+          data-placeholder={isPlaceholder || undefined}
         >
-          <span className="material-symbols-rounded input__lead" aria-hidden="true">calendar_today</span>
-          <span className={"date-input__value" + (isPlaceholder ? " is-placeholder" : "")}>
-            {displayText}
-          </span>
-        </button>
-        {open && (
-          <div className="date-input__popover">
-            {range ? (
-              <Calendar
-                mode="range"
-                numberOfMonths={2}
-                value={{ from: startDate, to: endDate }}
-                defaultMonth={startDate}
-                onSelect={(v) => handleRangeSelect(v as { from?: Date; to?: Date })}
-              />
-            ) : (
-              <Calendar value={selectedDate} defaultMonth={selectedDate} onSelect={(d) => handleSelect(d as Date)} />
-            )}
-          </div>
+          {displayText}
+        </span>
+      </Popover.Trigger>
+      <Popover.Popup side="bottom" align="start" sideOffset={8} className="date-input__popover">
+        {range ? (
+          <Calendar
+            mode="range"
+            numberOfMonths={2}
+            value={{ from: startDate, to: endDate }}
+            defaultMonth={startDate}
+            onSelect={(v) => handleRangeSelect(v as { from?: Date; to?: Date })}
+          />
+        ) : (
+          <Calendar
+            value={selectedDate}
+            defaultMonth={selectedDate}
+            onSelect={(d) => handleSelect(d as Date)}
+          />
         )}
-      </div>
-      {(helper || error) && (
-        <span className={"field__helper" + (isError ? " is-error" : "")}>{error || helper}</span>
-      )}
-    </div>
+      </Popover.Popup>
+    </Popover.Root>
   );
 }

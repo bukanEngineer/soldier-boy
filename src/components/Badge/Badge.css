@@ -15,7 +15,8 @@
 }
 .badge--lg { min-width: 22px; height: 22px; padding: 0 7px; font-size: 12px; line-height: 22px; }
 .badge--sm { min-width: 14px; height: 14px; padding: 0 4px; font-size: 10px; line-height: 14px; border-width: 1.5px; }
-.badge--dot { width: 10px; height: 10px; min-width: 0; padding: 0; border-width: 2px; }
+.badge--dot,
+.badge[data-dot] { width: 10px; height: 10px; min-width: 0; padding: 0; border-width: 2px; }
 
 .badge--critical { background: var(--status-critical); color: var(--text-inverse); }
 .badge--warning  { background: var(--status-warning);  color: var(--text-primary); }

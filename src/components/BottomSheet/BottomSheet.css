@@ -1,13 +1,27 @@
-.bsheet-scrim {
+/* BottomSheet: Base UI Drawer parts. State comes from Base UI data attributes
+ * ([data-starting-style], [data-ending-style], [data-swiping]) and swipe
+ * CSS variables (--drawer-swipe-movement-y, --drawer-swipe-progress). */
+
+.bsheet-backdrop {
   position: fixed;
   inset: 0;
   background: var(--overlay);
+  z-index: 1100;
+  opacity: calc(1 - var(--drawer-swipe-progress, 0));
+  transition: opacity var(--dur-3) var(--ease);
+}
+.bsheet-backdrop[data-starting-style],
+.bsheet-backdrop[data-ending-style] { opacity: 0; }
+
+.bsheet-viewport {
+  position: fixed;
+  inset: 0;
   display: flex;
   align-items: flex-end;
   justify-content: center;
   z-index: 1100;
-  animation: scrim-in var(--dur-3) var(--ease);
 }
+
 .bsheet {
   width: 100%;
   max-width: 560px;
@@ -17,23 +31,21 @@
   max-height: calc(100vh - 24px);
   display: flex;
   flex-direction: column;
-  animation: bsheet-in var(--dur-3) var(--ease);
+  outline: none;
+  transform: translateY(var(--drawer-swipe-movement-y, 0px));
+  transition: opacity var(--dur-3) var(--ease), transform var(--dur-3) var(--ease);
 }
-@keyframes bsheet-in {
-  from { opacity: 0; transform: translateY(24px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-@keyframes scrim-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
+.bsheet[data-starting-style] { opacity: 0; transform: translateY(24px); }
+.bsheet[data-ending-style] { transform: translateY(100%); }
+
+.bsheet[data-swiping],
+.bsheet-backdrop[data-swiping] { transition-duration: 0ms; }
 
 @media (prefers-reduced-motion: reduce) {
-  .bsheet-scrim,
-  .bsheet {
-    animation: none;
-  }
+  .bsheet-backdrop,
+  .bsheet { transition: none; }
 }
+
 .bsheet__handle {
   width: 40px;
   height: 4px;
@@ -49,6 +61,7 @@
   padding: 8px 20px 0;
 }
 .bsheet__title { flex: 1; font: 700 18px/1.3 var(--font-display); color: var(--text-primary); }
+.bsheet__description { margin: 0; font: var(--body-medium); color: var(--text-secondary); }
 .bsheet__close {
   flex: 0 0 auto;
   background: transparent;

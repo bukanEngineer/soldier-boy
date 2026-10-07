@@ -1,7 +1,5 @@
 {
   "compilerOptions": {
-    "allowJs": true,
-    "checkJs": false,
     "strict": true,
     "declaration": true,
     "emitDeclarationOnly": true,
@@ -22,8 +20,8 @@
     "src/**/*.stories.jsx",
     "src/**/*.test.tsx",
     "src/**/*.test.jsx",
+    "src/test-utils.tsx",
     "src/stories",
     "src/examples",
-    "src/COMPONENT_AUDIT.md"
   ]
 }

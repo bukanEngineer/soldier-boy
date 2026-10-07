@@ -1,3 +1,7 @@
-// @ts-ignore InputCurrency will be fully typed in a later migration pass
 export { InputCurrency } from "./InputCurrency";
-export type InputCurrencyProps = Record<string, unknown>;
+export type {
+  InputCurrencyProps,
+  InputCurrencyAsset,
+  InputCurrencyAssetOption,
+  InputCurrencyLinkButton,
+} from "./InputCurrency";

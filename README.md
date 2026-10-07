@@ -22,19 +22,71 @@ Install it as a dependency, then import components and stylesheets from the buil
 npm install soldier-boy
 ```
 
-```jsx
+```tsx
 import "soldier-boy/global.css"; // resets + tokens + @font-face (once, at your app's entry)
-import { Button, Tag, Card } from "soldier-boy";
+import {
+  Button,
+  Tag,
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  Tabs,
+  Field,
+  Input,
+} from "soldier-boy";
 
 export default function Example() {
   return (
-    <Card shadow={1} title="Welcome">
-      <Tag tone="positive">Verified</Tag>
-      <Button variant="primary">Continue</Button>
+    <Card shadow={1}>
+      <CardHeader>
+        <CardTitle>Welcome</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <Tag tone="positive">Verified</Tag>
+        <Button variant="primary">Continue</Button>
+      </CardContent>
     </Card>
   );
 }
 ```
+
+### Compound APIs (Base UI migration)
+
+Form controls are bare; labels/errors come from `Field`. Overlays and navigation use compound parts:
+
+```tsx
+import { Field, Input, Select, Tabs, Menu, PaginationNav } from "soldier-boy";
+
+<Field.Root>
+  <Field.Label>Email</Field.Label>
+  <Input type="email" />
+  <Field.Error match>Required</Field.Error>
+</Field.Root>
+
+<Tabs.Root defaultValue="in">
+  <Tabs.List>
+    <Tabs.Tab value="in">Transfer In</Tabs.Tab>
+    <Tabs.Tab value="out">Transfer Out</Tabs.Tab>
+    <Tabs.Indicator />
+  </Tabs.List>
+  <Tabs.Panel value="in">…</Tabs.Panel>
+  <Tabs.Panel value="out">…</Tabs.Panel>
+</Tabs.Root>
+
+<Menu.Root>
+  <Menu.Trigger>Actions</Menu.Trigger>
+  <Menu.Popup>
+    <Menu.Item icon="download">Download</Menu.Item>
+    <Menu.Separator />
+    <Menu.Item icon="logout" variant="critical">Log out</Menu.Item>
+  </Menu.Popup>
+</Menu.Root>
+
+<PaginationNav page={2} totalPages={12} onPageChange={setPage} />
+```
+
+Upgrading from 0.2: see `docs/migration-0.3.md`. Full migration status and conventions: `docs/base-ui-migration.md`.
 
 Each component imports its own CSS (`import "./Button.css"` etc.) as part of the package — this requires a bundler that handles CSS-from-JS imports (Vite, webpack, Next.js, Remix, CRA all do this out of the box, including for `node_modules` dependencies). Running the package's compiled output directly under plain Node (no bundler) is not a supported consumption path.
 
@@ -87,7 +139,7 @@ soldier-boy/
 │   ├── theme/
 │   │   ├── tokens.css          ← --sx-* CSS variables + @font-face
 │   │   ├── theme.ts            ← typed theme object backed by CSS variables
-│   │   └── ThemeContext.tsx    ← ThemeProvider / useTheme
+│   │   └── ThemeContext.tsx    ← optional ThemeProvider / useTheme (CSS vars preferred)
 │   ├── styles/
 │   │   └── global.css          ← resets, body defaults, Material Symbols
 │   ├── constants/              ← Colors/, Typography/, Spacing/, spacing, breakpoints, shadow
@@ -95,7 +147,7 @@ soldier-boy/
 │   ├── fonts/                  ← Hanken Grotesk + Red Hat Display ttfs
 │   ├── assets/                 ← logomark + partner SVGs
 │   ├── hooks/
-│   ├── stories/                ← Examples.stories.jsx
+│   ├── stories/                ← Examples.stories.tsx
 │   └── components/             ← one folder per component: {Component}.tsx + .css
 │                                  + index.tsx barrel + .stories.tsx (+ .test.tsx)
 └── examples/                   ← full dashboard compositions

@@ -30,7 +30,7 @@
   color: var(--interactive-active);
   text-align: center;
 }
-.card-checklist__tab.is-active {
+.card-checklist__tab[data-active] {
   background: var(--surface);
   border-color: var(--border);
   font: var(--body-bold-medium);
@@ -78,7 +78,7 @@
   padding: var(--space-3);
   border-radius: var(--radius-lg);
 }
-.card-checklist__item.is-active {
+.card-checklist__item[data-active] {
   background: var(--surface-secondary);
   box-shadow: var(--shadow-1);
 }
@@ -90,9 +90,9 @@
   flex-shrink: 0;
 }
 .card-checklist__mark .material-symbols-rounded { font-size: 24px; }
-.card-checklist__mark--done { color: var(--status-positive); }
-.card-checklist__mark--active { color: var(--primary); }
-.card-checklist__mark--locked { color: var(--disabled-on-surface); }
+.card-checklist__mark[data-status="done"] { color: var(--status-positive); }
+.card-checklist__mark[data-status="active"] { color: var(--status-positive); }
+.card-checklist__mark[data-status="locked"] { color: var(--disabled-on-surface); }
 
 .card-checklist__item-body {
   flex: 1 0 0;

@@ -38,83 +38,88 @@ Status legend: `[ ]` todo, `[~]` in progress, `[x]` done. Update this file as wo
 - [x] Reference implementations instead of a template: `src/components/{Button,Tabs,Field}` (component, CSS with data-attribute selectors, TS story, TS test).
 - [x] Story-only states use `storybook-addon-pseudo-states` (`parameters.pseudo`, see `Button.stories.tsx` `States`). Removed from `Button.css`; remaining components are removed as they migrate.
 - [x] Update `AGENTS.md` with a pointer to this file.
-- [ ] Delete or rewrite stale `src/COMPONENT_AUDIT.md` (it names another repo and an old count).
+- [x] Deleted stale `src/COMPONENT_AUDIT.md` (wrong repo / outdated counts). `docs/base-ui-migration.md` is the status source of truth.
 
 ## Phase 1: behavior-heavy primitives (highest value, known bugs)
 
 Order matters: later items depend on earlier ones.
 
 ### 1.1 Menu
-- [ ] Rebuild on Base UI `Menu` (`Root`, `Trigger`, `Portal`, `Positioner`, `Popup`, `Item`, `RadioGroup`/`RadioItem`, `CheckboxItem`, `Separator`, `Group`/`GroupLabel`).
-- [ ] Map current `MenuItem` props: `icon`/`leading`/`trailing`/`secondary` become children slots; `tone="critical"` becomes `data-variant="critical"` or a `variant` prop; `selectable` becomes `RadioItem` / `CheckboxItem`.
-- [ ] Fixes: arrow keys, typeahead, focus into popup, portal (no clipping), no `cloneElement` `__close` injection.
-- [ ] Consumers to update: `InputCurrency`, `TopNavProfileMenu`, `CompanyProfileMenu` (verify these), `Select` (replaced in 1.2).
+- [x] Rebuild on Base UI `Menu` (`Root`, `Trigger`, `Portal`, `Positioner`, `Popup`, `Item`, `RadioGroup`/`RadioItem`, `CheckboxItem`, `Separator`, `Group`/`GroupLabel`).
+- [x] Map current `MenuItem` props: `icon`/`leading`/`trailing`/`secondary` become children slots; `tone="critical"` becomes `data-variant="critical"` or a `variant` prop; `selectable` becomes `RadioItem` / `CheckboxItem`.
+- [x] Fixes: arrow keys, typeahead, focus into popup, portal (no clipping), no `cloneElement` `__close` injection.
+- [x] Consumers to update: `InputCurrency` updated to compound `Menu` + `RadioGroup`. `TopNavProfileMenu` / `CompanyProfileMenu` verified — they are static markup menus, not `Menu` consumers. `Select` replaced in 1.2.
 
 ### 1.2 Select
-- [ ] Rebuild on Base UI `Select` (`Root`, `Trigger`, `Value`, `Icon`, `Portal`, `Positioner`, `Popup`, `List`, `Item`, `ItemText`, `ItemIndicator`).
-- [ ] `options=[]` becomes children `Select.Item`s. `onChange(value, option)` becomes `onValueChange(value)`.
-- [ ] Label/helper/error move to `Field` (see 1.6).
-- [ ] Clear action: real sibling `<button>` outside the trigger, not a `span role="button"` inside it.
-- [ ] Fixes: correct `listbox` semantics, keyboard nav.
+- [x] Rebuild on Base UI `Select` (`Root`, `Trigger`, `Value`, `Icon`, `Portal`, `Positioner`, `Popup`, `List`, `Item`, `ItemText`, `ItemIndicator`).
+- [x] `options=[]` becomes children `Select.Item`s. `onChange(value, option)` becomes `onValueChange(value)`. Pass `items` on Root for closed-state labels.
+- [x] Label/helper/error move to `Field` (see 1.6).
+- [x] Clear action: real sibling `<button>` (`Select.Clear`) outside the trigger, not a `span role="button"` inside it.
+- [x] Fixes: correct `listbox` semantics, keyboard nav.
 
 ### 1.3 Combobox / MultiSelect and the domain families
-- [ ] Rebuild `MultiSelect` on Base UI `Combobox` (multiple) or `Select multiple`.
-- [ ] Replace `DropdownBank`, `DropdownBlockchain`, `DropdownNetwork` (near-identical copies) with one generic primitive plus item recipes (asset mark + name + secondary text).
-- [ ] Same for `FieldBank` / `FieldBlockchain` / `FieldNetwork` and `ListBank` / `ListBlockchain` / `ListSupportedNetwork`.
-- [ ] Decide which of these stay exported vs move to `src/examples` / dashboard app as recipes.
+- [x] Rebuild `MultiSelect` on Base UI `Combobox` (multiple) with chips / clear / filter input.
+- [x] Replace `DropdownBank`, `DropdownBlockchain`, `DropdownNetwork`, `DropdownAsset` with shared `OptionList` primitive + thin domain recipes (`account` / `address` / `balance` → secondary/trailing).
+- [x] Replace `FieldBank` / `FieldBlockchain` / `FieldNetwork` with shared `FieldOptionSelect` (Select + rich rows) + thin recipes. Label/helper/error via `Field`.
+- [x] `ListBank` / `ListBlockchain` / `ListSupportedNetwork`: conventions (TS, `cn()`, `data-variant`).
+- [x] Keep domain Dropdown/Field/List recipes exported for now (thin compositions); revisit moving to examples/dashboard later.
 
 ### 1.4 Dialog (Modal) and sheets
-- [ ] Rebuild `Modal` on Base UI `Dialog` (`Root`, `Trigger`, `Portal`, `Backdrop`, `Popup`, `Title`, `Description`, `Close`). Delete hand-rolled focus trap, scroll lock and Escape handling.
-- [ ] Replace `variant="illustration" | "new-feature"` and `illustration` / `media` / `footer` props with composable parts (`Modal.Header`, `Modal.Media`, `Modal.Body`, `Modal.Footer`).
-- [ ] `open` + `onClose` becomes `open` + `onOpenChange`. `dismissable={false}` maps to Base UI's dismissal controls.
-- [ ] Rebuild `BottomSheet` on `Dialog` (or Base UI `Drawer` if available in the pinned version).
-- [ ] Rebuild consumers as compositions: `Modal2FA`, `ModalAssetOverview`, `ModalAssetSelection`, `BottomSheetBank`, `BottomSheetBlockchain`, `BottomSheetNetwork`. Consider moving them out of core.
+- [x] Rebuild `Modal` on Base UI `Dialog` (`Root`, `Trigger`, `Portal`, `Backdrop`, `Popup`, `Title`, `Description`, `Close`). Delete hand-rolled focus trap, scroll lock and Escape handling.
+- [x] Replace `variant="illustration" | "new-feature"` and `illustration` / `media` / `footer` props with composable parts (`Modal.Header`, `Modal.Media`, `Modal.Body`, `Modal.Footer`).
+- [x] `open` + `onClose` becomes `open` + `onOpenChange`. `dismissable={false}` maps to Base UI's dismissal controls.
+- [x] Rebuild `BottomSheet` on `Dialog` (or Base UI `Drawer` if available in the pinned version).
+- [x] Rebuild consumers as compositions: `Modal2FA`, `ModalAssetOverview`, `ModalAssetSelection`, `BottomSheetBank`, `BottomSheetBlockchain`, `BottomSheetNetwork`. Consider moving them out of core. Shared list UI lives in internal `BottomSheetSelect` (not package-exported).
 
 ### 1.5 Tooltip, Popover, Coachmark
-- [ ] Rebuild `Tooltip` on Base UI `Tooltip` (`Provider`, `Root`, `Trigger`, `Portal`, `Positioner`, `Popup`, `Arrow`). Plain text content only.
-- [ ] Add `Popover` on Base UI `Popover` for rich content (title + tag + links). Move the current rich-tooltip usage there; interactive content must not live in a tooltip.
-- [ ] Rebuild `Coachmark` on `Popover`.
-- [ ] Consumers to update: `InputCurrency`, `Table`.
+- [x] Rebuild `Tooltip` on Base UI `Tooltip` (`Provider`, `Root`, `Trigger`, `Portal`, `Positioner`, `Popup`, `Arrow`). Plain text content only.
+- [x] Add `Popover` on Base UI `Popover` for rich content (title + tag + links). Move the current rich-tooltip usage there; interactive content must not live in a tooltip.
+- [x] Rebuild `Coachmark` on `Popover`.
+- [x] Consumers to update: `InputCurrency` (plain `Tooltip`), `Table` (rich → `Popover`).
 
 ### 1.6 Field and form controls
 - [x] Add `Field` on Base UI `Field` (`Root`, `Label`, `Control`, `Description`, `Error`) and optionally `Fieldset` / `Form`.
-- [ ] `Input`, `Textarea`, `InputCurrency`, `DateInput`: become bare controls used inside `Field`. Remove baked-in `label` / `helper` / `error` props (or keep a thin `TextField` convenience wrapper; decide once).
-- [ ] `Checkbox` on Base UI `Checkbox` (+ `CheckboxGroup`), `onCheckedChange`, indeterminate support.
-- [ ] `Radio` on Base UI `RadioGroup` + `Radio` (arrow-key group nav).
-- [ ] `Switch` on Base UI `Switch` (`Root`, `Thumb`).
-- [ ] `SelectionBox`: evaluate as a styled `RadioGroup` / `CheckboxGroup` item.
+- [x] `Input`, `Textarea`: bare controls used inside `Field` (clear / password / trailing button stay on Input).
+- [x] `InputCurrency`: bare control inside `Field`; asset picker stays on the control (`Menu` + `RadioGroup`). Label hint is a `Field` + `Tooltip` composition in stories.
+- [x] `DateInput`: bare control inside `Field`; calendar opens in `Popover` (light surface). Full `react-day-picker` evaluation stays in Phase 2.
+- [x] `Checkbox` on Base UI `Checkbox` (+ `CheckboxGroup`), `onCheckedChange`, indeterminate support.
+- [x] `Radio` on Base UI `RadioGroup` + `Radio` (arrow-key group nav).
+- [x] `Switch` on Base UI `Switch` (`Root`, `Thumb`).
+- [x] `SelectionBox`: styled `Radio` / `Checkbox` item (card chrome).
 
 ### 1.7 Tabs
 - [x] Rebuild on Base UI `Tabs` (`Root`, `List`, `Tab`, `Indicator`, `Panel`). `items=[]` becomes children; `activeTab`/`onTabChange` becomes `value`/`onValueChange`.
 - [x] `variant="secondary"` and `fill` are props on `Tabs.List` (exposed as `data-variant` / `data-fill`).
 
 ### 1.8 Toast
-- [ ] Rebuild on Base UI `Toast` (`Provider`, `Viewport`, `Root`, `Title`, `Description`, `Close`) with `useToastManager`.
-- [ ] Consumer to update: `Copybox`.
+- [x] Rebuild on Base UI `Toast` (`Provider`, `Viewport`, `Root`, `Title`, `Description`, `Close`) with `useToastManager`. `ToastProvider` + `useToast` / `useOptionalToast` facade.
+- [x] Consumer to update: `Copybox` (optional toast via `useOptionalToast`).
 
 ## Phase 2: non-primitive components (conventions only)
 
 No Base UI primitive; apply the conventions (TS, ref + prop spread, `cn()`, data attributes, children over content props).
 
 - [x] `Button`: built on Base UI `Button` (`render` + `nativeButton={false}` for links); story-only state classes removed.
-- [ ] Merge decision for `LinkButton` / `IconButton`: consider merging them into `Button` variants/sizes.
-- [ ] Add `ButtonGroup` (shadcn style: `role="group"`, orientation, separator). New component.
-- [ ] `Card` and `Card*` family (`CardAsset`, `CardAttribute`, `CardChecklist`, `CardStatus`, `CardSteps`, `CardSummary`, `CardSwap`): base `Card` becomes `Card` / `CardHeader` / `CardTitle` / `CardDescription` / `CardContent` / `CardFooter`; domain cards become recipes.
-- [ ] `Tag`, `Badge`, `Alert`, `EmptyState`, `ImportantNotes`, `ErrorResponse`, `PageTitle`, `StatusIcon`: children-based parts, ref + spread.
-- [ ] `Table`: split into `Table` / `TableHeader` / `TableBody` / `TableRow` / `TableHead` / `TableCell` parts (shadcn style). Move timezone/date formatting helpers out to `src/lib`. Data-driven behavior (sort, infinite load) stays in an optional higher-level wrapper or recipe.
-- [ ] `Pagination`, `Breadcrumb`, `Steps`: compound parts, `nav` + `aria-current`.
-- [ ] `Sidebar`, `TopNavigation`, `TopNavProfileMenu`, `CompanyProfileMenu`: compositions using `Menu`, `Collapsible`/`Accordion` where relevant.
-- [ ] `Calendar`, `DateInput`: evaluate `react-day-picker` (shadcn's choice) vs keeping custom; at minimum apply conventions.
-- [ ] `Upload`, `Copybox`, `QR`, `EstimatedBalance`, `OtcBanner`, `InlineCrossAsset`, `AssetMark`, `Logo`, `Logomark`, `PartnerLogo`, `Icon`: conventions only.
+- [x] Keep `LinkButton` / `IconButton` as separate exports (distinct ergonomics: required `label`, link chrome / `onDark`). Both rebuilt on Base UI `Button` + `cn()` / `data-*`.
+- [x] Add `ButtonGroup` (shadcn style: `role="group"`, orientation, attached sibling edges).
+- [x] `Card` compound parts: `Card` / `CardHeader` / `CardTitle` / `CardDescription` / `CardContent` / `CardFooter` (shadcn style; `title`/`body` props removed). Domain cards (`CardAsset`, `CardAttribute`, `CardChecklist`, `CardStatus`, `CardSteps`, `CardSummary`, `CardSwap`) converted to TS recipes with `cn()` / `data-*`.
+- [x] `Tag`, `Badge`, `Alert` (+ `AlertTitle` / `AlertDescription` / `AlertActions`), `EmptyState`, `ImportantNotes`, `ErrorResponse`, `PageTitle`, `StatusIcon`: TS + `cn()` + `data-*`; children-based parts where useful.
+- [x] `Table` compound parts (`Table` / `TableWrap` / `TableHeader` / `TableBody` / `TableRow` / `TableHead` / `TableCell` / `TableCaption`). Timezone helpers moved to `src/lib/timezone.ts`. Data-driven API lives in `DataTable` (recipe).
+- [x] `Pagination`, `Breadcrumb`, `Steps`: compound parts, `nav` + `aria-current`. `PaginationNav` is the page-aware recipe (`page` / `totalPages` / `onPageChange`). `VerticalStep` replaces `items[]`.
+- [x] `Sidebar`, `TopNavigation`, `TopNavProfileMenu`, `CompanyProfileMenu`: compositions using `Menu` + `Collapsible`; TS + `cn()` + `data-*`.
+- [x] `Calendar`, `DateInput`: keep the custom calendar (no `react-day-picker` — surface is small, already token-styled, range + multi-month covered). Applied conventions (`cn()`, `data-*`, prop spread). `DateInput` already on `Popover` + `Field`.
+- [x] `Upload`, `Copybox`: conventions applied (TS, `cn()`, data attributes, Field composition).
+- [x] `QR`, `EstimatedBalance`, `OtcBanner`, `InlineCrossAsset`, `AssetMark`, `Logo`, `Logomark`, `PartnerLogo`, `Icon`: conventions applied (TS + `cn()` / `data-*`). Generated PartnerLogo marks emit `.tsx`.
 
 ## Phase 3: cleanup
 
-- [ ] All components in `.tsx`; remove `allowJs` from `tsconfig.json` when done.
-- [ ] Remove `ThemeContext` / `useTheme` if nothing consumes it (CSS variables are the source of truth). Check the dashboard app first.
-- [ ] Remove deprecated legacy wrappers from the previous release.
-- [ ] Audit icons: replace Material Symbols ligature text with SVG icons or ensure every decorative instance has `aria-hidden`.
-- [ ] Run `@storybook/addon-a11y` across all stories; zero violations.
-- [ ] Update README usage examples to the compound APIs.
+- [x] All package source in `.tsx` / `.ts` (including generated PartnerLogo SVGs); `allowJs` removed from `tsconfig.json`.
+- [x] `ThemeContext` / `useTheme`: kept as optional export for JS token access (CSS variables remain preferred). Dashboard uses its own local ThemeContext today — not imported from soldier-boy — so safe to keep for package consumers in 0.3.
+- [x] Clean break: removed soft aliases (`EmptyState.sub`, `ErrorResponse.body`, `PaginationNav.onChange`, `TableData`, `OptionList.onSelect`). Documented in `docs/migration-0.3.md` + `CHANGELOG.md`.
+- [x] Decorative Material Symbols: production components audited; icon-only controls keep `aria-label`, glyphs use `aria-hidden` (parent or self). Full SVG migration deferred.
+- [x] Run `@storybook/addon-a11y` across all stories; zero violations with `a11y.test: "error"`. Token pass (`--status-warning-strong`, darker link/disabled/placeholder/gold/sidebar-active text); ARIA (StatusIcon, HorizontalSteps, OptionList); Calendar/Table opacity → solid muted colors; Select/MultiSelect Field wrappers; sandbox topnav surface; TableWrap `tabIndex={0}`; exclude Base UI focus guards.
+- [x] Update README usage examples to the compound APIs.
+- [x] `docs/migration-0.3.md` + `CHANGELOG.md` for the 0.3.0 cut.
 
 ## Per-component definition of done
 

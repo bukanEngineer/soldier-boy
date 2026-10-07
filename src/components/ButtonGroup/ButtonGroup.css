@@ -1,0 +1,61 @@
+/* ButtonGroup — attached sibling buttons. */
+.btn-group {
+  display: inline-flex;
+  align-items: stretch;
+  vertical-align: middle;
+}
+.btn-group[data-orientation="horizontal"] {
+  flex-direction: row;
+}
+.btn-group[data-orientation="vertical"] {
+  flex-direction: column;
+}
+
+/* Squash shared borders between adjacent buttons. */
+.btn-group[data-orientation="horizontal"] > .btn:not(:first-child),
+.btn-group[data-orientation="horizontal"] > .icon-btn:not(:first-child) {
+  margin-left: -1.5px;
+}
+.btn-group[data-orientation="vertical"] > .btn:not(:first-child),
+.btn-group[data-orientation="vertical"] > .icon-btn:not(:first-child) {
+  margin-top: -1.5px;
+}
+
+.btn-group[data-orientation="horizontal"] > .btn:not(:first-child):not(:last-child),
+.btn-group[data-orientation="horizontal"] > .icon-btn:not(:first-child):not(:last-child) {
+  border-radius: 0;
+}
+.btn-group[data-orientation="horizontal"] > .btn:first-child:not(:only-child),
+.btn-group[data-orientation="horizontal"] > .icon-btn:first-child:not(:only-child) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.btn-group[data-orientation="horizontal"] > .btn:last-child:not(:only-child),
+.btn-group[data-orientation="horizontal"] > .icon-btn:last-child:not(:only-child) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.btn-group[data-orientation="vertical"] > .btn:not(:first-child):not(:last-child),
+.btn-group[data-orientation="vertical"] > .icon-btn:not(:first-child):not(:last-child) {
+  border-radius: 0;
+}
+.btn-group[data-orientation="vertical"] > .btn:first-child:not(:only-child),
+.btn-group[data-orientation="vertical"] > .icon-btn:first-child:not(:only-child) {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.btn-group[data-orientation="vertical"] > .btn:last-child:not(:only-child),
+.btn-group[data-orientation="vertical"] > .icon-btn:last-child:not(:only-child) {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.btn-group > .btn,
+.btn-group > .icon-btn {
+  position: relative;
+}
+.btn-group > .btn:focus-visible,
+.btn-group > .icon-btn:focus-visible {
+  z-index: 1;
+}

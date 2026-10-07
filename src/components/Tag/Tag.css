@@ -42,7 +42,7 @@
 .tag--warning {
   background: var(--status-surface-warning);
   border-color: var(--status-warning);
-  color: var(--status-warning);
+  color: var(--status-warning-strong);
 }
 .tag--info {
   background: var(--status-surface-information);
@@ -85,17 +85,17 @@
 .tag--clickable:hover { background: var(--surface-hovered); }
 .tag--clickable:focus-visible { outline: 2px solid var(--status-information); outline-offset: 2px; }
 /* selected chips take the brand highlight regardless of tone */
-.tag--clickable.is-selected {
+.tag--clickable[data-selected] {
   border-color: transparent;
   background: var(--primary);
   color: var(--text-primary);
 }
 
 /* ── Disabled ── */
-.tag.is-disabled {
+.tag[data-disabled] {
   background: var(--surface-disabled);
   border-color: var(--border);
   color: var(--disabled-on-surface);
   cursor: not-allowed;
 }
-.tag.is-disabled .tag__remove { opacity: 0.4; cursor: not-allowed; }
+.tag[data-disabled] .tag__remove { opacity: 0.4; cursor: not-allowed; }

@@ -1,0 +1,86 @@
+.popover__positioner {
+  z-index: 50;
+}
+.popover__popup {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  background: var(--text-primary);
+  color: var(--text-inverse);
+  font: var(--body-small);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  max-width: 280px;
+  width: max-content;
+  box-shadow: var(--shadow-2);
+  outline: 0;
+  transform-origin: var(--transform-origin);
+  transition: opacity var(--dur-1) var(--ease);
+}
+.popover__popup[data-starting-style],
+.popover__popup[data-ending-style] {
+  opacity: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .popover__popup { transition: none; }
+}
+
+.popover__arrow {
+  width: 8px;
+  height: 8px;
+  background: var(--text-primary);
+  transform: rotate(45deg);
+}
+.popover__arrow[data-side="top"] { bottom: -4px; }
+.popover__arrow[data-side="bottom"] { top: -4px; }
+.popover__arrow[data-side="left"] { right: -4px; }
+.popover__arrow[data-side="right"] { left: -4px; }
+
+.popover__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+.popover__title {
+  margin: 0;
+  font: var(--body-bold-small);
+  color: var(--text-inverse);
+}
+.popover__description {
+  margin: 0;
+  font: var(--body-small);
+  color: var(--text-inverse);
+}
+.popover__footer {
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+.popover__close {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: transparent;
+  color: var(--text-inverse);
+  cursor: pointer;
+  padding: 0;
+  opacity: 0.8;
+}
+.popover__close:hover { opacity: 1; }
+
+.popover__footer .popover__link,
+.popover__popup > button.popover__link {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  font: var(--body-bold-small);
+  /* Popup sits on --text-primary (dark); use on-dark link color for AA */
+  color: var(--brand-seamless-mint);
+  text-decoration: underline;
+}
+.popover__footer .popover__link:hover { opacity: 0.85; }

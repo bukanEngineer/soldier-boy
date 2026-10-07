@@ -1,0 +1,127 @@
+/* FieldOptionSelect — card-style Select trigger + rich option rows. */
+.field-option-select.select {
+  height: auto;
+  min-height: 48px;
+  padding: var(--space-4);
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+
+.field-option-select .select__value {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex: 1 1 auto;
+  min-width: 0;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+  padding-right: 0;
+}
+
+.field-option-select__placeholder {
+  font: var(--body-large);
+  color: var(--input-placeholder);
+}
+.field-option-select[data-disabled] .field-option-select__placeholder {
+  color: var(--disabled-on-surface);
+}
+
+.field-option-select__mark {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 24px;
+}
+.field-option-select__mark > * { max-width: 48px; max-height: 24px; }
+.field-option-select__initials {
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-full);
+  background: var(--surface-secondary);
+  color: var(--text-secondary);
+  font: var(--label-small);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.field-option-select__text {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.field-option-select__name {
+  font: var(--body-large);
+  color: inherit;
+}
+.field-option-select__secondary {
+  font: var(--body-medium);
+  color: var(--text-secondary);
+}
+.field-option-select[data-disabled] .field-option-select__secondary,
+.select__item[data-disabled] .field-option-select__secondary {
+  color: var(--disabled-on-surface);
+}
+
+.field-option-select__tags {
+  display: flex;
+  gap: var(--space-1);
+  margin-top: 2px;
+}
+.field-option-select__tag {
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-sm);
+  font: var(--label-small);
+  color: var(--text-inverse);
+}
+.field-option-select__tag[data-variant="positive"] { background: var(--status-positive); }
+.field-option-select__tag[data-variant="critical"] { background: var(--status-critical); }
+.field-option-select__tag[data-variant="warning"] { background: var(--status-warning-strong); }
+.field-option-select__tag[data-variant="information"] { background: var(--status-information); }
+
+.field-option-select__popup.select__popup {
+  max-height: min(360px, var(--available-height));
+  padding: 0;
+}
+
+.field-option-select__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+  min-width: 0;
+}
+
+.field-option-select__link {
+  flex: 0 0 auto;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  font: var(--label-medium);
+  color: var(--link);
+  cursor: pointer;
+}
+.field-option-select__link:hover { text-decoration: underline; }
+
+/* Hide the default check when using rich rows — selection is shown via data-selected styling. */
+.field-option-select__popup .select__item-indicator { display: none; }
+.field-option-select__popup .select__item {
+  padding: var(--space-3);
+  border-radius: 0;
+}
+.field-option-select__popup .select__item[data-selected] {
+  background: var(--surface-secondary);
+}
+.field-option-select__popup .select__item-text {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+}

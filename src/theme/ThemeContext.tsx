@@ -1,17 +1,14 @@
 /**
- * Optional ThemeContext — provides JS access to the theme object via React
- * Context. Most components should use CSS custom properties directly, but
- * this is available for components that need programmatic token access.
+ * Optional ThemeContext — JS access to the theme object via React Context.
  *
- * Usage:
- *   import { ThemeProvider, useTheme } from "../theme/ThemeContext";
+ * Prefer CSS custom properties (`var(--primary)`, etc.) for styling. Keep this
+ * export for rare programmatic token reads. The dashboard app today uses its
+ * own local ThemeContext; soldier-boy's copy stays for package consumers that
+ * import `ThemeProvider` / `useTheme` from `soldier-boy`.
  *
- *   // Wrap app
+ *   import { ThemeProvider, useTheme } from "soldier-boy";
  *   <ThemeProvider><App /></ThemeProvider>
- *
- *   // In component
- *   const theme = useTheme();
- *   const bg = theme.brand.action.default; // "var(--primary)"
+ *   const theme = useTheme(); // theme.brand.action.default → "var(--primary)"
  */
 import React, { createContext, useContext } from "react";
 import { theme, type Theme } from "./theme";

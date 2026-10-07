@@ -1,40 +1,58 @@
 import React from "react";
-import { Textarea } from "./Textarea";
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { Textarea } from "./Textarea";
+import { Field } from "../Field/Field";
 
-const meta: Meta<typeof Textarea> = {
+function Example(props: React.ComponentProps<typeof Textarea> & {
+  label?: string;
+  helper?: string;
+  error?: string;
+}) {
+  const { label, helper, error, ...textareaProps } = props;
+  return (
+    <Field.Root invalid={!!error}>
+      {label && <Field.Label>{label}</Field.Label>}
+      <Textarea {...textareaProps} />
+      {helper && !error && <Field.Description>{helper}</Field.Description>}
+      {error && <Field.Error match>{error}</Field.Error>}
+    </Field.Root>
+  );
+}
+
+const meta: Meta<typeof Example> = {
   title: "Components/Textarea",
-  component: Textarea,
-  args: { showCount: false, disabled: false },
-  argTypes: {
-    label: { control: "text" },
-    helper: { control: "text" },
-    error: { control: "text" },
-    disabled: { control: "boolean" },
-    showCount: { control: "boolean" },
-    maxLength: { control: { type: "number", min: 0 } },
-    onChange: { action: "onChange" },
-  },
+  component: Example,
   parameters: { layout: "padded" },
-  decorators: [(Story) => <div style={{ maxWidth: 480 }}><Story /></div>],
+  decorators: [
+    (Story) => (
+      <div style={{ maxWidth: 360 }}>
+        <Story />
+      </div>
+    ),
+  ],
 };
 export default meta;
 
-type Story = StoryObj<typeof Textarea>;
+type Story = StoryObj<typeof Example>;
 
-export const Default: Story = { args: { label: "Reason for transfer", placeholder: "Type a note for your records…" } };
-export const WithCounter: Story = { args: { label: "Reason for transfer", maxLength: 280, showCount: true, defaultValue: "Monthly rent." } };
-export const Error: Story = { args: { label: "Reason for transfer", error: "This field is required." } };
-export const Disabled: Story = { args: { label: "Reason for transfer", disabled: true, defaultValue: "Monthly rent." } };
+export const Default: Story = {
+  args: {
+    label: "Notes",
+    helper: "Visible on the transfer receipt.",
+    placeholder: "Optional message",
+    showCount: true,
+    maxLength: 200,
+  },
+};
 
-export const States: Story = {
-  render: () => (
-    <div style={{ display: "grid", gap: 16, maxWidth: 480 }}>
-      <Textarea label="Enabled" placeholder="Type a note…" />
-      <Textarea label="Hovered" state="hovered" placeholder="Type a note…" />
-      <Textarea label="Focused" state="focused" placeholder="Type a note…" />
-      <Textarea label="Error" error="This field is required." />
-      <Textarea label="Disabled" disabled defaultValue="Monthly rent." />
-    </div>
-  ),
+export const ErrorState: Story = {
+  args: {
+    label: "Notes",
+    defaultValue: "too short",
+    error: "Please add more detail.",
+  },
+};
+
+export const Disabled: Story = {
+  args: { label: "Notes", defaultValue: "Locked", disabled: true },
 };

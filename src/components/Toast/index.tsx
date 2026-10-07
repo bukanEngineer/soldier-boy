@@ -1,5 +1,15 @@
-// @ts-ignore Toast will be fully typed in a later migration pass
-export { Toast, ToastProvider, useToast } from "./Toast";
-// @ts-ignore
-export { ToastContext } from "./Toast";
-export type ToastProps = Record<string, unknown>;
+export { Toast, ToastProvider, useToast, useOptionalToast } from "./Toast";
+export type {
+  ToastTone,
+  ToastObject,
+  ToastOptions,
+  ToastApi,
+  ToastData,
+  ToastProviderProps,
+  ToastRootProps,
+  ToastIconProps,
+  ToastTitleProps,
+  ToastDescriptionProps,
+  ToastActionProps,
+  ToastCloseProps,
+} from "./Toast";

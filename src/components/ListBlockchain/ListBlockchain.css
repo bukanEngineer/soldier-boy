@@ -8,7 +8,7 @@
   box-sizing: border-box;
   background: var(--surface);
 }
-.list-blockchain--verifiedPrivateWallet {
+.list-blockchain[data-variant="verifiedPrivateWallet"] {
   align-items: flex-start;
 }
 

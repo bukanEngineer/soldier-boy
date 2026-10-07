@@ -1,47 +1,50 @@
 import React, { useState } from "react";
-import { Switch } from "./Switch";
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { Switch } from "./Switch";
 
-const meta: Meta<typeof Switch> = {
-  title: "Atoms/Switch",
-  component: Switch,
+const meta: Meta = {
+  title: "Components/Switch",
   parameters: { layout: "padded" },
-  args: { label: "Two-factor authentication", disabled: false },
-  argTypes: {
-    label: { control: "text" },
-    sub: { control: "text" },
-    disabled: { control: "boolean" },
-    checked: { control: "boolean" },
-    onChange: { action: "onChange" },
-  },
 };
 export default meta;
 
-type Story = StoryObj<typeof Switch>;
+type Story = StoryObj;
 
-export const Off: Story = {};
-export const On: Story = { args: { defaultChecked: true } };
-export const WithSubtext: Story = {
-  args: {
-    label: "Email notifications",
-    sub: "Receive transaction confirmations to your inbox.",
-    defaultChecked: true,
-  },
-};
-export const Disabled: Story = { args: { disabled: true } };
-export const SelectedDisabled: Story = { args: { defaultChecked: true, disabled: true } };
-
-export const SettingsList: Story = {
-  render: () => {
-    const [a, setA] = useState(true);
-    const [b, setB] = useState(false);
-    const [c, setC] = useState(true);
+export const Default: Story = {
+  render: function Render() {
+    const [on, setOn] = useState(true);
     return (
-      <div style={{ display: "flex", flexDirection: "column", gap: 16, maxWidth: 480 }}>
-        <Switch label="Two-factor authentication" sub="Required for transactions over S$10,000." checked={a} onChange={(e) => setA(e.target.checked)} />
-        <Switch label="Marketing emails" sub="Product updates and announcements." checked={b} onChange={(e) => setB(e.target.checked)} />
-        <Switch label="Allow API access" checked={c} onChange={(e) => setC(e.target.checked)} />
-      </div>
+      <label className="control" htmlFor="sw-default">
+        <Switch.Root id="sw-default" checked={on} onCheckedChange={setOn}>
+          <Switch.Thumb />
+        </Switch.Root>
+        <span className="control__label">Two-factor authentication</span>
+      </label>
     );
   },
+};
+
+export const WithSub: Story = {
+  render: () => (
+    <label className="control has-sub" htmlFor="sw-sub">
+      <Switch.Root id="sw-sub" defaultChecked>
+        <Switch.Thumb />
+      </Switch.Root>
+      <span className="control__label">
+        Marketing emails
+        <span className="control__sub">Product updates and announcements</span>
+      </span>
+    </label>
+  ),
+};
+
+export const Disabled: Story = {
+  render: () => (
+    <label className="control" htmlFor="sw-dis">
+      <Switch.Root id="sw-dis" disabled checked>
+        <Switch.Thumb />
+      </Switch.Root>
+      <span className="control__label">Locked</span>
+    </label>
+  ),
 };

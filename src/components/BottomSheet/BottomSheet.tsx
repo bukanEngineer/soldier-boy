@@ -1,140 +1,152 @@
-import React, { useEffect, useId, useRef, useCallback } from "react";
-import { createPortal } from "react-dom";
+import React from "react";
+import { Drawer as BaseDrawer } from "@base-ui/react/drawer";
+import { cn, withClass } from "../../lib/cn";
 import "./BottomSheet.css";
 
-export type BottomSheetProps = {
-  /** Whether the bottom sheet is open */
-  open: boolean;
-  /** Close handler */
-  onClose: () => void;
-  /** Sheet title */
-  title?: string;
-  /** Sheet body content */
-  children?: React.ReactNode;
-  /** Footer content (buttons) */
-  footer?: React.ReactNode;
-  /** Allow closing via overlay click / Escape */
+/** Close reasons that count as "light dismiss" (blocked when `dismissable` is false). */
+const LIGHT_DISMISS_REASONS = new Set<string>([
+  "escape-key",
+  "outside-press",
+  "focus-out",
+  "close-watcher",
+  "swipe",
+]);
+
+export type BottomSheetRootProps = BaseDrawer.Root.Props & {
+  /** Allow closing via backdrop click, Escape and swipe down. Close buttons still work. */
   dismissable?: boolean;
-  /** Hide the close button. Defaults to `true` when `dismissable` is `false` (a
-   *  non-dismissable sheet has no close affordance unless you opt back in). */
-  hideClose?: boolean;
-  /** Additional CSS class names */
-  className?: string;
 };
 
-const FOCUSABLE_SELECTOR =
-  'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
-
-export function BottomSheet({
-  open,
-  onClose,
-  title,
-  children,
-  footer,
+function BottomSheetRoot({
   dismissable = true,
-  hideClose,
-  className = "",
-}: BottomSheetProps) {
-  const titleId = useId();
-  const sheetRef = useRef<HTMLDivElement>(null);
-  const previousFocusRef = useRef<HTMLElement | null>(null);
-  // A non-dismissable sheet hides the close button by default; pass
-  // `hideClose={false}` explicitly to keep an X on a non-dismissable sheet.
-  const closeHidden = hideClose ?? !dismissable;
-
-  // Escape key handler
-  useEffect(() => {
-    if (!open) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && dismissable) onClose();
-    };
-    document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
-  }, [open, dismissable, onClose]);
-
-  // Body scroll lock
-  useEffect(() => {
-    if (!open) return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => { document.body.style.overflow = prev; };
-  }, [open]);
-
-  // Focus management: trap focus and restore on close
-  useEffect(() => {
-    if (!open) return;
-    previousFocusRef.current = document.activeElement as HTMLElement;
-
-    // Move focus into the sheet
-    requestAnimationFrame(() => {
-      const sheet = sheetRef.current;
-      if (!sheet) return;
-      const firstFocusable = sheet.querySelector<HTMLElement>(FOCUSABLE_SELECTOR);
-      if (firstFocusable) firstFocusable.focus();
-      else sheet.focus();
-    });
-
-    return () => {
-      // Restore focus to the previously focused element
-      previousFocusRef.current?.focus();
-    };
-  }, [open]);
-
-  // Focus trap: cycle Tab within the sheet
-  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
-    if (e.key !== "Tab") return;
-    const sheet = sheetRef.current;
-    if (!sheet) return;
-
-    const focusable = Array.from(sheet.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR));
-    if (focusable.length === 0) return;
-
-    const first = focusable[0];
-    const last = focusable[focusable.length - 1];
-
-    if (e.shiftKey && document.activeElement === first) {
-      e.preventDefault();
-      last.focus();
-    } else if (!e.shiftKey && document.activeElement === last) {
-      e.preventDefault();
-      first.focus();
+  disablePointerDismissal,
+  onOpenChange,
+  ...props
+}: BottomSheetRootProps) {
+  const handleOpenChange: BaseDrawer.Root.Props["onOpenChange"] = (open, details) => {
+    if (!dismissable && !open && LIGHT_DISMISS_REASONS.has(details.reason)) {
+      details.cancel();
+      return;
     }
-  }, []);
-
-  if (!open) return null;
-
-  const handleScrim = (e: React.MouseEvent) => {
-    if (dismissable && e.target === e.currentTarget) onClose();
+    onOpenChange?.(open, details);
   };
-
-  const cls = ["bsheet", className].filter(Boolean).join(" ");
-
-  return createPortal(
-    // Backdrop is a mouse convenience; keyboard dismissal is handled via onKeyDown on the dialog below.
-    // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-    <div className="bsheet-scrim" onClick={handleScrim}>
-      <div
-        ref={sheetRef}
-        className={cls}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby={title ? titleId : undefined}
-        onKeyDown={handleKeyDown}
-        tabIndex={-1}
-      >
-        <div className="bsheet__handle" />
-        <div className="bsheet__head">
-          {title && <h2 id={titleId} className="bsheet__title">{title}</h2>}
-          {!closeHidden && (
-            <button type="button" className="bsheet__close" aria-label="Close" onClick={onClose}>
-              <span className="material-symbols-rounded">close</span>
-            </button>
-          )}
-        </div>
-        {children && <div className="bsheet__body">{children}</div>}
-        {footer && <div className="bsheet__foot">{footer}</div>}
-      </div>
-    </div>,
-    document.body
+  return (
+    <BaseDrawer.Root
+      swipeDirection="down"
+      disablePointerDismissal={disablePointerDismissal ?? !dismissable}
+      onOpenChange={handleOpenChange}
+      {...props}
+    />
   );
 }
+
+export type BottomSheetTriggerProps = BaseDrawer.Trigger.Props;
+
+function BottomSheetTrigger(props: BottomSheetTriggerProps) {
+  return <BaseDrawer.Trigger {...props} />;
+}
+
+export type BottomSheetPopupProps = BaseDrawer.Popup.Props & {
+  /** Props for the portal container */
+  portalProps?: BaseDrawer.Portal.Props;
+};
+
+/** Portal + backdrop + bottom-anchored viewport + the sheet panel with its drag handle. */
+function BottomSheetPopup({ portalProps, className, children, ...props }: BottomSheetPopupProps) {
+  return (
+    <BaseDrawer.Portal {...portalProps}>
+      <BaseDrawer.Backdrop className="bsheet-backdrop" />
+      <BaseDrawer.Viewport className="bsheet-viewport">
+        <BaseDrawer.Popup className={withClass("bsheet", className)} {...props}>
+          <div className="bsheet__handle" aria-hidden="true" />
+          {children}
+        </BaseDrawer.Popup>
+      </BaseDrawer.Viewport>
+    </BaseDrawer.Portal>
+  );
+}
+
+export type BottomSheetHeaderProps = React.ComponentProps<"div">;
+
+function BottomSheetHeader({ className, ...props }: BottomSheetHeaderProps) {
+  return <div className={cn("bsheet__head", className)} {...props} />;
+}
+
+export type BottomSheetTitleProps = BaseDrawer.Title.Props;
+
+function BottomSheetTitle({ className, ...props }: BottomSheetTitleProps) {
+  return <BaseDrawer.Title className={withClass("bsheet__title", className)} {...props} />;
+}
+
+export type BottomSheetDescriptionProps = BaseDrawer.Description.Props;
+
+function BottomSheetDescription({ className, ...props }: BottomSheetDescriptionProps) {
+  return (
+    <BaseDrawer.Description className={withClass("bsheet__description", className)} {...props} />
+  );
+}
+
+export type BottomSheetCloseProps = BaseDrawer.Close.Props;
+
+/**
+ * Icon close button. Pass `render` to turn another element into a close
+ * action instead, e.g. `<BottomSheet.Close render={<Button />}>Done</BottomSheet.Close>`.
+ */
+function BottomSheetClose({ className, render, children, ...props }: BottomSheetCloseProps) {
+  if (render) {
+    return (
+      <BaseDrawer.Close render={render} className={className} {...props}>
+        {children}
+      </BaseDrawer.Close>
+    );
+  }
+  return (
+    <BaseDrawer.Close
+      aria-label={children ? undefined : "Close"}
+      className={withClass("bsheet__close", className)}
+      {...props}
+    >
+      {children ?? <span className="material-symbols-rounded" aria-hidden="true">close</span>}
+    </BaseDrawer.Close>
+  );
+}
+
+export type BottomSheetBodyProps = BaseDrawer.Content.Props;
+
+/** Scrollable content area. Text inside can be selected with a mouse without starting a swipe. */
+function BottomSheetBody({ className, ...props }: BottomSheetBodyProps) {
+  return <BaseDrawer.Content className={withClass("bsheet__body", className)} {...props} />;
+}
+
+export type BottomSheetFooterProps = React.ComponentProps<"div">;
+
+function BottomSheetFooter({ className, ...props }: BottomSheetFooterProps) {
+  return <div className={cn("bsheet__foot", className)} {...props} />;
+}
+
+/**
+ * Bottom sheet built on Base UI Drawer (focus trap, scroll lock, Escape,
+ * outside-press and swipe-down dismissal handled by Base UI). Compose the parts:
+ *
+ *   <BottomSheet.Root open={open} onOpenChange={setOpen}>
+ *     <BottomSheet.Popup>
+ *       <BottomSheet.Header>
+ *         <BottomSheet.Title>Send to</BottomSheet.Title>
+ *         <BottomSheet.Close />
+ *       </BottomSheet.Header>
+ *       <BottomSheet.Body>…</BottomSheet.Body>
+ *       <BottomSheet.Footer>…</BottomSheet.Footer>
+ *     </BottomSheet.Popup>
+ *   </BottomSheet.Root>
+ */
+export const BottomSheet = {
+  Root: BottomSheetRoot,
+  Trigger: BottomSheetTrigger,
+  Popup: BottomSheetPopup,
+  Header: BottomSheetHeader,
+  Title: BottomSheetTitle,
+  Description: BottomSheetDescription,
+  Close: BottomSheetClose,
+  Body: BottomSheetBody,
+  Footer: BottomSheetFooter,
+};

@@ -13,11 +13,6 @@ export const iconButtonClasses = {
     lg: "icon-btn--lg",
     sm: "icon-btn--sm",
   },
-  state: {
-    hovered: "is-hovered",
-    pressed: "is-pressed",
-    focused: "is-focused",
-  },
 } as const;
 
 export type IconButtonVariant = keyof typeof iconButtonClasses.variant;

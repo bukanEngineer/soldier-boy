@@ -1,187 +1,164 @@
-import React, { useCallback, useEffect, useId, useRef } from "react";
-import { createPortal } from "react-dom";
+import React from "react";
+import { Dialog as BaseDialog } from "@base-ui/react/dialog";
+import { cn, withClass } from "../../lib/cn";
 import "./Modal.css";
 
-const FOCUSABLE_SELECTOR =
-  'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
+/** Close reasons that count as "light dismiss" (blocked when `dismissable` is false). */
+const LIGHT_DISMISS_REASONS = new Set<string>(["escape-key", "outside-press", "focus-out"]);
 
-export type ModalProps = {
-  /** Whether the modal is open */
-  open: boolean;
-  /** Close handler */
-  onClose: () => void;
-  /** Modal title */
-  title?: string;
-  /** Modal body content */
-  children?: React.ReactNode;
-  /** Footer content (buttons) */
-  footer?: React.ReactNode;
-  /** Modal width */
-  size?: "small" | "large";
-  /** Visual variant */
-  variant?: "default" | "illustration" | "new-feature";
-  /** Illustration element (shown above title in illustration variant) */
-  illustration?: React.ReactNode;
-  /** Media element (shown at top in new-feature variant) */
-  media?: React.ReactNode;
-  /** Allow closing via overlay click / Escape */
+export type ModalRootProps = BaseDialog.Root.Props & {
+  /** Allow closing via backdrop click / Escape. Close buttons still work. */
   dismissable?: boolean;
-  /** Hide the close button. Defaults to `true` when `dismissable` is `false` (a
-   *  non-dismissable modal has no close affordance unless you opt back in). */
-  hideClose?: boolean;
-  /** Additional CSS class names */
-  className?: string;
 };
 
-export function Modal({
-  open,
-  onClose,
-  title,
-  children,
-  footer,
-  size = "small",
-  variant = "default",
-  illustration,
-  media,
+function ModalRoot({
   dismissable = true,
-  hideClose,
-  className = "",
-}: ModalProps) {
-  const titleId = useId();
-  const modalRef = useRef<HTMLDivElement>(null);
-  const previousFocusRef = useRef<HTMLElement | null>(null);
-  // A non-dismissable modal hides the close button by default; pass
-  // `hideClose={false}` explicitly to keep an X on a non-dismissable modal.
-  const closeHidden = hideClose ?? !dismissable;
-
-  // Escape key handler
-  useEffect(() => {
-    if (!open) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && dismissable) onClose();
-    };
-    document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
-  }, [open, dismissable, onClose]);
-
-  // Body scroll lock
-  useEffect(() => {
-    if (!open) return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => { document.body.style.overflow = prev; };
-  }, [open]);
-
-  // Focus management: move focus into the modal, restore on close
-  useEffect(() => {
-    if (!open) return;
-    previousFocusRef.current = document.activeElement as HTMLElement;
-
-    requestAnimationFrame(() => {
-      const modal = modalRef.current;
-      if (!modal) return;
-      const firstFocusable = modal.querySelector<HTMLElement>(FOCUSABLE_SELECTOR);
-      if (firstFocusable) firstFocusable.focus();
-      else modal.focus();
-    });
-
-    return () => {
-      previousFocusRef.current?.focus();
-    };
-  }, [open]);
-
-  // Focus trap: cycle Tab within the modal
-  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
-    if (e.key !== "Tab") return;
-    const modal = modalRef.current;
-    if (!modal) return;
-
-    const focusable = Array.from(modal.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR));
-    if (focusable.length === 0) return;
-
-    const first = focusable[0];
-    const last = focusable[focusable.length - 1];
-
-    if (e.shiftKey && document.activeElement === first) {
-      e.preventDefault();
-      last.focus();
-    } else if (!e.shiftKey && document.activeElement === last) {
-      e.preventDefault();
-      first.focus();
+  disablePointerDismissal,
+  onOpenChange,
+  ...props
+}: ModalRootProps) {
+  const handleOpenChange: BaseDialog.Root.Props["onOpenChange"] = (open, details) => {
+    if (!dismissable && !open && LIGHT_DISMISS_REASONS.has(details.reason)) {
+      details.cancel();
+      return;
     }
-  }, []);
-
-  if (!open) return null;
-
-  const handleScrim = (e: React.MouseEvent) => {
-    if (dismissable && e.target === e.currentTarget) onClose();
+    onOpenChange?.(open, details);
   };
-
-  const cls = ["modal", `modal--${size}`, className].filter(Boolean).join(" ");
-
-  const closeBtn = !closeHidden ? (
-    <button type="button" className="modal__close" aria-label="Close" onClick={onClose}>
-      <span className="material-symbols-rounded">close</span>
-    </button>
-  ) : null;
-
-  const titleEl = title ? <h2 id={titleId} className="modal__title">{title}</h2> : null;
-
-  let inner: React.ReactNode;
-  if (variant === "illustration") {
-    // Illustration variant: icon-only header row, then illustration + title group
-    inner = (
-      <>
-        {closeBtn && <div className="modal__head--icon-only">{closeBtn}</div>}
-        <div className="modal__illustration-wrap">
-          {illustration && <div className="modal__illustration">{illustration}</div>}
-          {titleEl}
-        </div>
-        {children && <div className="modal__body--centered">{children}</div>}
-        {footer && <div className="modal__foot">{footer}</div>}
-      </>
-    );
-  } else if (variant === "new-feature") {
-    // New-feature variant: media at top, title row below, centered body
-    inner = (
-      <>
-        {closeBtn && <div className="modal__head--icon-only">{closeBtn}</div>}
-        {media && <div className="modal__media">{media}</div>}
-        {title && <div className="modal__title-row">{titleEl}</div>}
-        {children && <div className="modal__body--centered">{children}</div>}
-        {footer && <div className="modal__foot">{footer}</div>}
-      </>
-    );
-  } else {
-    // Default variant
-    inner = (
-      <>
-        <div className="modal__head">
-          {titleEl}
-          {closeBtn}
-        </div>
-        {children && <div className="modal__body">{children}</div>}
-        {footer && <div className="modal__foot">{footer}</div>}
-      </>
-    );
-  }
-
-  return createPortal(
-    // Backdrop is a mouse convenience; keyboard dismissal is handled via onKeyDown on the dialog below.
-    // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-    <div className="modal-scrim" onClick={handleScrim}>
-      <div
-        ref={modalRef}
-        className={cls}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby={title ? titleId : undefined}
-        onKeyDown={handleKeyDown}
-        tabIndex={-1}
-      >
-        {inner}
-      </div>
-    </div>,
-    document.body
+  return (
+    <BaseDialog.Root
+      disablePointerDismissal={disablePointerDismissal ?? !dismissable}
+      onOpenChange={handleOpenChange}
+      {...props}
+    />
   );
 }
+
+export type ModalTriggerProps = BaseDialog.Trigger.Props;
+
+function ModalTrigger(props: ModalTriggerProps) {
+  return <BaseDialog.Trigger {...props} />;
+}
+
+export type ModalPopupProps = BaseDialog.Popup.Props & {
+  /** Modal width (Figma: small = 400, large = 600) */
+  size?: "small" | "large";
+  /** Props for the portal container */
+  portalProps?: BaseDialog.Portal.Props;
+};
+
+/** Portal + backdrop + centering viewport + the modal panel. */
+function ModalPopup({ size = "small", portalProps, className, ...props }: ModalPopupProps) {
+  return (
+    <BaseDialog.Portal {...portalProps}>
+      <BaseDialog.Backdrop className="modal-backdrop" />
+      <BaseDialog.Viewport className="modal-viewport">
+        <BaseDialog.Popup data-size={size} className={withClass("modal", className)} {...props} />
+      </BaseDialog.Viewport>
+    </BaseDialog.Portal>
+  );
+}
+
+export type ModalHeaderProps = React.ComponentProps<"div"> & {
+  /**
+   * `default`: title + close row with a divider. `centered`: stacked, centered
+   * group (illustration / title). `toolbar`: a close-only row aligned to the end.
+   */
+  variant?: "default" | "centered" | "toolbar";
+};
+
+function ModalHeader({ variant = "default", className, ...props }: ModalHeaderProps) {
+  return <div data-variant={variant} className={cn("modal__head", className)} {...props} />;
+}
+
+export type ModalTitleProps = BaseDialog.Title.Props;
+
+function ModalTitle({ className, ...props }: ModalTitleProps) {
+  return <BaseDialog.Title className={withClass("modal__title", className)} {...props} />;
+}
+
+export type ModalDescriptionProps = BaseDialog.Description.Props;
+
+function ModalDescription({ className, ...props }: ModalDescriptionProps) {
+  return (
+    <BaseDialog.Description className={withClass("modal__description", className)} {...props} />
+  );
+}
+
+export type ModalCloseProps = BaseDialog.Close.Props;
+
+/**
+ * Icon close button. Pass `render` to turn another element into a close
+ * action instead, e.g. `<Modal.Close render={<Button />}>Cancel</Modal.Close>`.
+ */
+function ModalClose({ className, render, children, ...props }: ModalCloseProps) {
+  if (render) {
+    return <BaseDialog.Close render={render} className={className} {...props}>{children}</BaseDialog.Close>;
+  }
+  return (
+    <BaseDialog.Close
+      aria-label={children ? undefined : "Close"}
+      className={withClass("modal__close", className)}
+      {...props}
+    >
+      {children ?? <span className="material-symbols-rounded" aria-hidden="true">close</span>}
+    </BaseDialog.Close>
+  );
+}
+
+export type ModalMediaProps = React.ComponentProps<"div">;
+
+/** Full-bleed media block (screenshot, image) at the top of a new-feature modal. */
+function ModalMedia({ className, ...props }: ModalMediaProps) {
+  return <div className={cn("modal__media", className)} {...props} />;
+}
+
+export type ModalIllustrationProps = React.ComponentProps<"div">;
+
+/** Illustration slot, usually inside `<Modal.Header variant="centered">`. */
+function ModalIllustration({ className, ...props }: ModalIllustrationProps) {
+  return <div className={cn("modal__illustration", className)} {...props} />;
+}
+
+export type ModalBodyProps = React.ComponentProps<"div"> & {
+  /** Text alignment; `center` matches the illustration / new-feature layouts */
+  align?: "start" | "center";
+};
+
+function ModalBody({ align = "start", className, ...props }: ModalBodyProps) {
+  return <div data-align={align} className={cn("modal__body", className)} {...props} />;
+}
+
+export type ModalFooterProps = React.ComponentProps<"div">;
+
+function ModalFooter({ className, ...props }: ModalFooterProps) {
+  return <div className={cn("modal__foot", className)} {...props} />;
+}
+
+/**
+ * Modal built on Base UI Dialog (focus trap, scroll lock, Escape and
+ * outside-press handled by Base UI). Compose the parts:
+ *
+ *   <Modal.Root open={open} onOpenChange={setOpen}>
+ *     <Modal.Popup size="small">
+ *       <Modal.Header>
+ *         <Modal.Title>Confirm transfer</Modal.Title>
+ *         <Modal.Close />
+ *       </Modal.Header>
+ *       <Modal.Body>…</Modal.Body>
+ *       <Modal.Footer>…</Modal.Footer>
+ *     </Modal.Popup>
+ *   </Modal.Root>
+ */
+export const Modal = {
+  Root: ModalRoot,
+  Trigger: ModalTrigger,
+  Popup: ModalPopup,
+  Header: ModalHeader,
+  Title: ModalTitle,
+  Description: ModalDescription,
+  Close: ModalClose,
+  Media: ModalMedia,
+  Illustration: ModalIllustration,
+  Body: ModalBody,
+  Footer: ModalFooter,
+};

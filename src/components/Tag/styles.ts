@@ -16,8 +16,6 @@ export const tagClasses = {
     small: "tag--small",
   },
   clickable: "tag--clickable",
-  selected: "is-selected",
-  disabled: "is-disabled",
 } as const;
 
 export type TagVariant = keyof typeof tagClasses.variant;
