@@ -1,4 +1,5 @@
 import React from "react";
+import { Icon } from "../Icon/Icon";
 import { cn } from "../../lib/cn";
 import "./Card.css";
 
@@ -50,4 +51,51 @@ export type CardFooterProps = React.ComponentProps<"div">;
 
 export function CardFooter({ className, ...props }: CardFooterProps) {
   return <div className={cn("card__footer", className)} {...props} />;
+}
+
+export type CardDetailRowProps = Omit<React.ComponentProps<"div">, "children"> & {
+  label?: React.ReactNode;
+  value?: React.ReactNode;
+  /** Show an info icon beside the label or value */
+  info?: boolean;
+  /** Which side gets the info icon. `CardStatus` uses `"label"`; `CardSummary` uses `"value"`. */
+  infoPlacement?: "label" | "value";
+  /** Info icon size in px. `CardStatus` uses 16; `CardSummary` uses 18. */
+  infoSize?: number;
+};
+
+/**
+ * Horizontal label / value row for detail cards (`CardStatus`, `CardSummary`).
+ * Render inside a `<dl>`. Placement and size of the optional info icon stay
+ * configurable so each card keeps its own look.
+ */
+export function CardDetailRow({
+  label,
+  value,
+  info = false,
+  infoPlacement = "label",
+  infoSize = 16,
+  className,
+  ...props
+}: CardDetailRowProps) {
+  const infoIcon = info ? (
+    <Icon name="info" size={infoSize} className="card-detail-row__info" />
+  ) : null;
+
+  return (
+    <div
+      className={cn("card-detail-row", className)}
+      data-info-placement={infoPlacement}
+      {...props}
+    >
+      <dt className="card-detail-row__label">
+        {label}
+        {infoPlacement === "label" && infoIcon}
+      </dt>
+      <dd className="card-detail-row__value">
+        {infoPlacement === "value" && infoIcon}
+        {value}
+      </dd>
+    </div>
+  );
 }

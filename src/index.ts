@@ -125,6 +125,7 @@ export {
   CardDescription,
   CardContent,
   CardFooter,
+  CardDetailRow,
 } from "./components/Card";
 export type {
   CardProps,
@@ -134,6 +135,7 @@ export type {
   CardDescriptionProps,
   CardContentProps,
   CardFooterProps,
+  CardDetailRowProps,
 } from "./components/Card";
 export { Tabs } from "./components/Tabs";
 export type { TabsRootProps, TabsListProps, TabsTabProps, TabsPanelProps } from "./components/Tabs";

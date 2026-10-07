@@ -1,7 +1,7 @@
 import React from "react";
 import { Icon } from "../Icon/Icon";
 import { Button } from "../Button/Button";
-import { Card } from "../Card/Card";
+import { Card, CardDetailRow } from "../Card/Card";
 import { cn } from "../../lib/cn";
 import "./CardSummary.css";
 
@@ -58,13 +58,14 @@ export function CardSummary({
       {items.length > 0 && (
         <dl className="card-summary__items">
           {items.map((item, i) => (
-            <div key={String(item.label) || i} className="card-summary__item">
-              <dt className="card-summary__item-label">{item.label}</dt>
-              <dd className="card-summary__item-value">
-                {item.info && <Icon name="info" size={18} className="card-summary__info" />}
-                {item.value}
-              </dd>
-            </div>
+            <CardDetailRow
+              key={String(item.label) || i}
+              label={item.label}
+              value={item.value}
+              info={item.info}
+              infoPlacement="value"
+              infoSize={18}
+            />
           ))}
         </dl>
       )}

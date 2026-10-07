@@ -67,22 +67,6 @@
   width: 100%;
   margin: 0;
 }
-.card-summary__item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-2);
-}
-.card-summary__item-label { font: var(--body-medium); color: var(--text-secondary); }
-.card-summary__item-value {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-1);
-  font: var(--body-medium);
-  color: var(--text-primary);
-  margin: 0;
-}
-.card-summary__info { color: var(--text-secondary); }
 
 /* ── Net amount ── */
 .card-summary__net-wrap {

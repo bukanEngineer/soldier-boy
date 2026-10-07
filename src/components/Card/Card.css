@@ -31,3 +31,34 @@
   gap: 8px;
   margin-top: 16px;
 }
+
+/* Label / value row shared by CardStatus and CardSummary. */
+.card-detail-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+.card-detail-row__label {
+  font: var(--body-medium);
+  color: var(--text-secondary);
+}
+.card-detail-row__value {
+  font: var(--body-medium);
+  color: var(--text-primary);
+  margin: 0;
+  text-align: right;
+}
+.card-detail-row__info {
+  color: var(--text-secondary);
+}
+.card-detail-row[data-info-placement="label"] .card-detail-row__label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+.card-detail-row[data-info-placement="value"] .card-detail-row__value {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
