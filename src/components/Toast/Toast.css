@@ -4,7 +4,12 @@
   top: 24px;
   transform: translateX(-50%);
   z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
   pointer-events: none;
+  outline: 0;
 }
 .toast {
   pointer-events: auto;
@@ -18,18 +23,33 @@
   display: flex;
   gap: 4px;
   align-items: center;
-  animation: toast-in 240ms var(--ease);
+  transition: opacity 240ms var(--ease), transform 240ms var(--ease);
 }
-@keyframes toast-in {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+.toast[data-starting-style],
+.toast[data-ending-style] { opacity: 0; transform: translateY(8px); }
+/* Toasts beyond the provider `limit` stay mounted (inert) until they time out. */
+.toast[data-limited] { display: none; }
+.toast:focus-visible { outline: 2px solid var(--status-information); outline-offset: 2px; }
+
 .toast__icon { flex: 0 0 auto; font-size: 20px; margin-top: 0; color: inherit; }
 .toast__body { flex: 1; min-width: 0; }
+/* Title labels the toast for assistive tech; the design shows the description only. */
 .toast__title { display: none; }
-.toast__text { font: var(--body-medium); color: inherit; margin-top: 0; white-space: nowrap; }
+.toast__description { font: var(--body-medium); color: inherit; margin: 0; white-space: nowrap; }
+.toast__action {
+  flex: 0 0 auto;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  color: inherit;
+  font: 700 14px/1 var(--font-display);
+  text-decoration: underline;
+  padding: 2px 4px;
+  margin-left: 8px;
+}
 .toast__close {
   flex: 0 0 auto;
+  display: inline-flex;
   background: transparent;
   border: 0;
   cursor: pointer;
@@ -38,8 +58,11 @@
   padding: 2px;
   margin: -2px;
 }
+.toast__close .material-symbols-rounded { font-size: 20px; }
 .toast__close:hover { opacity: 1; }
+.toast__action:focus-visible,
+.toast__close:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; border-radius: var(--radius-sm); }
 
-.toast--critical { background: var(--status-critical); }
-.toast--warning  { background: var(--status-warning); color: var(--text-primary); }
-.toast--info     { background: var(--brand-stable-deep-ivy); }
+.toast[data-type="critical"] { background: var(--status-critical); }
+.toast[data-type="warning"]  { background: var(--status-warning); color: var(--text-primary); }
+.toast[data-type="info"]     { background: var(--brand-stable-deep-ivy); }

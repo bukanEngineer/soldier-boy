@@ -1,5 +1,10 @@
-/* Select — trigger button styled like Input, popover reuses Menu styling. */
-.select-menu { display: block; width: 100%; }
+/* Select — Base UI compound parts. Label/helper/error live on Field. */
+
+.select-control {
+  position: relative;
+  display: block;
+  width: 100%;
+}
 
 .select {
   position: relative;
@@ -17,23 +22,31 @@
   transition: border-color var(--dur-1) var(--ease), box-shadow var(--dur-1) var(--ease);
   cursor: pointer;
   text-align: left;
+  box-sizing: border-box;
 }
-/* Size axis — large (48px, default) | small (36px) — matches Input. */
-.select--large { height: 48px; padding: 0 14px; font: var(--body-large); }
-.select--small {
+.select[data-size="large"] { height: 48px; padding: 0 14px; font: var(--body-large); }
+.select[data-size="small"] {
   height: 36px;
   padding: 0 var(--space-3);
   font: var(--body-medium);
   border-radius: var(--radius-md);
 }
 .select:focus-visible,
-.select[aria-expanded="true"] {
+.select[data-popup-open] {
   outline: 0;
   border-color: var(--interactive-active);
   box-shadow: 0 0 0 3px rgba(0, 211, 126, 0.16);
 }
-.select.is-error { border-color: var(--status-critical); }
-.select.is-disabled { background: var(--surface-secondary); color: var(--disabled-on-surface); cursor: not-allowed; }
+.select[data-invalid] { border-color: var(--status-critical); }
+.select[data-disabled] {
+  background: var(--surface-secondary);
+  color: var(--disabled-on-surface);
+  cursor: not-allowed;
+}
+
+.select-control:has(.select__clear) .select {
+  padding-right: 64px;
+}
 
 .select__value {
   flex: 1;
@@ -43,32 +56,106 @@
   white-space: nowrap;
   padding-right: var(--space-2);
 }
-.select__placeholder { color: var(--text-secondary); }
+.select__value[data-placeholder] { color: var(--text-secondary); }
+
 .select__clear {
-  flex: 0 0 auto;
+  position: absolute;
+  right: 36px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   font-size: 20px;
   color: var(--text-secondary);
   padding: 4px;
-  margin: -4px 0;
+  margin: 0;
+  border: 0;
+  background: transparent;
   border-radius: var(--radius-sm);
+  cursor: pointer;
 }
 .select__clear:hover { color: var(--text-primary); background: var(--surface-secondary); }
+.select__clear:disabled { cursor: not-allowed; opacity: 0.5; }
+
 .select__chevron {
   flex: 0 0 auto;
   color: var(--text-secondary);
   font-size: 22px;
   transition: transform var(--dur-1) var(--ease);
+  line-height: 1;
 }
-.select[aria-expanded="true"] .select__chevron { transform: rotate(180deg); }
+.select[data-popup-open] .select__chevron { transform: rotate(180deg); }
 
-/* stretch the Menu popover to the trigger's width instead of the default min-width */
-.select-menu .menu__list {
-  left: 0;
-  right: 0;
-  min-width: 0;
-  max-height: 280px;
-  overflow-y: auto;
+.select__positioner {
+  z-index: 60;
+  outline: 0;
 }
+.select__popup {
+  box-sizing: border-box;
+  background: var(--surface);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-2);
+  width: var(--anchor-width);
+  max-height: min(280px, var(--available-height));
+  overflow: hidden;
+  padding: 4px;
+  outline: 0;
+  transform-origin: var(--transform-origin);
+  transition: opacity 120ms var(--ease), transform 120ms var(--ease);
+}
+.select__popup[data-starting-style],
+.select__popup[data-ending-style] {
+  opacity: 0;
+  transform: translateY(-2px);
+}
+.select__list {
+  outline: 0;
+  max-height: inherit;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.select__group { display: flex; flex-direction: column; }
+.select__group-label {
+  font: var(--body-small);
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 6px 10px 4px;
+}
+.select__separator {
+  height: 1px;
+  background: var(--border);
+  margin: 4px 0;
+  border: 0;
+}
+.select__item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  font: var(--body-medium);
+  color: var(--text-primary);
+  border-radius: var(--radius-sm);
+  outline: 0;
+  user-select: none;
+}
+.select__item[data-highlighted] { background: var(--surface-secondary); }
+.select__item[data-disabled] { color: var(--disabled-on-surface); cursor: not-allowed; }
+.select__item-text { flex: 1 1 auto; min-width: 0; }
+.select__item-indicator {
+  flex: 0 0 auto;
+  display: inline-flex;
+  width: 18px;
+  height: 18px;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+}
+.select__item-indicator .material-symbols-rounded { font-size: 18px; }

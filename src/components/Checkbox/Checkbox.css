@@ -1,4 +1,4 @@
-/* shared base for checkbox + radio + switch */
+/* Shared label row for Checkbox / Radio / Switch compositions. */
 .control {
   display: inline-flex;
   align-items: center;
@@ -7,25 +7,28 @@
   font: var(--body-medium);
   color: var(--text-primary);
 }
-.control input {
-  position: absolute;
-  opacity: 0;
-  pointer-events: none;
-  width: 0;
-  height: 0;
-}
 .control__label { padding-top: 0; }
 .control.has-sub { align-items: flex-start; }
 .control.has-sub .control__label { padding-top: 0; line-height: 1.15; }
-.control__sub { display: block; font: var(--body-small); color: var(--text-secondary); margin-top: 2px; }
-.control.is-disabled { color: var(--disabled-on-surface); cursor: not-allowed; }
-.control:focus-within .control__box {
-  outline: 2px solid var(--status-information);
-  outline-offset: 2px;
+.control__sub {
+  display: block;
+  font: var(--body-small);
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+.control:has([data-disabled]) {
+  color: var(--disabled-on-surface);
+  cursor: not-allowed;
 }
 
-/* Checkbox box */
-.checkbox__box {
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.checkbox {
+  box-sizing: border-box;
   width: 18px;
   height: 18px;
   border-radius: 4px;
@@ -35,27 +38,39 @@
   align-items: center;
   justify-content: center;
   flex: 0 0 auto;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
   transition: background var(--dur-1) var(--ease), border-color var(--dur-1) var(--ease);
 }
-.checkbox__box svg { width: 14px; height: 14px; color: var(--text-inverse); opacity: 0; transform: scale(0.7); transition: opacity var(--dur-1) var(--ease), transform var(--dur-1) var(--ease); }
-.control input:checked + .checkbox__box {
+.checkbox__indicator {
+  display: inline-flex;
+  color: var(--text-inverse);
+}
+.checkbox__indicator svg {
+  width: 14px;
+  height: 14px;
+}
+.checkbox[data-checked],
+.checkbox[data-indeterminate] {
   background: var(--interactive-active);
   border-color: var(--interactive-active);
 }
-.control input:checked + .checkbox__box svg { opacity: 1; transform: scale(1); }
-.control input:indeterminate + .checkbox__box,
-.control[data-indeterminate="true"] .checkbox__box {
-  background: var(--interactive-active);
-  border-color: var(--interactive-active);
-}
-.control[data-indeterminate="true"] .checkbox__box::after {
+.checkbox[data-indeterminate] .checkbox__indicator svg { display: none; }
+.checkbox[data-indeterminate]::after {
   content: "";
   width: 10px;
   height: 2px;
   background: var(--surface);
   border-radius: 1px;
 }
-.control[data-indeterminate="true"] .checkbox__box svg { display: none; }
-
-.control.is-error .checkbox__box { border-color: var(--status-critical); }
-.control.is-disabled .checkbox__box { background: var(--surface-secondary); border-color: var(--border); }
+.checkbox[data-disabled] {
+  background: var(--surface-secondary);
+  border-color: var(--border);
+  cursor: not-allowed;
+}
+.checkbox[data-invalid] { border-color: var(--status-critical); }
+.checkbox:focus-visible {
+  outline: 2px solid var(--status-information);
+  outline-offset: 2px;
+}

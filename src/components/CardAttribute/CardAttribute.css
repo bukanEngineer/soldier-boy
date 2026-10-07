@@ -36,7 +36,7 @@
   gap: var(--space-1);
   min-width: 0;
 }
-.card-attribute__item.is-full { grid-column: 1 / -1; }
+.card-attribute__item[data-full] { grid-column: 1 / -1; }
 
 .card-attribute__label {
   display: inline-flex;

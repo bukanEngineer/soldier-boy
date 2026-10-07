@@ -1,3 +1,13 @@
-// @ts-ignore Menu will be fully typed in a later migration pass
 export { Menu } from "./Menu";
-export type MenuProps = Record<string, unknown>;
+export type {
+  MenuRootProps,
+  MenuTriggerProps,
+  MenuPopupProps,
+  MenuItemProps,
+  MenuRadioGroupProps,
+  MenuRadioItemProps,
+  MenuCheckboxItemProps,
+  MenuSeparatorProps,
+  MenuGroupProps,
+  MenuGroupLabelProps,
+} from "./Menu";

@@ -7,7 +7,12 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 html, body, #root, #storybook-root { margin: 0; padding: 0; }
+/* Base UI portals popups to <body>. Isolating the app root keeps their stacking
+ * above page content; `position: relative` lets dialog backdrops cover the
+ * visual viewport on iOS 26+ Safari. Apps should isolate their own root too. */
+#root, #storybook-root { isolation: isolate; }
 body {
+  position: relative;
   font: var(--body-medium);
   color: var(--text-primary);
   background: var(--surface);

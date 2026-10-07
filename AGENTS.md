@@ -2,7 +2,7 @@
 
 ## Cursor Cloud specific instructions
 
-This repo is `soldier-boy` — the StraitsX design system: a React 19 component
+This repo is `stxdesign-sandbox` — the StraitsX design system: a React 19 component
 library + design tokens, developed and previewed through **Storybook**. There is no backend,
 database, or server component; "running the product" means running Storybook and the
 Vitest/lint/build checks. Standard commands live in `package.json` `scripts` and `README.md`.
@@ -33,3 +33,9 @@ force-prepends to `PATH` on every command. The correct Node 24 is installed via 
 
 - Chromatic visual regression (`npm run chromatic`) is a cloud SaaS and needs
   `CHROMATIC_PROJECT_TOKEN`; it is optional and not required for local development or testing.
+
+### Component architecture migration
+
+Components are being migrated to Base UI compound primitives. Before changing any
+component, read `docs/base-ui-migration.md` for the conventions, phase order and
+current status, and tick off items there as they land.

@@ -1,4 +1,4 @@
-.textarea-wrap {
+.textarea {
   display: flex;
   flex-direction: column;
   min-height: 96px;
@@ -8,18 +8,17 @@
   background: var(--surface);
   transition: border-color var(--dur-1) var(--ease), box-shadow var(--dur-1) var(--ease);
 }
-.textarea-wrap:hover,
-.textarea-wrap.is-hovered {
-  border-color: var(--text-secondary);
-}
-.textarea-wrap:focus-within,
-.textarea-wrap.is-focused {
+.textarea:hover { border-color: var(--text-secondary); }
+.textarea:focus-within {
   border-color: var(--interactive-active);
   box-shadow: 0 0 0 3px rgba(0, 211, 126, 0.16);
 }
-.textarea-wrap.is-error { border-color: var(--status-critical); }
-.textarea-wrap.is-disabled { background: var(--surface-secondary); color: var(--disabled-on-surface); }
-.textarea-wrap textarea {
+.field[data-invalid] .textarea { border-color: var(--status-critical); }
+.textarea[data-disabled] {
+  background: var(--surface-secondary);
+  color: var(--disabled-on-surface);
+}
+.textarea__control {
   flex: 1;
   border: 0;
   outline: 0;
@@ -28,9 +27,12 @@
   color: var(--text-primary);
   resize: vertical;
   min-height: 72px;
+  padding: 0;
+  margin: 0;
+  width: 100%;
 }
-.textarea-wrap textarea::placeholder { color: var(--input-placeholder); }
-.textarea-wrap__count {
+.textarea__control::placeholder { color: var(--input-placeholder); }
+.textarea__count {
   align-self: flex-end;
   margin-top: 6px;
   font: var(--body-small);

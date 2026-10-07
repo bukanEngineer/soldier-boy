@@ -19,26 +19,78 @@ npx chromatic --project-token=<your-token>
 Install it as a dependency, then import components and stylesheets from the built `dist/` output:
 
 ```bash
-npm install soldier-boy
+npm install stxdesign-sandbox
 ```
 
-```jsx
-import "soldier-boy/global.css"; // resets + tokens + @font-face (once, at your app's entry)
-import { Button, Tag, Card } from "soldier-boy";
+```tsx
+import "stxdesign-sandbox/global.css"; // resets + tokens + @font-face (once, at your app's entry)
+import {
+  Button,
+  Tag,
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  Tabs,
+  Field,
+  Input,
+} from "stxdesign-sandbox";
 
 export default function Example() {
   return (
-    <Card shadow={1} title="Welcome">
-      <Tag tone="positive">Verified</Tag>
-      <Button variant="primary">Continue</Button>
+    <Card shadow={1}>
+      <CardHeader>
+        <CardTitle>Welcome</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <Tag tone="positive">Verified</Tag>
+        <Button variant="primary">Continue</Button>
+      </CardContent>
     </Card>
   );
 }
 ```
 
+### Compound APIs (Base UI migration)
+
+Form controls are bare; labels/errors come from `Field`. Overlays and navigation use compound parts:
+
+```tsx
+import { Field, Input, Select, Tabs, Menu, PaginationNav } from "stxdesign-sandbox";
+
+<Field.Root>
+  <Field.Label>Email</Field.Label>
+  <Input type="email" />
+  <Field.Error match>Required</Field.Error>
+</Field.Root>
+
+<Tabs.Root defaultValue="in">
+  <Tabs.List>
+    <Tabs.Tab value="in">Transfer In</Tabs.Tab>
+    <Tabs.Tab value="out">Transfer Out</Tabs.Tab>
+    <Tabs.Indicator />
+  </Tabs.List>
+  <Tabs.Panel value="in">…</Tabs.Panel>
+  <Tabs.Panel value="out">…</Tabs.Panel>
+</Tabs.Root>
+
+<Menu.Root>
+  <Menu.Trigger>Actions</Menu.Trigger>
+  <Menu.Popup>
+    <Menu.Item icon="download">Download</Menu.Item>
+    <Menu.Separator />
+    <Menu.Item icon="logout" variant="critical">Log out</Menu.Item>
+  </Menu.Popup>
+</Menu.Root>
+
+<PaginationNav page={2} totalPages={12} onPageChange={setPage} />
+```
+
+Upgrading from 0.2: see `docs/migration-0.3.md`. Full migration status and conventions: `docs/base-ui-migration.md`.
+
 Each component imports its own CSS (`import "./Button.css"` etc.) as part of the package — this requires a bundler that handles CSS-from-JS imports (Vite, webpack, Next.js, Remix, CRA all do this out of the box, including for `node_modules` dependencies). Running the package's compiled output directly under plain Node (no bundler) is not a supported consumption path.
 
-`soldier-boy/tokens.css` is also available on its own if you only want the CSS variables and `@font-face` rules without the body reset from `global.css`.
+`stxdesign-sandbox/tokens.css` is also available on its own if you only want the CSS variables and `@font-face` rules without the body reset from `global.css`.
 
 ### Building the package
 
@@ -56,7 +108,7 @@ The workflow uses `onlyChanged: true` (TurboSnap) so only stories whose dependen
 
 ## Stable Storybook URL (Vercel)
 
-Chromatic build URLs change per run. Vercel serves the static Storybook at a stable URL and updates it on every push to `main` (Git integration on `bukanEngineer/soldier-boy`). PRs get preview URLs automatically.
+Chromatic build URLs change per run. Vercel serves the static Storybook at a stable URL and updates it on every push to `main` (Git integration on `bukanEngineer/stxdesign-sandbox`). PRs get preview URLs automatically.
 
 Build is locked to Storybook via `vercel.json` and project settings:
 
@@ -71,7 +123,7 @@ Chromatic (visual regression) and Vercel (hosted Storybook) both run from git pu
 The source follows the `straitsx-frontend/packages/design-system` structure — TypeScript components with per-folder barrels, plus `constants/`, `shared/`, and `theme/` — while keeping the plain CSS + tokens approach and an ESM-only build.
 
 ```
-soldier-boy/
+stxdesign-sandbox/
 ├── package.json
 ├── vite.config.js
 ├── chromatic.config.json
@@ -87,7 +139,7 @@ soldier-boy/
 │   ├── theme/
 │   │   ├── tokens.css          ← --sx-* CSS variables + @font-face
 │   │   ├── theme.ts            ← typed theme object backed by CSS variables
-│   │   └── ThemeContext.tsx    ← ThemeProvider / useTheme
+│   │   └── ThemeContext.tsx    ← optional ThemeProvider / useTheme (CSS vars preferred)
 │   ├── styles/
 │   │   └── global.css          ← resets, body defaults, Material Symbols
 │   ├── constants/              ← Colors/, Typography/, Spacing/, spacing, breakpoints, shadow
@@ -95,7 +147,7 @@ soldier-boy/
 │   ├── fonts/                  ← Hanken Grotesk + Red Hat Display ttfs
 │   ├── assets/                 ← logomark + partner SVGs
 │   ├── hooks/
-│   ├── stories/                ← Examples.stories.jsx
+│   ├── stories/                ← Examples.stories.tsx
 │   └── components/             ← one folder per component: {Component}.tsx + .css
 │                                  + index.tsx barrel + .stories.tsx (+ .test.tsx)
 └── examples/                   ← full dashboard compositions

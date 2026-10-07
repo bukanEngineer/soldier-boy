@@ -4,60 +4,34 @@
   border: 0;
   padding: 0;
   cursor: pointer;
-  background: var(--overlay);
+  background: transparent;
   z-index: 1200;
   pointer-events: auto;
 }
 .coachmark-spot {
-  position: absolute;
+  position: fixed;
   border-radius: var(--radius-md);
   box-shadow: 0 0 0 9999px var(--overlay);
   pointer-events: none;
+  z-index: 1200;
   transition: all var(--dur-3) var(--ease);
 }
-.coachmark {
-  position: absolute;
+.coachmark__positioner {
   z-index: 1201;
+}
+/* Coachmark popup overrides the dark Popover chrome with a surface card. */
+.popover__popup.coachmark {
   background: var(--surface);
+  color: var(--text-primary);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-3);
   padding: 16px;
   width: 280px;
-  display: flex;
-  flex-direction: column;
+  max-width: 280px;
   gap: 8px;
 }
-/* Beak / arrow — a CSS triangle that matches the popover surface and
- * points toward the highlighted target based on `placement`. */
-.coachmark__beak {
-  position: absolute;
-  width: 0;
-  height: 0;
-  border: 8px solid transparent;
-}
-/* placement="bottom": popover sits below target → beak on top edge points up */
-.coachmark__beak[data-placement="bottom"] {
-  top: -16px;
-  left: 24px;
-  border-bottom-color: var(--surface);
-}
-/* placement="top": popover sits above target → beak on bottom edge points down */
-.coachmark__beak[data-placement="top"] {
-  bottom: -16px;
-  left: 24px;
-  border-top-color: var(--surface);
-}
-/* placement="right": popover sits right of target → beak on left edge points left */
-.coachmark__beak[data-placement="right"] {
-  left: -16px;
-  top: 20px;
-  border-right-color: var(--surface);
-}
-/* placement="left": popover sits left of target → beak on right edge points right */
-.coachmark__beak[data-placement="left"] {
-  right: -16px;
-  top: 20px;
-  border-left-color: var(--surface);
+.popover__popup.coachmark .popover__arrow {
+  background: var(--surface);
 }
 
 .coachmark__head {
@@ -66,7 +40,10 @@
   justify-content: space-between;
   gap: var(--space-2);
 }
-.coachmark__title { font: var(--label-medium); color: var(--text-primary); }
+.coachmark__title {
+  font: var(--label-medium);
+  color: var(--text-primary);
+}
 .coachmark__close {
   flex: 0 0 auto;
   background: transparent;
@@ -76,10 +53,14 @@
   display: inline-flex;
   padding: 0;
   margin: -2px -2px 0 0;
+  opacity: 1;
 }
 .coachmark__close:hover { color: var(--text-primary); }
 .coachmark__close .material-symbols-rounded { font-size: 20px; }
-.coachmark__body { font: var(--body-medium); color: var(--text-secondary); }
+.coachmark__body {
+  font: var(--body-medium);
+  color: var(--text-secondary);
+}
 .coachmark__foot {
   display: flex;
   align-items: center;

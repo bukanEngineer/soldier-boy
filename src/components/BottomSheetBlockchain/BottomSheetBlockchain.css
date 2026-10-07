@@ -1,47 +1,8 @@
-/* BottomSheetBlockchain — single-select chain/wallet list in the BottomSheet shell. */
+/* BottomSheetBlockchain: addresses render in mono and truncate. */
 
-.bsc .bsheet__body { padding-left: 0; padding-right: 0; }
-
-.bsc__list { list-style: none; margin: 0; padding: 0; }
-.bsc__item {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  padding: var(--space-3) var(--space-5);
-  background: transparent;
-  border: 0;
-  text-align: left;
-  cursor: pointer;
-}
-.bsc__item:hover { background: var(--surface-hovered); }
-.bsc__item.is-selected { background: var(--surface-secondary); }
-
-.bsc__mark {
-  flex: 0 0 auto;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: var(--radius-full);
-  background: var(--surface-secondary);
-  color: var(--text-primary);
-  font: var(--label-small);
-  overflow: hidden;
-}
-.bsc__mark > * { width: 100%; height: 100%; }
-
-.bsc__text { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
-.bsc__name { font: var(--label-medium); color: var(--text-primary); }
-.bsc__desc {
-  font: var(--body-small);
-  color: var(--text-secondary);
+.bsc .bsheet-select__desc {
   font-family: var(--font-mono);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
-.bsc__check { flex: 0 0 auto; color: var(--text-secondary); font-size: 22px; }
-.bsc__item.is-selected .bsc__check { color: var(--primary); }

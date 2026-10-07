@@ -1,26 +1,24 @@
 import React from "react";
-import { Alert } from "../Alert/Alert";
+import { Alert, type AlertTone } from "../Alert/Alert";
+import { cn } from "../../lib/cn";
 
-export type ImportantNotesProps = {
+export type ImportantNotesProps = React.ComponentProps<"div"> & {
   /** Color tone */
-  tone?: "positive" | "critical" | "warning" | "info" | "neutral";
+  tone?: AlertTone;
   /** Title text */
-  title?: string;
-  /** Notes content */
-  children?: React.ReactNode;
-  /** Additional CSS class names */
-  className?: string;
-} & React.HTMLAttributes<HTMLDivElement>;
+  title?: React.ReactNode;
+};
 
+/** Alert recipe for important callouts. */
 export function ImportantNotes({
   tone = "neutral",
   title = "Important",
   children,
-  className = "",
+  className,
   ...rest
 }: ImportantNotesProps) {
   return (
-    <Alert tone={tone} title={title} className={"important-notes " + className} {...rest}>
+    <Alert tone={tone} title={title} className={cn("important-notes", className)} {...rest}>
       {children}
     </Alert>
   );

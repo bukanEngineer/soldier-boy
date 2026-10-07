@@ -33,15 +33,30 @@ export const AllSizes: Story = {
   ),
 };
 
-export const Disabled: Story = { args: { variant: "primary", disabled: true, icon: "notifications", label: "Notifications" } };
+export const Disabled: Story = {
+  args: { variant: "primary", disabled: true, icon: "notifications", label: "Notifications" },
+};
 
 export const States: Story = {
-  parameters: { layout: "padded" },
+  parameters: {
+    layout: "padded",
+    pseudo: {
+      hover: ["#icon-primary-hover", "#icon-secondary-hover", "#icon-tertiary-hover"],
+      active: ["#icon-primary-active", "#icon-secondary-active", "#icon-tertiary-active"],
+    },
+  },
   render: () => {
     const variants = ["primary", "secondary", "tertiary"] as const;
     const colHead = { font: "var(--label-small)", color: "var(--text-secondary)" };
     return (
-      <div style={{ display: "grid", gridTemplateColumns: "auto repeat(4, max-content)", gap: 16, alignItems: "center" }}>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "auto repeat(4, max-content)",
+          gap: 16,
+          alignItems: "center",
+        }}
+      >
         <span />
         <span style={colHead}>Enabled</span>
         <span style={colHead}>Hovered</span>
@@ -51,8 +66,8 @@ export const States: Story = {
           <React.Fragment key={v}>
             <span style={{ ...colHead, textTransform: "capitalize" }}>{v}</span>
             <IconButton icon="notifications" variant={v} label={`${v} enabled`} />
-            <IconButton icon="notifications" variant={v} className="is-hovered" label={`${v} hovered`} />
-            <IconButton icon="notifications" variant={v} className="is-pressed" label={`${v} pressed`} />
+            <IconButton icon="notifications" variant={v} id={`icon-${v}-hover`} label={`${v} hovered`} />
+            <IconButton icon="notifications" variant={v} id={`icon-${v}-active`} label={`${v} pressed`} />
             <IconButton icon="notifications" variant={v} disabled label={`${v} disabled`} />
           </React.Fragment>
         ))}

@@ -56,7 +56,12 @@ const preview = {
       // 'todo' - show a11y violations in the test UI only
       // 'error' - fail CI on a11y violations
       // 'off' - skip a11y checks entirely
-      test: "todo"
+      test: "error",
+      // Base UI focus guards are aria-hidden + tabindex by design; axe flags them
+      // as aria-hidden-focus false positives.
+      context: {
+        exclude: ["[data-base-ui-focus-guard]"],
+      },
     }
   },
 

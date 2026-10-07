@@ -4,8 +4,39 @@
   padding: 20px;
   color: var(--text-primary);
 }
-.card--shadow-1 { box-shadow: var(--shadow-1); }
-.card--shadow-2 { box-shadow: var(--shadow-2); }
-.card--shadow-3 { box-shadow: var(--shadow-3); }
-.card__title { font: 700 20px/1.25 var(--font-display); margin: 0 0 8px; }
-.card__body { font: var(--body-medium); color: var(--text-secondary); margin: 0; }
+.card[data-shadow="1"] { box-shadow: var(--shadow-1); }
+.card[data-shadow="2"] { box-shadow: var(--shadow-2); }
+.card[data-shadow="3"] { box-shadow: var(--shadow-3); }
+
+.card__header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.card__title {
+  font: 700 20px/1.25 var(--font-display);
+  margin: 0;
+}
+.card__description {
+  font: var(--body-medium);
+  color: var(--text-secondary);
+  margin: 0;
+}
+.card__content {
+  margin-top: 12px;
+}
+.card__header + .card__content {
+  margin-top: 12px;
+}
+.card__footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+/* Legacy alias kept for any leftover class usage during migration */
+.card__body {
+  font: var(--body-medium);
+  color: var(--text-secondary);
+  margin: 0;
+}

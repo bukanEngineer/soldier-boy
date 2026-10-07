@@ -1,4 +1,15 @@
 export { Select } from "./Select";
-export type { SelectProps, SelectOption } from "./Select";
-export { selectClasses } from "./styles";
-export type { SelectSize } from "./styles";
+export type {
+  SelectRootProps,
+  SelectControlProps,
+  SelectTriggerProps,
+  SelectValueProps,
+  SelectIconProps,
+  SelectClearProps,
+  SelectPopupProps,
+  SelectListProps,
+  SelectItemProps,
+  SelectGroupProps,
+  SelectGroupLabelProps,
+  SelectSeparatorProps,
+} from "./Select";

@@ -1,23 +1,49 @@
 import React from "react";
+import { cn } from "../../lib/cn";
 import "./EmptyState.css";
 
-export type EmptyStateProps = {
-  /** Heading text */
-  title?: string;
-  /** Subtext */
-  sub?: string;
-  /** Compact mode */
+export type EmptyStateProps = React.ComponentProps<"div"> & {
+  /** Heading text — prefer `<EmptyStateTitle>` as a child */
+  title?: React.ReactNode;
+  /** Subtext — prefer `<EmptyStateDescription>` as a child */
+  description?: React.ReactNode;
+  /** Compact padding */
   compact?: boolean;
-  /** Additional CSS class names */
-  className?: string;
 };
 
-export function EmptyState({ title, sub, compact = false, className = "" }: EmptyStateProps) {
-  const cls = ["empty", compact && "is-compact", className].filter(Boolean).join(" ");
+export type EmptyStateTitleProps = React.ComponentProps<"div">;
+
+export function EmptyStateTitle({ className, ...props }: EmptyStateTitleProps) {
+  return <div className={cn("empty__title", className)} {...props} />;
+}
+
+export type EmptyStateDescriptionProps = React.ComponentProps<"div">;
+
+export function EmptyStateDescription({ className, ...props }: EmptyStateDescriptionProps) {
+  return <div className={cn("empty__sub", className)} {...props} />;
+}
+
+/**
+ * Empty / zero-data placeholder.
+ *
+ *   <EmptyState>
+ *     <EmptyStateTitle>No transactions</EmptyStateTitle>
+ *     <EmptyStateDescription>Transfers will show up here.</EmptyStateDescription>
+ *   </EmptyState>
+ */
+export function EmptyState({
+  title,
+  description,
+  compact = false,
+  className,
+  children,
+  ...props
+}: EmptyStateProps) {
   return (
-    <div className={cls}>
-      {title && <div className="empty__title">{title}</div>}
-      {sub && <div className="empty__sub">{sub}</div>}
+    <div className={cn("empty", className)} data-compact={compact || undefined} {...props}>
+      {title != null && <EmptyStateTitle>{title}</EmptyStateTitle>}
+      {description != null && <EmptyStateDescription>{description}</EmptyStateDescription>}
+      {children}
     </div>
   );
 }

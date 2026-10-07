@@ -1,0 +1,40 @@
+/* Single-select list inside the BottomSheet shell (Bank / Blockchain / Network). */
+
+.bsheet-select .bsheet__body { padding-left: 0; padding-right: 0; }
+
+.bsheet-select__list { list-style: none; margin: 0; padding: 0; }
+.bsheet-select__item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-5);
+  background: transparent;
+  border: 0;
+  text-align: left;
+  cursor: pointer;
+}
+.bsheet-select__item:hover { background: var(--surface-hovered); }
+.bsheet-select__item[data-selected] { background: var(--surface-secondary); }
+
+.bsheet-select__mark {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  background: var(--surface-secondary);
+  color: var(--text-primary);
+  font: var(--label-small);
+  overflow: hidden;
+}
+.bsheet-select__mark > * { width: 100%; height: 100%; }
+
+.bsheet-select__text { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.bsheet-select__name { font: var(--label-medium); color: var(--text-primary); }
+.bsheet-select__desc { font: var(--body-small); color: var(--text-secondary); }
+
+.bsheet-select__check { flex: 0 0 auto; color: var(--text-secondary); font-size: 22px; }
+.bsheet-select__item[data-selected] .bsheet-select__check { color: var(--status-positive); }

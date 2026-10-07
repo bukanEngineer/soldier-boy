@@ -23,21 +23,12 @@
   gap: var(--space-6);
   padding-right: var(--space-4);
 }
-/* Lock scroll when company dropdown is open */
-.sidebar__scroll.is-scroll-locked { overflow-y: hidden; }
+/* Lock scroll when company dropdown is open — Menu portals out, so unused now. */
 
 .sidebar__brand { display: flex; flex-direction: column; align-items: center; gap: var(--space-1); }
 .sidebar__brand-sub { font: var(--body-small); color: var(--interactive-active); text-align: center; }
 
-/* Company profile dropdown trigger + popover. Popover is portaled to
- * <body> (see Sidebar.jsx) and positioned inline via JS, since it must
- * escape .sidebar__top's overflow clipping. */
 .sidebar__company-wrap { position: relative; width: 100%; }
-.sidebar__company-menu {
-  position: fixed;
-  z-index: 50;
-  min-width: 208px;
-}
 .sidebar__company {
   display: flex;
   align-items: center;
@@ -60,7 +51,17 @@
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 .sidebar__company-type { font: var(--body-small); color: var(--text-secondary); }
-.sidebar__company-chevron { color: var(--text-secondary); font-size: 22px; width: 22px; text-align: center; flex: 0 0 auto; }
+.sidebar__company-chevron {
+  color: var(--text-secondary);
+  font-size: 22px;
+  width: 22px;
+  text-align: center;
+  flex: 0 0 auto;
+  transition: transform var(--dur-1) var(--ease);
+}
+.sidebar__company[data-popup-open] .sidebar__company-chevron {
+  transform: rotate(180deg);
+}
 
 .sidebar__nav { display: flex; flex-direction: column; gap: var(--space-2); }
 .sidebar__group { display: flex; flex-direction: column; }
@@ -81,14 +82,13 @@
   width: 100%;
   transition: background var(--dur-1) var(--ease), color var(--dur-1) var(--ease);
 }
-.nav-item:hover,
-.nav-item.is-hovered { background: var(--surface-secondary); }
-.nav-item.is-active {
+.nav-item:hover { background: var(--surface-secondary); }
+.nav-item[data-active] {
   background: var(--sidebar-active);
   color: var(--sidebar-menuitem-text);
   font: var(--body-bold-medium);
 }
-.nav-item.is-active .material-symbols-rounded { color: var(--sidebar-menuitem-text); }
+.nav-item[data-active] .material-symbols-rounded { color: var(--sidebar-menuitem-text); }
 .nav-item__label {
   flex: 1;
   min-width: 0;
@@ -109,7 +109,7 @@
   font-size: 22px; flex: 0 0 auto; color: var(--text-secondary);
   transition: transform var(--dur-1) var(--ease);
 }
-.nav-item__chevron.is-open { transform: rotate(180deg); }
+.nav-item[data-panel-open] .nav-item__chevron { transform: rotate(180deg); }
 /* Reserve the icon box (width + height) so a not-yet-loaded icon font (which
  * renders zero-width with `font-display: block`) can't collapse and shift the
  * labels — visible as a "pop-in" on hard reload when the font is re-fetched. */
@@ -153,9 +153,9 @@
   transition: background var(--dur-1) var(--ease), color var(--dur-1) var(--ease);
 }
 .subitem:hover { background: var(--surface-secondary); }
-.subitem.is-active {
+.subitem[data-active] {
   background: var(--sidebar-active);
-  color: var(--status-positive);
+  color: var(--sidebar-menuitem-text);
   font: var(--body-bold-medium);
 }
 
@@ -205,25 +205,24 @@
 
 /* Sandbox theme — dark surface, white text/icons. Company profile card and
  * the MAS badge keep their light styling per Figma (only nav + brand invert). */
-.sidebar.is-sandbox { background: var(--sidebar-sandbox-bg); border-right: 0; }
-.sidebar.is-sandbox .sidebar__brand-sub { color: var(--sidebar-sandbox-text); }
-.sidebar.is-sandbox .nav-item,
-.sidebar.is-sandbox .nav-item .material-symbols-rounded,
-.sidebar.is-sandbox .nav-item__chevron,
-.sidebar.is-sandbox .subitem {
+.sidebar[data-account="sandbox"] { background: var(--sidebar-sandbox-bg); border-right: 0; }
+.sidebar[data-account="sandbox"] .sidebar__brand-sub { color: var(--sidebar-sandbox-text); }
+.sidebar[data-account="sandbox"] .nav-item,
+.sidebar[data-account="sandbox"] .nav-item .material-symbols-rounded,
+.sidebar[data-account="sandbox"] .nav-item__chevron,
+.sidebar[data-account="sandbox"] .subitem {
   color: var(--sidebar-sandbox-text);
 }
-.sidebar.is-sandbox .nav-item:hover,
-.sidebar.is-sandbox .nav-item.is-hovered,
-.sidebar.is-sandbox .subitem:hover {
+.sidebar[data-account="sandbox"] .nav-item:hover,
+.sidebar[data-account="sandbox"] .subitem:hover {
   background: var(--sidebar-sandbox-hover, rgba(255, 255, 255, 0.08));
 }
-.sidebar.is-sandbox .nav-item.is-active,
-.sidebar.is-sandbox .subitem.is-active {
+.sidebar[data-account="sandbox"] .nav-item[data-active],
+.sidebar[data-account="sandbox"] .subitem[data-active] {
   background: var(--sidebar-sandbox-active);
   color: var(--sidebar-sandbox-text);
 }
-.sidebar.is-sandbox .nav-item.is-active .material-symbols-rounded {
+.sidebar[data-account="sandbox"] .nav-item[data-active] .material-symbols-rounded {
   color: var(--sidebar-sandbox-text);
 }
 

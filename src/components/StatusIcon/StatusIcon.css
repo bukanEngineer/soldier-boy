@@ -18,5 +18,5 @@
   background: var(--status-positive);
 }
 .status-icon--needApproval {
-  background: var(--status-warning);
+  background: var(--status-warning-strong);
 }

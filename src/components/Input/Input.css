@@ -1,8 +1,3 @@
-.field { display: flex; flex-direction: column; gap: 6px; }
-.field__label { font: var(--body-medium); color: var(--text-primary); }
-.field__helper { font: var(--body-small); color: var(--text-secondary); }
-.field__helper.is-error { color: var(--status-critical); }
-
 .input {
   display: flex;
   align-items: center;
@@ -16,7 +11,6 @@
   color: var(--text-primary);
   transition: border-color var(--dur-1) var(--ease), box-shadow var(--dur-1) var(--ease);
 }
-/* Size axis — large (48px, default) | small (36px) */
 .input--large { height: 48px; padding: 0 14px; font: var(--body-large); }
 .input--small {
   height: 36px;
@@ -24,29 +18,25 @@
   font: var(--body-medium);
   border-radius: var(--radius-md);
 }
-.input:hover,
-.input.is-hovered {
-  border-color: var(--text-secondary);
-}
-.input:focus-within,
-.input.is-focused {
+.input:hover { border-color: var(--text-secondary); }
+.input:focus-within {
   border-color: var(--interactive-active);
   box-shadow: 0 0 0 3px rgba(0, 211, 126, 0.16);
 }
-.input.is-error {
+.field[data-invalid] .input {
   border-color: var(--status-critical);
 }
-.input.is-error:focus-within {
+.field[data-invalid] .input:focus-within {
   box-shadow: 0 0 0 3px rgba(223, 19, 18, 0.16);
 }
-.input.is-disabled {
+.input[data-disabled] {
   background: var(--surface-secondary);
   color: var(--disabled-on-surface);
   border-color: var(--border);
   cursor: not-allowed;
 }
 
-.input input {
+.input__control {
   flex: 1;
   min-width: 0;
   border: 0;
@@ -54,8 +44,10 @@
   background: transparent;
   font: inherit;
   color: inherit;
+  padding: 0;
+  margin: 0;
 }
-.input input::placeholder { color: var(--input-placeholder); }
+.input__control::placeholder { color: var(--input-placeholder); }
 
 .input__lead {
   color: var(--text-secondary);
@@ -77,9 +69,8 @@
 .input__icon-btn:hover { color: var(--text-primary); background: var(--surface-secondary); }
 .input__icon-btn .material-symbols-rounded { font-size: 20px; }
 
-/* Hide native WebKit search clear button so only the custom close icon shows */
-.input input[type="search"]::-webkit-search-cancel-button,
-.input input[type="search"]::-webkit-search-decoration {
+.input__control[type="search"]::-webkit-search-cancel-button,
+.input__control[type="search"]::-webkit-search-decoration {
   -webkit-appearance: none;
   appearance: none;
 }

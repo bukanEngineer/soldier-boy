@@ -1,9 +1,9 @@
-/* ModalAssetOverview — asset header + transfer methods + supported network/bank.
+/* ModalAssetOverview: asset header + transfer methods + supported network/bank.
  * Composes the shared Modal shell; only the body/header internals are styled. */
 
 .asset-ov .modal__body { padding-top: 0; }
 
-/* Header (passed as Modal title) */
+/* Header (inside Modal.Title) */
 .asset-ov__header {
   display: flex;
   align-items: center;

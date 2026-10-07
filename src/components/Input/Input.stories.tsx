@@ -1,10 +1,27 @@
 import React from "react";
-import { Input } from "./Input";
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { Input } from "./Input";
+import { Field } from "../Field/Field";
 
-const meta: Meta<typeof Input> = {
+function Example(props: React.ComponentProps<typeof Input> & {
+  label?: string;
+  helper?: string;
+  error?: string;
+}) {
+  const { label, helper, error, ...inputProps } = props;
+  return (
+    <Field.Root invalid={!!error}>
+      {label && <Field.Label>{label}</Field.Label>}
+      <Input {...inputProps} />
+      {helper && !error && <Field.Description>{helper}</Field.Description>}
+      {error && <Field.Error match>{error}</Field.Error>}
+    </Field.Root>
+  );
+}
+
+const meta: Meta<typeof Example> = {
   title: "Components/Input",
-  component: Input,
+  component: Example,
   parameters: { layout: "padded" },
   args: { disabled: false },
   argTypes: {
@@ -15,11 +32,17 @@ const meta: Meta<typeof Input> = {
     disabled: { control: "boolean" },
     size: { control: "inline-radio", options: ["large", "small"] },
   },
-  decorators: [(Story) => <div style={{ maxWidth: 360 }}><Story /></div>],
+  decorators: [
+    (Story) => (
+      <div style={{ maxWidth: 360 }}>
+        <Story />
+      </div>
+    ),
+  ],
 };
 export default meta;
 
-type Story = StoryObj<typeof Input>;
+type Story = StoryObj<typeof Example>;
 
 export const Default: Story = {
   args: {
@@ -69,31 +92,8 @@ export const Small: Story = {
 export const Sizes: Story = {
   render: () => (
     <div style={{ display: "grid", gap: 16, maxWidth: 360 }}>
-      <Input size="large" label="Large (48px)" placeholder="hello@straitsx.com" />
-      <Input size="small" label="Small (36px)" placeholder="hello@straitsx.com" />
-    </div>
-  ),
-};
-
-export const States: Story = {
-  render: () => (
-    <div style={{ display: "grid", gap: 16, maxWidth: 360 }}>
-      <Input label="Enabled" placeholder="hello@straitsx.com" />
-      <Input label="Hovered" className="is-hovered" placeholder="hello@straitsx.com" />
-      <Input label="Focused" className="is-focused" placeholder="hello@straitsx.com" />
-      <Input label="Error" defaultValue="0xa1B…f2" error="Address checksum doesn't match." />
-      <Input label="Disabled" defaultValue="0123 4567 8901" disabled />
-      <Input label="Small" size="small" placeholder="Compact 36px field" />
-    </div>
-  ),
-};
-
-export const Composition: Story = {
-  render: () => (
-    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, maxWidth: 560 }}>
-      <Input label="Email" placeholder="hello@straitsx.com" />
-      <Input label="Wallet address" defaultValue="0xa1B…f2" error="Address checksum doesn't match." />
-      <Input label="Account number" defaultValue="0123 4567 8901" disabled />
+      <Example size="large" label="Large (48px)" placeholder="hello@straitsx.com" />
+      <Example size="small" label="Small (36px)" placeholder="hello@straitsx.com" />
     </div>
   ),
 };

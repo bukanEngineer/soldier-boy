@@ -1,74 +1,57 @@
-import React, { useState } from "react";
+import React from "react";
+import { Tabs as BaseTabs } from "@base-ui/react/tabs";
+import { withClass } from "../../lib/cn";
 import "./Tabs.css";
 
-export type TabItem = {
-  id: string;
-  label: string;
-  content?: React.ReactNode;
-  disabled?: boolean;
-};
+export type TabsRootProps = BaseTabs.Root.Props;
 
-export type TabsProps = {
-  /** Tab items */
-  items?: TabItem[];
-  /** Default active tab id (uncontrolled) */
-  defaultTab?: string;
-  /** Controlled active tab id */
-  activeTab?: string;
-  /** Tab change handler */
-  onTabChange?: (id: string) => void;
-  /** Visual variant */
+function TabsRoot({ className, ...props }: TabsRootProps) {
+  return <BaseTabs.Root className={withClass("tabs", className)} {...props} />;
+}
+
+export type TabsListProps = BaseTabs.List.Props & {
+  /** Visual variant: underline strip or pill group */
   variant?: "default" | "secondary";
-  /** Fill available width */
+  /** Stretch tabs to fill the available width */
   fill?: boolean;
-  /** Additional CSS class names */
-  className?: string;
 };
 
-export function Tabs({
-  items = [],
-  defaultTab,
-  activeTab,
-  onTabChange,
-  variant = "default",
-  fill = false,
-  className = "",
-}: TabsProps) {
-  const [internal, setInternal] = useState(defaultTab || items[0]?.id);
-  const current = activeTab ?? internal;
-  const setCurrent = (id: string) => {
-    if (activeTab === undefined) setInternal(id);
-    onTabChange && onTabChange(id);
-  };
-  const activeItem = items.find((i) => i.id === current);
-  const cls = [
-    "tabs",
-    variant === "secondary" && "tabs--secondary",
-    fill && "tabs--fill",
-    className,
-  ].filter(Boolean).join(" ");
+function TabsList({ variant = "default", fill = false, className, ...props }: TabsListProps) {
   return (
-    <div className={cls}>
-      <div className="tabs__strip" role="tablist">
-        {items.map((t) => (
-          <button
-            key={t.id}
-            type="button"
-            role="tab"
-            className={"tabs__tab" + (current === t.id ? " is-active" : "")}
-            aria-selected={current === t.id}
-            disabled={t.disabled}
-            onClick={() => setCurrent(t.id)}
-          >
-            {t.label}
-          </button>
-        ))}
-      </div>
-      {activeItem?.content && (
-        <div className="tabs__panel" role="tabpanel">
-          {activeItem.content}
-        </div>
-      )}
-    </div>
+    <BaseTabs.List
+      data-variant={variant}
+      data-fill={fill || undefined}
+      className={withClass("tabs__list", className)}
+      {...props}
+    />
   );
 }
+
+export type TabsTabProps = BaseTabs.Tab.Props;
+
+function TabsTab({ className, ...props }: TabsTabProps) {
+  return <BaseTabs.Tab className={withClass("tabs__tab", className)} {...props} />;
+}
+
+export type TabsPanelProps = BaseTabs.Panel.Props;
+
+function TabsPanel({ className, ...props }: TabsPanelProps) {
+  return <BaseTabs.Panel className={withClass("tabs__panel", className)} {...props} />;
+}
+
+/**
+ * Tabs built on Base UI. Compose the parts:
+ *
+ *   <Tabs.Root defaultValue="in">
+ *     <Tabs.List>
+ *       <Tabs.Tab value="in">Transfer In</Tabs.Tab>
+ *     </Tabs.List>
+ *     <Tabs.Panel value="in">…</Tabs.Panel>
+ *   </Tabs.Root>
+ */
+export const Tabs = {
+  Root: TabsRoot,
+  List: TabsList,
+  Tab: TabsTab,
+  Panel: TabsPanel,
+};

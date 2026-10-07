@@ -1,6 +1,8 @@
 import React from "react";
+import { cn } from "../../lib/cn";
+import "./Icon.css";
 
-export type IconProps = {
+export type IconProps = React.ComponentProps<"span"> & {
   /** Material Symbols icon name */
   name: string;
   /** Icon size in pixels */
@@ -9,16 +11,21 @@ export type IconProps = {
   filled?: boolean;
   /** Icon color */
   color?: string;
-  /** Additional CSS class names */
-  className?: string;
-  /** Inline styles */
-  style?: React.CSSProperties;
-} & React.HTMLAttributes<HTMLSpanElement>;
+};
 
-export function Icon({ name, size = 24, filled = false, color, className = "", style, ...rest }: IconProps) {
+/** Decorative Material Symbols glyph. Always `aria-hidden`; pair with a label on the control. */
+export function Icon({
+  name,
+  size = 24,
+  filled = false,
+  color,
+  className,
+  style,
+  ...rest
+}: IconProps) {
   return (
     <span
-      className={"material-symbols-rounded " + className}
+      className={cn("material-symbols-rounded", className)}
       style={{
         fontSize: size,
         color,

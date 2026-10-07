@@ -1,40 +1,48 @@
-import React, { forwardRef } from "react";
+import React from "react";
+import { cn } from "../../lib/cn";
 import "./PageTitle.css";
 
-export type PageTitleProps = {
-  /** Page heading — can be a string or ReactNode for inline elements like asset marks */
+export type PageTitleProps = Omit<React.ComponentProps<"header">, "title"> & {
+  /** Page heading — string or ReactNode (e.g. asset mark + name) */
   title: React.ReactNode;
   /** Subtitle text */
-  subtitle?: string;
+  subtitle?: React.ReactNode;
   /** Breadcrumb element */
   breadcrumb?: React.ReactNode;
   /** Action buttons */
   actions?: React.ReactNode;
-  /** Additional CSS class names */
-  className?: string;
-} & Omit<React.HTMLAttributes<HTMLDivElement>, "title">;
+};
 
-export const PageTitle = forwardRef<HTMLDivElement, PageTitleProps>(
-  ({ title, subtitle, breadcrumb, actions, className, ...rest }, ref) => {
-    return (
-      <header
-        ref={ref}
-        className={`page-title${className ? ` ${className}` : ""}`}
-        {...rest}
-      >
-        <div className="page-title__head">
-          {breadcrumb}
-          <h1 className="page-title__h1">{title}</h1>
-          {subtitle && <p className="page-title__sub">{subtitle}</p>}
+/**
+ * Page header with optional breadcrumb, subtitle and action cluster.
+ *
+ *   <PageTitle
+ *     title="Transfers"
+ *     subtitle="Last 30 days"
+ *     actions={<Button>Export</Button>}
+ *   />
+ */
+export function PageTitle({
+  title,
+  subtitle,
+  breadcrumb,
+  actions,
+  className,
+  ref,
+  ...rest
+}: PageTitleProps) {
+  return (
+    <header ref={ref} className={cn("page-title", className)} {...rest}>
+      <div className="page-title__head">
+        {breadcrumb}
+        <h1 className="page-title__h1">{title}</h1>
+        {subtitle != null && <p className="page-title__sub">{subtitle}</p>}
+      </div>
+      {actions != null && (
+        <div className="page-title__actions" role="group" aria-label="Page actions">
+          {actions}
         </div>
-        {actions && (
-          <div className="page-title__actions" role="group" aria-label="Page actions">
-            {actions}
-          </div>
-        )}
-      </header>
-    );
-  }
-);
-
-PageTitle.displayName = "PageTitle";
+      )}
+    </header>
+  );
+}

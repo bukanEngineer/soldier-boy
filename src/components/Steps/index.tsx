@@ -1,3 +1,17 @@
-// @ts-ignore Steps will be fully typed in a later migration pass
-export { HorizontalSteps, VerticalSteps, BadgeSteps } from "./Steps";
-export type StepsProps = Record<string, unknown>;
+export {
+  HorizontalSteps,
+  VerticalSteps,
+  VerticalStep,
+  BadgeSteps,
+  BadgeStepsTitle,
+  BadgeStepsDescription,
+} from "./Steps";
+export type {
+  HorizontalStepsProps,
+  VerticalStepsProps,
+  VerticalStepProps,
+  VerticalStepStatus,
+  BadgeStepsProps,
+  BadgeStepsTitleProps,
+  BadgeStepsDescriptionProps,
+} from "./Steps";

@@ -37,7 +37,7 @@
 .alert--critical { background: var(--status-surface-critical); border-color: var(--status-critical); }
 .alert--critical .alert__icon { color: var(--status-critical); }
 .alert--warning  { background: var(--status-surface-warning);  border-color: var(--status-warning); }
-.alert--warning .alert__icon  { color: var(--status-warning); }
+.alert--warning .alert__icon  { color: var(--status-warning-strong); }
 .alert--info     { background: var(--status-surface-information); border-color: var(--status-information); }
 .alert--info .alert__icon     { color: var(--status-information); }
 .alert--neutral  { background: var(--surface-secondary); border-color: var(--border); }

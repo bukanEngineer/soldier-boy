@@ -36,13 +36,14 @@ async function generateOne(file) {
   const componentName = toComponentName(slug);
   const svgCode = await readFile(path.join(SRC_DIR, file), "utf8");
 
-  const jsCode = await transform(
+  const tsCode = await transform(
     svgCode,
     {
       plugins: ["@svgr/plugin-svgo", "@svgr/plugin-jsx"],
       jsxRuntime: "automatic",
+      typescript: true,
       // Strip width/height so the wrapper (bankLogo/squareLogo in
-      // PartnerLogo.jsx) fully controls rendered size via props; viewBox is
+      // PartnerLogo.tsx) fully controls rendered size via props; viewBox is
       // preserved by SVGO's default preset so scaling stays correct.
       dimensions: false,
       ref: false,
@@ -60,7 +61,7 @@ async function generateOne(file) {
     `// Source: src/assets/partners/${file}\n` +
     `// Regenerate with \`npm run generate:logos\` after changing the source SVG.\n`;
 
-  await writeFile(path.join(OUT_DIR, `${componentName}.jsx`), header + jsCode);
+  await writeFile(path.join(OUT_DIR, `${componentName}.tsx`), header + tsCode);
   return { slug, componentName };
 }
 
@@ -77,12 +78,14 @@ async function main() {
   const barrel =
     `// GENERATED FILE — do not edit by hand.\n` +
     `// Regenerate with \`npm run generate:logos\`.\n` +
-    entries.map((e) => `import ${e.componentName} from "./${e.componentName}.jsx";`).join("\n") +
-    `\n\nexport const LOGO_COMPONENTS = {\n` +
+    `import type { ComponentType, SVGProps } from "react";\n` +
+    entries.map((e) => `import ${e.componentName} from "./${e.componentName}";`).join("\n") +
+    `\n\nexport type PartnerLogoSvg = ComponentType<SVGProps<SVGSVGElement>>;\n\n` +
+    `export const LOGO_COMPONENTS: Record<string, PartnerLogoSvg> = {\n` +
     entries.map((e) => `  "${e.slug}": ${e.componentName},`).join("\n") +
     `\n};\n`;
 
-  await writeFile(path.join(OUT_DIR, "index.js"), barrel);
+  await writeFile(path.join(OUT_DIR, "index.ts"), barrel);
 
   console.log(
     `Generated ${entries.length} partner logo components into ${path.relative(ROOT, OUT_DIR)}/`,

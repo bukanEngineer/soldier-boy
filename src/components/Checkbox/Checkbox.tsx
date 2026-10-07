@@ -1,77 +1,52 @@
-import React, { useId, useRef, useEffect } from "react";
+import React from "react";
+import { Checkbox as BaseCheckbox } from "@base-ui/react/checkbox";
+import { CheckboxGroup as BaseCheckboxGroup } from "@base-ui/react/checkbox-group";
+import { withClass } from "../../lib/cn";
 import "./Checkbox.css";
 
-export type CheckboxProps = {
-  /** Checkbox label */
-  label?: string;
-  /** Secondary description text */
-  sub?: string;
-  /** Controlled checked state */
-  checked?: boolean;
-  /** Uncontrolled default checked state */
-  defaultChecked?: boolean;
-  /** Show indeterminate state */
-  indeterminate?: boolean;
-  /** Disables interaction */
-  disabled?: boolean;
-  /** Show error styling */
-  error?: boolean;
-  /** Change handler */
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  /** Element id */
-  id?: string;
-  /** Additional CSS class names */
-  className?: string;
-} & Omit<React.InputHTMLAttributes<HTMLInputElement>, "type" | "onChange">;
+export type CheckboxRootProps = BaseCheckbox.Root.Props;
+export type CheckboxIndicatorProps = BaseCheckbox.Indicator.Props;
+export type CheckboxGroupProps = React.ComponentProps<typeof BaseCheckboxGroup>;
 
-export function Checkbox({
-  label,
-  sub,
-  checked,
-  defaultChecked,
-  indeterminate = false,
-  disabled = false,
-  error = false,
-  onChange,
-  id: idProp,
-  className = "",
-  ...inputProps
-}: CheckboxProps) {
-  const id = useId();
-  const ref = useRef<HTMLInputElement>(null);
-  useEffect(() => {
-    if (ref.current) ref.current.indeterminate = indeterminate;
-  }, [indeterminate]);
-  const cls = [
-    "control",
-    sub && "has-sub",
-    disabled && "is-disabled",
-    error && "is-error",
-    className,
-  ].filter(Boolean).join(" ");
+function CheckboxRoot({ className, ...props }: CheckboxRootProps) {
+  return <BaseCheckbox.Root className={withClass("checkbox", className)} {...props} />;
+}
+
+function CheckboxIndicator({ className, children, ...props }: CheckboxIndicatorProps) {
   return (
-    <label htmlFor={idProp || id} className={cls} data-indeterminate={indeterminate || undefined}>
-      <input
-        ref={ref}
-        type="checkbox"
-        id={idProp || id}
-        checked={checked}
-        defaultChecked={defaultChecked}
-        disabled={disabled}
-        onChange={onChange}
-        {...inputProps}
-      />
-      <span className="checkbox__box" aria-hidden="true">
-        <svg viewBox="0 0 16 16" fill="none">
-          <path d="M3 8.5 L6.5 12 L13 4.5" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+    <BaseCheckbox.Indicator className={withClass("checkbox__indicator", className)} {...props}>
+      {children ?? (
+        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path
+            d="M3 8.5 L6.5 12 L13 4.5"
+            stroke="currentColor"
+            strokeWidth="2.4"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
         </svg>
-      </span>
-      {label && (
-        <span className="control__label">
-          {label}
-          {sub && <span className="control__sub">{sub}</span>}
-        </span>
       )}
-    </label>
+    </BaseCheckbox.Indicator>
   );
 }
+
+function CheckboxGroup({ className, ...props }: CheckboxGroupProps) {
+  return <BaseCheckboxGroup className={withClass("checkbox-group", className)} {...props} />;
+}
+
+/**
+ * Checkbox on Base UI. Compose with a label; use `onCheckedChange` and
+ * `indeterminate` for mixed state.
+ *
+ *   <label className="control">
+ *     <Checkbox.Root checked={on} onCheckedChange={setOn}>
+ *       <Checkbox.Indicator />
+ *     </Checkbox.Root>
+ *     <span className="control__label">Accept terms</span>
+ *   </label>
+ */
+export const Checkbox = {
+  Root: CheckboxRoot,
+  Indicator: CheckboxIndicator,
+  Group: CheckboxGroup,
+};

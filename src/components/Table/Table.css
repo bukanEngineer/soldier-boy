@@ -62,9 +62,11 @@
   opacity: 0.5;
 }
 .table__sort-btn:hover .table__sort-icon,
+.table__sort-icon[data-active],
 .table__sort-icon.is-active {
   opacity: 1;
 }
+.table__sort-icon[data-active],
 .table__sort-icon.is-active {
   color: var(--text-primary);
 }
@@ -83,12 +85,10 @@
   background: none;
   font-size: 16px;
   color: var(--text-secondary);
-  opacity: 0.7;
   cursor: help;
 }
 .table__th-info:hover,
 .table__th-info:focus-visible {
-  opacity: 1;
   color: var(--text-primary);
 }
 .table__th-tz {

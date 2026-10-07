@@ -1,62 +1,13 @@
-/* CompanyProfileMenu — Figma "Dropdown Menu - Company Profile". 208px,
- * Shadow/lv-2, switch-company section + action items. Semantic tokens. */
+/* Width token for company Menu.Popup — chrome comes from Menu. */
 .company-menu {
   width: 208px;
   padding: var(--space-2) 0;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  background: var(--surface);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-2);
-  overflow: clip;
 }
 
-.company-menu__header {
+.company-menu .menu__group-label {
   padding: var(--space-2) var(--space-3);
   font: var(--label-small);
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--text-secondary);
 }
-
-.company-menu__company {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-2);
-  padding: var(--space-2) var(--space-3);
-  border: 0;
-  background: transparent;
-  cursor: pointer;
-  text-align: left;
-  transition: background var(--dur-1) var(--ease);
-}
-.company-menu__company:hover { background: var(--surface-secondary); }
-.company-menu__company.is-selected { background: var(--sidebar-active); }
-.company-menu__company-text { display: flex; flex-direction: column; gap: var(--space-1); min-width: 0; }
-.company-menu__company-name { font: var(--body-large); color: var(--text-primary); }
-.company-menu__company-type { font: var(--body-medium); color: var(--text-secondary); }
-.company-menu__check { color: var(--status-positive); font-size: 22px; flex: 0 0 auto; }
-
-.company-menu__divider {
-  height: 1px;
-  margin: var(--space-1) 0;
-  background: var(--border);
-}
-
-.company-menu__action {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  padding: var(--space-3);
-  border: 0;
-  background: transparent;
-  cursor: pointer;
-  text-align: left;
-  color: var(--text-secondary);
-  transition: background var(--dur-1) var(--ease);
-}
-.company-menu__action:hover { background: var(--surface-secondary); }
-.company-menu__action .material-symbols-rounded { font-size: 22px; color: var(--text-secondary); flex: 0 0 auto; }
-.company-menu__action-label { font: var(--body-large); color: var(--text-secondary); }

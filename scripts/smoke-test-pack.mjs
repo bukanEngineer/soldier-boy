@@ -53,7 +53,7 @@ async function main() {
         private: true,
         type: "module",
         dependencies: {
-          "soldier-boy": `file:${tarballPath}`,
+          "stxdesign-sandbox": `file:${tarballPath}`,
           react: "^19.0.0",
           "react-dom": "^19.0.0",
         },
@@ -68,7 +68,7 @@ async function main() {
 
   const fixture = `
 import { renderToStaticMarkup } from "react-dom/server";
-import { Logo, PartnerLogo, AssetMark } from "soldier-boy";
+import { Logo, PartnerLogo, AssetMark } from "stxdesign-sandbox";
 
 const html = renderToStaticMarkup(
   <div>

@@ -1,127 +1,109 @@
-import React, { useContext, useState } from "react";
-// @ts-ignore Toast is still a .jsx component
-import { ToastContext } from "../Toast/Toast";
+import React, { useEffect, useRef, useState } from "react";
+import { cn } from "../../lib/cn";
+import { useOptionalToast } from "../Toast/Toast";
 import "./Copybox.css";
 
-export type CopyboxProps = {
-  /** Value to copy */
+export type CopyboxProps = Omit<React.ComponentProps<"div">, "children" | "onCopy"> & {
+  /** Value shown and copied */
   value?: string;
-  /** Show multiline layout */
+  /** Multiline layout (wraps long values) */
   multiline?: boolean;
   /** Size variant */
   size?: "large" | "sm";
-  /** Field label */
-  label?: string;
-  /** Helper text */
-  helper?: string;
-  /** Info tooltip text */
-  info?: string;
-  /** Error message */
-  error?: string;
-  /** Show copy action button */
+  /** Error border. Inside `<Field.Root invalid>` this is picked up automatically. */
+  invalid?: boolean;
+  /** Show the copy button */
   action?: boolean;
-  /** Button style variant */
+  /** Copy button style */
   buttonVariant?: "text" | "icon";
-  /** Leading logo element */
-  logo?: React.ReactNode;
-  /** Leading icon element */
-  icon?: React.ReactNode;
-  /** Truncate long values with ellipsis */
+  /** Leading element (bank logo, blockchain mark, Material Symbol) */
+  leading?: React.ReactNode;
+  /** Middle-truncate values longer than 20 characters */
   truncate?: boolean;
-  /** Additional CSS class names */
-  className?: string;
+  /** Called after the value was copied */
+  onCopy?: (value: string) => void;
 };
 
+/**
+ * Read-only value with a copy button. Shows a "Copied" toast when rendered
+ * inside `<ToastProvider>`. Label, helper and error come from `Field`:
+ *
+ *   <Field.Root>
+ *     <Field.Label nativeLabel={false} render={<div />}>Wallet address</Field.Label>
+ *     <Copybox value={address} />
+ *   </Field.Root>
+ */
 export function Copybox({
   value = "",
   multiline = false,
   size = "large",
-  label,
-  helper,
-  info,
-  error,
+  invalid,
   action = true,
   buttonVariant = "text",
-  logo,
-  icon,
+  leading,
   truncate = false,
-  className = "",
-  ...rest
+  onCopy,
+  className,
+  ...props
 }: CopyboxProps) {
   const [copied, setCopied] = useState(false);
-  const toast = useContext(ToastContext) as { show?: (opts: { tone: string; message: string }) => void } | null;
-  const isError = !!error;
-  const lead = logo || icon;
+  const timer = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const toast = useOptionalToast();
   const iconOnly = buttonVariant === "icon";
+
+  useEffect(() => () => clearTimeout(timer.current), []);
 
   const copy = async () => {
     try {
       await navigator.clipboard.writeText(value);
-      setCopied(true);
-      toast?.show?.({ tone: "positive", message: "Copied" });
-      setTimeout(() => setCopied(false), 1500);
     } catch {
-      /* clipboard unavailable */
+      return; /* clipboard unavailable */
     }
+    setCopied(true);
+    toast?.add({ tone: "positive", description: "Copied" });
+    onCopy?.(value);
+    clearTimeout(timer.current);
+    timer.current = setTimeout(() => setCopied(false), 1500);
   };
 
-  const wrapCls = [
-    "copybox",
-    action && "copybox--action",
-    multiline && "copybox--multiline",
-    size === "sm" && "copybox--sm",
-    isError && "is-error",
-    copied && "is-copied",
-    className,
-  ].filter(Boolean).join(" ");
-
-  const doTruncate = truncate && !multiline && typeof value === "string" && value.length > 20;
-  const renderValue = () => {
-    if (!doTruncate) return value;
-    const head = value.slice(0, 10);
-    const tail = value.slice(-8);
-    return (
-      <>
-        <span className="copybox__trunc-start">{head}</span>
-        <span className="copybox__trunc-ellipsis">…</span>
-        <span className="copybox__trunc-end">{tail}</span>
-      </>
-    );
-  };
+  const doTruncate = truncate && !multiline && value.length > 20;
 
   return (
-    <div className="field" {...rest}>
-      {(label || info) && (
-        <span className="field__label copybox__label">
-          {label}
-          {info && (
-            <span className="copybox__info" tabIndex={0} aria-label={info} title={info}>
-              <span className="material-symbols-rounded">info</span>
-            </span>
+    <div
+      className={cn("copybox", className)}
+      data-size={size}
+      data-multiline={multiline || undefined}
+      data-action={action || undefined}
+      data-invalid={invalid || undefined}
+      data-copied={copied || undefined}
+      {...props}
+    >
+      <div className="copybox__body">
+        {leading && <span className="copybox__lead" aria-hidden="true">{leading}</span>}
+        <span className="copybox__value" title={doTruncate ? value : undefined}>
+          {doTruncate ? (
+            <>
+              <span className="copybox__trunc-start">{value.slice(0, 10)}</span>
+              <span className="copybox__trunc-ellipsis" aria-hidden="true">…</span>
+              <span className="copybox__trunc-end">{value.slice(-8)}</span>
+            </>
+          ) : (
+            value
           )}
         </span>
-      )}
-      <div className={wrapCls}>
-        <div className="copybox__body">
-          {lead && <span className="copybox__lead" aria-hidden="true">{lead}</span>}
-          <span className="copybox__value" title={doTruncate ? value : undefined}>
-            {renderValue()}
-          </span>
-        </div>
-        {action && (
-          <button
-            type="button"
-            className="copybox__btn"
-            onClick={copy}
-            aria-label={copied ? "Copied" : "Copy"}
-          >
-            <span className="material-symbols-rounded">{copied ? "check" : "content_copy"}</span>
-            {!iconOnly && (copied ? "Copied" : "Copy")}
-          </button>
-        )}
       </div>
-      {(helper || error) && (
-        <span className={"field__helper" + (isError ? " is-error" : "")}>{error || helper}</span>
+      {action && (
+        <button
+          type="button"
+          className="copybox__btn"
+          onClick={copy}
+          aria-label={iconOnly ? (copied ? "Copied" : "Copy") : undefined}
+        >
+          <span className="material-symbols-rounded" aria-hidden="true">
+            {copied ? "check" : "content_copy"}
+          </span>
+          {!iconOnly && (copied ? "Copied" : "Copy")}
+        </button>
       )}
     </div>
   );

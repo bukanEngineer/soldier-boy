@@ -1,8 +1,15 @@
 import React from "react";
-import { iconButtonClasses, type IconButtonVariant, type IconButtonShape, type IconButtonSize } from "./styles";
+import { Button as BaseButton } from "@base-ui/react/button";
+import { cn, withClass } from "../../lib/cn";
+import {
+  iconButtonClasses,
+  type IconButtonVariant,
+  type IconButtonShape,
+  type IconButtonSize,
+} from "./styles";
 import "./IconButton.css";
 
-export type IconButtonProps = {
+export type IconButtonProps = Omit<BaseButton.Props, "children"> & {
   /** Material Symbol icon name */
   icon: string;
   /** Visual style variant */
@@ -13,35 +20,42 @@ export type IconButtonProps = {
   size?: IconButtonSize;
   /** Accessible label (required for icon-only buttons) */
   label: string;
-  /** Disables interaction */
-  disabled?: boolean;
-  /** Additional CSS class names */
-  className?: string;
-  /** HTML button type attribute */
-  type?: "button" | "submit" | "reset";
-} & Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "type">;
+};
 
+/**
+ * Icon-only button built on Base UI `Button`. Kept as a separate export from
+ * `Button` because it requires an accessible `label` and shape sizing.
+ *
+ *   <IconButton icon="close" label="Close" variant="tertiary" />
+ */
 export function IconButton({
   icon,
   variant = "tertiary",
   shape = "circle",
   size = "lg",
   label,
-  disabled = false,
-  className = "",
   type = "button",
-  ...rest
+  className,
+  ...props
 }: IconButtonProps) {
-  const cls = [
-    iconButtonClasses.root,
-    iconButtonClasses.variant[variant],
-    iconButtonClasses.shape[shape],
-    iconButtonClasses.size[size],
-    className,
-  ].filter(Boolean).join(" ");
   return (
-    <button type={type} className={cls} disabled={disabled} aria-label={label} {...rest}>
-      <span className="material-symbols-rounded" aria-hidden="true">{icon}</span>
-    </button>
+    <BaseButton
+      type={type}
+      aria-label={label}
+      className={withClass(
+        [
+          iconButtonClasses.root,
+          iconButtonClasses.variant[variant],
+          iconButtonClasses.shape[shape],
+          iconButtonClasses.size[size],
+        ],
+        className,
+      )}
+      {...props}
+    >
+      <span className={cn("material-symbols-rounded")} aria-hidden="true">
+        {icon}
+      </span>
+    </BaseButton>
   );
 }

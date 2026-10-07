@@ -1,7 +1,6 @@
-/* MultiSelect — Figma "Dropdown - Multiple Select". Uses STX semantic tokens. */
-.multiselect { position: relative; }
+/* MultiSelect — Base UI Combobox (multiple) + chips. Label/helper/error on Field. */
 
-.multiselect__control {
+.multiselect {
   display: flex;
   align-items: center;
   gap: var(--space-2);
@@ -13,32 +12,30 @@
   background: var(--surface);
   font: var(--body-large);
   color: var(--text-primary);
-  cursor: pointer;
-  text-align: left;
+  box-sizing: border-box;
   transition: border-color var(--dur-1) var(--ease), box-shadow var(--dur-1) var(--ease);
 }
-.multiselect.is-open .multiselect__control,
-.multiselect__control:focus-visible {
+.multiselect:focus-within,
+.multiselect[data-popup-open] {
   outline: 0;
   border-color: var(--interactive-active);
   box-shadow: 0 0 0 3px rgba(0, 211, 126, 0.16);
 }
-.multiselect.is-error .multiselect__control { border-color: var(--status-critical); }
-.multiselect.is-disabled .multiselect__control {
+.multiselect[data-invalid] { border-color: var(--status-critical); }
+.multiselect[data-disabled] {
   background: var(--surface-secondary);
   color: var(--disabled-on-surface);
   cursor: not-allowed;
 }
 
-.multiselect__values {
+.multiselect__chips {
   flex: 1;
   min-width: 0;
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: var(--space-1);
 }
-.multiselect__placeholder { color: var(--text-secondary); }
-
 .multiselect__chip {
   display: inline-flex;
   align-items: center;
@@ -51,11 +48,29 @@
   font: var(--body-bold-small);
 }
 .multiselect__chip-x {
+  display: inline-flex;
   font-size: 16px;
   cursor: pointer;
   color: var(--text-secondary);
+  border: 0;
+  background: transparent;
+  padding: 0;
+  line-height: 1;
 }
 .multiselect__chip-x:hover { color: var(--text-primary); }
+
+.multiselect__input {
+  flex: 1 1 6ch;
+  min-width: 6ch;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font: inherit;
+  color: inherit;
+  padding: 0;
+  margin: 0;
+}
+.multiselect__input::placeholder { color: var(--text-secondary); }
 
 .multiselect__clear {
   flex: 0 0 auto;
@@ -66,49 +81,84 @@
   color: var(--text-secondary);
   padding: 4px;
   margin: -4px 0;
+  border: 0;
+  background: transparent;
   border-radius: var(--radius-sm);
+  cursor: pointer;
 }
 .multiselect__clear:hover { color: var(--text-primary); background: var(--surface-hovered); }
 
 .multiselect__chevron {
   flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   color: var(--text-secondary);
   font-size: 22px;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  line-height: 1;
   transition: transform var(--dur-1) var(--ease);
 }
-.multiselect.is-open .multiselect__chevron { transform: rotate(180deg); }
+.multiselect[data-popup-open] .multiselect__chevron,
+.multiselect__chevron[data-popup-open] { transform: rotate(180deg); }
 
-.multiselect__menu {
-  position: fixed;
-  z-index: 1200;
-  margin: 0;
-  padding: var(--space-1);
-  list-style: none;
-  max-height: 280px;
-  overflow-y: auto;
+.multiselect__positioner {
+  z-index: 60;
+  outline: 0;
+}
+.multiselect__popup {
+  box-sizing: border-box;
   background: var(--surface);
-  border: 1px solid var(--border);
   border-radius: var(--radius-md);
+  border: 1px solid var(--border);
   box-shadow: var(--shadow-2);
+  width: var(--anchor-width);
+  max-height: min(280px, var(--available-height));
+  overflow: hidden;
+  padding: 4px;
+  outline: 0;
 }
-.multiselect__option {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  padding: var(--space-2) var(--space-3);
-  border-radius: var(--radius-sm);
+.multiselect__list {
+  outline: 0;
+  max-height: inherit;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.multiselect__empty {
+  padding: 8px 10px;
   font: var(--body-medium);
-  color: var(--text-primary);
-  cursor: pointer;
-}
-.multiselect__option:hover { background: var(--surface-hovered); }
-.multiselect__option.is-selected { color: var(--text-primary); }
-.multiselect__option[aria-disabled="true"] {
-  color: var(--disabled-on-surface);
-  cursor: not-allowed;
-}
-.multiselect__check {
-  font-size: 20px;
   color: var(--text-secondary);
 }
-.multiselect__option.is-selected .multiselect__check { color: var(--primary); }
+.multiselect__item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  font: var(--body-medium);
+  color: var(--text-primary);
+  border-radius: var(--radius-sm);
+  outline: 0;
+  user-select: none;
+  width: 100%;
+}
+.multiselect__item[data-highlighted] { background: var(--surface-secondary); }
+.multiselect__item[data-disabled] { color: var(--disabled-on-surface); cursor: not-allowed; }
+.multiselect__check {
+  position: relative;
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  color: var(--text-secondary);
+}
+.multiselect__check .material-symbols-rounded { font-size: 20px; }
+.multiselect__check-off { display: inline-block; }
+.multiselect__item[data-selected] .multiselect__check-off { display: none; }
+.multiselect__item[data-selected] .multiselect__check { color: var(--primary); }
+.multiselect__item-text { flex: 1 1 auto; min-width: 0; }

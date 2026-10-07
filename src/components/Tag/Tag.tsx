@@ -1,8 +1,9 @@
 import React from "react";
+import { cn } from "../../lib/cn";
 import { tagClasses, type TagVariant, type TagTone, type TagSize } from "./styles";
 import "./Tag.css";
 
-export type TagProps = {
+export type TagProps = Omit<React.ComponentProps<"span">, "onClick"> & {
   /** Visual variant */
   variant?: TagVariant;
   /** Color tone (only applies to "outlined" variant) */
@@ -23,12 +24,14 @@ export type TagProps = {
   disabled?: boolean;
   /** Click handler (clickable mode only) */
   onClick?: (e: React.MouseEvent) => void;
-  /** Additional CSS class names */
-  className?: string;
-  /** Tag content */
-  children?: React.ReactNode;
 };
 
+/**
+ * Status / filter chip. Use `children` for the label.
+ *
+ *   <Tag tone="positive">Verified</Tag>
+ *   <Tag clickable selected onClick={…}>XSGD</Tag>
+ */
 export function Tag({
   variant = "outlined",
   tone = "neutral",
@@ -40,34 +43,34 @@ export function Tag({
   selected = false,
   disabled = false,
   onClick,
-  className = "",
+  className,
   children,
   ...rest
 }: TagProps) {
-  const cls = [
+  const classes = cn(
     tagClasses.root,
     tagClasses.variant[variant],
     variant === "outlined" && tagClasses.tone[tone],
     tagClasses.size[size],
     clickable && tagClasses.clickable,
-    clickable && selected && tagClasses.selected,
-    disabled && tagClasses.disabled,
     className,
-  ]
-    .filter(Boolean)
-    .join(" ");
+  );
 
   const leadingIcon =
     icon == null ? null : typeof icon === "string" ? (
-      <span className="material-symbols-rounded tag__icon" aria-hidden="true">{icon}</span>
+      <span className="material-symbols-rounded tag__icon" aria-hidden="true">
+        {icon}
+      </span>
     ) : (
-      <span className="tag__icon" aria-hidden="true">{icon}</span>
+      <span className="tag__icon" aria-hidden="true">
+        {icon}
+      </span>
     );
 
   const handleRemove = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (disabled) return;
-    onRemove && onRemove(e);
+    onRemove?.(e);
   };
 
   const closeBtn = removable ? (
@@ -80,7 +83,12 @@ export function Tag({
       tabIndex={disabled ? -1 : 0}
     >
       <svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true" fill="none">
-        <path d="M3 3 L9 9 M9 3 L3 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+        <path
+          d="M3 3 L9 9 M9 3 L3 9"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+        />
       </svg>
     </button>
   ) : null;
@@ -97,11 +105,13 @@ export function Tag({
     return (
       <button
         type="button"
-        className={cls}
+        className={classes}
+        data-selected={selected || undefined}
+        data-disabled={disabled || undefined}
         aria-pressed={selected}
         disabled={disabled}
         onClick={disabled ? undefined : onClick}
-        {...rest}
+        {...(rest as React.ComponentProps<"button">)}
       >
         {inner}
       </button>
@@ -109,7 +119,7 @@ export function Tag({
   }
 
   return (
-    <span className={cls} {...rest}>
+    <span className={classes} data-disabled={disabled || undefined} {...rest}>
       {inner}
     </span>
   );

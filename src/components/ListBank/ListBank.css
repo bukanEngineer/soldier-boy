@@ -8,11 +8,11 @@
   box-sizing: border-box;
   background: var(--surface);
 }
-.list-bank--verified {
+.list-bank[data-variant="verified"] {
   align-items: flex-start;
 }
-.list-bank--unverified,
-.list-bank--rejected {
+.list-bank[data-variant="unverified"],
+.list-bank[data-variant="rejected"] {
   align-items: center;
   background: var(--surface-disabled);
 }
@@ -59,10 +59,10 @@
 }
 
 /* Disabled state text */
-.list-bank--unverified .list-bank__name,
-.list-bank--unverified .list-bank__sub,
-.list-bank--rejected .list-bank__name,
-.list-bank--rejected .list-bank__sub {
+.list-bank[data-variant="unverified"] .list-bank__name,
+.list-bank[data-variant="unverified"] .list-bank__sub,
+.list-bank[data-variant="rejected"] .list-bank__name,
+.list-bank[data-variant="rejected"] .list-bank__sub {
   color: var(--disabled-on-surface);
 }
 

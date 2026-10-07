@@ -45,13 +45,18 @@ export const AllSizes: Story = {
   ),
 };
 
-/* Interaction states forced via state-class hooks so Chromatic can snapshot
- * hover / pressed without driving real pointer events. */
+/* Hover / pressed are forced with storybook-addon-pseudo-states (targeted by
+ * id) so Chromatic can snapshot them without real pointer events. */
 export const States: Story = {
-  parameters: { layout: "padded" },
+  parameters: {
+    layout: "padded",
+    pseudo: {
+      hover: ["#btn-primary-hover", "#btn-secondary-hover", "#btn-tertiary-hover"],
+      active: ["#btn-primary-active", "#btn-secondary-active", "#btn-tertiary-active"],
+    },
+  },
   render: () => {
     const variants = ["primary", "secondary", "tertiary"] as const;
-    const cell = { display: "flex", flexDirection: "column" as const, gap: 8 };
     const colHead = { font: "var(--label-small)", color: "var(--text-secondary)" };
     return (
       <div style={{ display: "grid", gridTemplateColumns: "auto repeat(4, max-content)", gap: 16, alignItems: "center" }}>
@@ -64,12 +69,20 @@ export const States: Story = {
           <React.Fragment key={v}>
             <span style={{ ...colHead, textTransform: "capitalize" }}>{v}</span>
             <Button variant={v}>Button</Button>
-            <Button variant={v} className="is-hovered">Button</Button>
-            <Button variant={v} className="is-pressed">Button</Button>
+            <Button variant={v} id={`btn-${v}-hover`}>Button</Button>
+            <Button variant={v} id={`btn-${v}-active`}>Button</Button>
             <Button variant={v} disabled>Button</Button>
           </React.Fragment>
         ))}
       </div>
     );
   },
+};
+
+export const AsLink: Story = {
+  render: () => (
+    <Button render={(props) => <a {...props} href="#top" />} nativeButton={false} variant="secondary">
+      Rendered as a link
+    </Button>
+  ),
 };
