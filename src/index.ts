@@ -1,7 +1,7 @@
 // Package entry — re-exports every component.
 // CSS is NOT auto-imported here; consumers import what they want:
-//   import "soldier-boy/global.css";
-//   import "soldier-boy/tokens.css";
+//   import "stxdesign-sandbox/global.css";
+//   import "stxdesign-sandbox/tokens.css";
 
 // ─── Theme & Constants ───
 export { theme } from "./theme/theme";

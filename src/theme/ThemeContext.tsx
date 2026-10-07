@@ -3,10 +3,10 @@
  *
  * Prefer CSS custom properties (`var(--primary)`, etc.) for styling. Keep this
  * export for rare programmatic token reads. The dashboard app today uses its
- * own local ThemeContext; soldier-boy's copy stays for package consumers that
- * import `ThemeProvider` / `useTheme` from `soldier-boy`.
+ * own local ThemeContext; stxdesign-sandbox's copy stays for package consumers that
+ * import `ThemeProvider` / `useTheme` from `stxdesign-sandbox`.
  *
- *   import { ThemeProvider, useTheme } from "soldier-boy";
+ *   import { ThemeProvider, useTheme } from "stxdesign-sandbox";
  *   <ThemeProvider><App /></ThemeProvider>
  *   const theme = useTheme(); // theme.brand.action.default → "var(--primary)"
  */

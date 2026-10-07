@@ -19,11 +19,11 @@ npx chromatic --project-token=<your-token>
 Install it as a dependency, then import components and stylesheets from the built `dist/` output:
 
 ```bash
-npm install soldier-boy
+npm install stxdesign-sandbox
 ```
 
 ```tsx
-import "soldier-boy/global.css"; // resets + tokens + @font-face (once, at your app's entry)
+import "stxdesign-sandbox/global.css"; // resets + tokens + @font-face (once, at your app's entry)
 import {
   Button,
   Tag,
@@ -34,7 +34,7 @@ import {
   Tabs,
   Field,
   Input,
-} from "soldier-boy";
+} from "stxdesign-sandbox";
 
 export default function Example() {
   return (
@@ -56,7 +56,7 @@ export default function Example() {
 Form controls are bare; labels/errors come from `Field`. Overlays and navigation use compound parts:
 
 ```tsx
-import { Field, Input, Select, Tabs, Menu, PaginationNav } from "soldier-boy";
+import { Field, Input, Select, Tabs, Menu, PaginationNav } from "stxdesign-sandbox";
 
 <Field.Root>
   <Field.Label>Email</Field.Label>
@@ -90,7 +90,7 @@ Upgrading from 0.2: see `docs/migration-0.3.md`. Full migration status and conve
 
 Each component imports its own CSS (`import "./Button.css"` etc.) as part of the package — this requires a bundler that handles CSS-from-JS imports (Vite, webpack, Next.js, Remix, CRA all do this out of the box, including for `node_modules` dependencies). Running the package's compiled output directly under plain Node (no bundler) is not a supported consumption path.
 
-`soldier-boy/tokens.css` is also available on its own if you only want the CSS variables and `@font-face` rules without the body reset from `global.css`.
+`stxdesign-sandbox/tokens.css` is also available on its own if you only want the CSS variables and `@font-face` rules without the body reset from `global.css`.
 
 ### Building the package
 
@@ -108,7 +108,7 @@ The workflow uses `onlyChanged: true` (TurboSnap) so only stories whose dependen
 
 ## Stable Storybook URL (Vercel)
 
-Chromatic build URLs change per run. Vercel serves the static Storybook at a stable URL and updates it on every push to `main` (Git integration on `bukanEngineer/soldier-boy`). PRs get preview URLs automatically.
+Chromatic build URLs change per run. Vercel serves the static Storybook at a stable URL and updates it on every push to `main` (Git integration on `bukanEngineer/stxdesign-sandbox`). PRs get preview URLs automatically.
 
 Build is locked to Storybook via `vercel.json` and project settings:
 
@@ -123,7 +123,7 @@ Chromatic (visual regression) and Vercel (hosted Storybook) both run from git pu
 The source follows the `straitsx-frontend/packages/design-system` structure — TypeScript components with per-folder barrels, plus `constants/`, `shared/`, and `theme/` — while keeping the plain CSS + tokens approach and an ESM-only build.
 
 ```
-soldier-boy/
+stxdesign-sandbox/
 ├── package.json
 ├── vite.config.js
 ├── chromatic.config.json

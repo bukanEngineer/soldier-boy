@@ -1,14 +1,34 @@
-# Migrating to soldier-boy 0.3
+# Migrating to stxdesign-sandbox 0.3
 
 Breaking release: Ant-style config props → Base UI / shadcn compound parts.
 Peer: React 19. New runtime dependency: `@base-ui/react` (pinned).
 
 Prefer this guide over hunting through Storybook. Full status: `docs/base-ui-migration.md`.
 
+## Package rename
+
+The npm package and GitHub repo are now **`stxdesign-sandbox`** (formerly `soldier-boy`).
+
+```bash
+npm uninstall soldier-boy
+npm install stxdesign-sandbox@0.3.0
+```
+
+```ts
+// Before
+import "soldier-boy/global.css";
+import { Button } from "soldier-boy";
+
+// After
+import "stxdesign-sandbox/global.css";
+import { Button } from "stxdesign-sandbox";
+```
+
 ## Quick rename table
 
 | Was (≤0.2) | Now (0.3) |
 |---|---|
+| Package `soldier-boy` | `stxdesign-sandbox` |
 | `EmptyState` `sub` | `description` (or `<EmptyStateDescription>`) |
 | `ErrorResponse` `body` | `description` (or `<ErrorResponseDescription>`) |
 | `Pagination` / `PaginationNav` `onChange` | `onPageChange` |
@@ -24,8 +44,8 @@ Prefer this guide over hunting through Storybook. Full status: `docs/base-ui-mig
 
 ## Theme / tokens
 
-- Styling uses CSS variables from `soldier-boy/tokens.css` (and `global.css` for resets).
-- `theme` object, `ThemeProvider`, and `useTheme` remain exported for optional JS token access. Prefer `var(--…)` in CSS. The StraitsX dashboard currently uses its own local ThemeContext — soldier-boy’s copy is kept for package consumers, not deleted in 0.3.
+- Styling uses CSS variables from `stxdesign-sandbox/tokens.css` (and `global.css` for resets).
+- `theme` object, `ThemeProvider`, and `useTheme` remain exported for optional JS token access. Prefer `var(--…)` in CSS. The StraitsX dashboard currently uses its own local ThemeContext — stxdesign-sandbox’s copy is kept for package consumers, not deleted in 0.3.
 
 Contrast-related token tweaks in 0.3 (WCAG AA): darker `--brand-credible-blue`, `--brand-wealthy-gold`, `--disabled-on-surface`, `--input-placeholder`, `--sidebar-menuitem-text`; new `--status-warning-strong` for warning text and solid fills with white glyphs.
 
@@ -151,8 +171,8 @@ These were soft-deprecated during the migration and **do not** exist in 0.3:
 
 ## Checklist for consumer apps
 
-1. Bump to `soldier-boy@0.3.0` and ensure `@base-ui/react` resolves (bundled as a dependency of the package).
-2. Import `soldier-boy/global.css` (or `tokens.css`) once at the app root.
+1. Bump to `stxdesign-sandbox@0.3.0` and ensure `@base-ui/react` resolves (bundled as a dependency of the package).
+2. Import `stxdesign-sandbox/global.css` (or `tokens.css`) once at the app root.
 3. Replace form labels with `Field.*`.
 4. Replace overlay / tabs / menu / select call sites with compound parts.
 5. Run the rename table find-and-replace.

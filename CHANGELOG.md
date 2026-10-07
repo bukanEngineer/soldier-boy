@@ -4,8 +4,11 @@
 
 Breaking Base UI migration. See `docs/migration-0.3.md` for old → new snippets.
 
+Package and GitHub repo renamed from `soldier-boy` to **`stxdesign-sandbox`**. Install with `npm install stxdesign-sandbox@0.3.0`. The old npm name is retired (deprecate on npm if previously published).
+
 ### Breaking
 
+- Package identity: `soldier-boy` → `stxdesign-sandbox` (update imports and CSS entry paths).
 - Compound APIs for Tabs, Menu, Select, MultiSelect, Modal, BottomSheet, Tooltip, Popover, Field, Card, Table, Pagination, Breadcrumb, Steps, and related domain recipes.
 - Form labels / helpers / errors move off controls onto `Field`.
 - Removed aliases: `EmptyState.sub`, `ErrorResponse.body`, `PaginationNav.onChange`, `TableData`, `OptionList.onSelect`.

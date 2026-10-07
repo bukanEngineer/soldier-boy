@@ -1,5 +1,5 @@
 {
-  "name": "soldier-boy",
+  "name": "stxdesign-sandbox",
   "version": "0.3.0",
   "description": "StraitsX design system — tokens + React components, with Storybook and Chromatic visual regression.",
   "keywords": [
@@ -37,7 +37,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bukanEngineer/soldier-boy.git"
+    "url": "git+https://github.com/bukanEngineer/stxdesign-sandbox.git"
   },
   "publishConfig": {
     "access": "public"

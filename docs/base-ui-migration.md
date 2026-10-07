@@ -1,6 +1,6 @@
 # Base UI migration plan
 
-Goal: move soldier-boy from Ant-style monolithic components (config props, hand-rolled behavior) to the Base UI / shadcn approach (compound parts, headless primitives, data-attribute state). Keep the existing tokens and plain CSS.
+Goal: move stxdesign-sandbox from Ant-style monolithic components (config props, hand-rolled behavior) to the Base UI / shadcn approach (compound parts, headless primitives, data-attribute state). Keep the existing tokens and plain CSS.
 
 Reference: https://base-ui.com and https://ui.shadcn.com/docs/components/base
 
@@ -114,7 +114,7 @@ No Base UI primitive; apply the conventions (TS, ref + prop spread, `cn()`, data
 ## Phase 3: cleanup
 
 - [x] All package source in `.tsx` / `.ts` (including generated PartnerLogo SVGs); `allowJs` removed from `tsconfig.json`.
-- [x] `ThemeContext` / `useTheme`: kept as optional export for JS token access (CSS variables remain preferred). Dashboard uses its own local ThemeContext today — not imported from soldier-boy — so safe to keep for package consumers in 0.3.
+- [x] `ThemeContext` / `useTheme`: kept as optional export for JS token access (CSS variables remain preferred). Dashboard uses its own local ThemeContext today — not imported from stxdesign-sandbox — so safe to keep for package consumers in 0.3.
 - [x] Clean break: removed soft aliases (`EmptyState.sub`, `ErrorResponse.body`, `PaginationNav.onChange`, `TableData`, `OptionList.onSelect`). Documented in `docs/migration-0.3.md` + `CHANGELOG.md`.
 - [x] Decorative Material Symbols: production components audited; icon-only controls keep `aria-label`, glyphs use `aria-hidden` (parent or self). Full SVG migration deferred.
 - [x] Run `@storybook/addon-a11y` across all stories; zero violations with `a11y.test: "error"`. Token pass (`--status-warning-strong`, darker link/disabled/placeholder/gold/sidebar-active text); ARIA (StatusIcon, HorizontalSteps, OptionList); Calendar/Table opacity → solid muted colors; Select/MultiSelect Field wrappers; sandbox topnav surface; TableWrap `tabIndex={0}`; exclude Base UI focus guards.

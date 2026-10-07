@@ -1,5 +1,5 @@
 /**
- * Shared test utilities for soldier-boy component tests.
+ * Shared test utilities for stxdesign-sandbox component tests.
  */
 import React from "react";
 import { render, screen } from "@testing-library/react";
