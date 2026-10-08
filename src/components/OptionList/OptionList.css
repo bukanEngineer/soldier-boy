@@ -98,9 +98,8 @@
 
 .option-list__trailing {
   flex: 0 0 auto;
-  font-family: var(--font-mono);
+  font: var(--body-medium);
   font-variant-numeric: tabular-nums;
-  font-size: 14px;
   color: var(--text-primary);
 }
 

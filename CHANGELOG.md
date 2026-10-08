@@ -26,6 +26,7 @@
 - **Breaking:** `PartnerLogo` and `AssetMark` only bundle the stablecoins and main chains (xsgd, xusd, xidr, usdc, usdt, ethereum, polygon, arbitrum, base, solana, tron, avalanche, bsc, ripple, hedera, metamask, walletconnect, binance). Every other name (banks, partners, zilliqa, ...) renders the fallback pill unless you pass `logo`, e.g. `<PartnerLogo name="dbs" logo={DbsLogo} />`. One `AssetMark` used to add about 490 KB (264 KB gzipped) to a bundle; it is now about 31 KB (10 KB gzipped).
 - Zilliqa, Crypto.com and Coinhako logos are redrawn as real vectors. They were PNGs embedded in SVG (244 KB, 56 KB and 20 KB), so they blurred when scaled.
 - `Logo` fills use the `--brand-vibrant-green` / `--brand-secure-teal` tokens (literal colors as fallback), so it renders the same without `tokens.css`.
+- Numbers and addresses use Hanken Grotesk instead of Red Hat Mono: `Copybox` (`body-large`, `body-medium` at `size="sm"`), `TransactionHistoryTable` (IDs, amounts, wallet addresses), `BottomSheetBlockchain`, `QR`, `Textarea` count and `OptionList` trailing values. Amount columns keep `tabular-nums` so digits stay aligned. `--font-mono` stays for `code`, `pre`, `kbd` and `samp`.
 
 ### Removed
 

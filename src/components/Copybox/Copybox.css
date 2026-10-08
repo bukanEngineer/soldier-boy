@@ -16,8 +16,7 @@
   background: var(--surface-disabled);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  font-family: var(--font-mono);
-  font-size: 14px;
+  font: var(--body-large);
   color: var(--text-primary);
   transition: border-color var(--dur-1) var(--ease);
 }
@@ -28,7 +27,7 @@
 }
 
 /* Small size */
-.copybox[data-size="sm"] .copybox__body { min-height: 36px; padding: 8px 12px; }
+.copybox[data-size="sm"] .copybox__body { min-height: 36px; padding: 8px 12px; font: var(--body-medium); }
 
 /* Error: own `invalid` prop or an invalid parent <Field.Root> */
 .copybox[data-invalid] .copybox__body,

@@ -34,7 +34,7 @@ const tone = { Completed: "positive", Pending: "warning", Failed: "critical" };
 
 const columns = [
   { key: "date", header: "Date" },
-  { key: "ref", header: "Reference", render: (r) => <code style={{ fontFamily: "var(--font-mono)" }}>{r.ref}</code> },
+  { key: "ref", header: "Reference", render: (r) => r.ref },
   { key: "to", header: "To / From" },
   { key: "asset", header: "Asset" },
   { key: "amount", header: "Amount", numeric: true, render: (r) => r.amount.toLocaleString(undefined, { minimumFractionDigits: 2 }) },
@@ -49,7 +49,7 @@ export const Empty = { args: { columns, rows: [] } };
  * additionally surface the active timezone when `showTimezone` is on. ── */
 const tooltipColumns = [
   { key: "date", header: "Date", date: true },
-  { key: "ref", header: "Reference", tooltip: { title: "Reference", content: "Internal transaction identifier." }, render: (r) => <code style={{ fontFamily: "var(--font-mono)" }}>{r.ref}</code> },
+  { key: "ref", header: "Reference", tooltip: { title: "Reference", content: "Internal transaction identifier." }, render: (r) => r.ref },
   { key: "to", header: "To / From" },
   { key: "asset", header: "Asset" },
   { key: "amount", header: "Amount", numeric: true, tooltip: "Amount in the asset's base units.", render: (r) => r.amount.toLocaleString(undefined, { minimumFractionDigits: 2 }) },
@@ -91,7 +91,7 @@ function CopyReferenceCell({ value }) {
 
   return (
     <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
-      <code style={{ fontFamily: "var(--font-mono)" }}>{value}</code>
+      <span>{value}</span>
       <IconButton
         icon={copied ? "check" : "content_copy"}
         variant="tertiary"
@@ -172,7 +172,7 @@ export const FixedColumns = {
   render: () => {
     const wideColumns = [
       { key: "date", header: "Date", width: 160, fixed: "left" },
-      { key: "ref", header: "Reference", width: 180, render: (r) => <code style={{ fontFamily: "var(--font-mono)" }}>{r.ref}</code> },
+      { key: "ref", header: "Reference", width: 180, render: (r) => r.ref },
       { key: "to", header: "To / From", width: 220 },
       { key: "asset", header: "Asset", width: 160 },
       { key: "network", header: "Network", width: 180 },

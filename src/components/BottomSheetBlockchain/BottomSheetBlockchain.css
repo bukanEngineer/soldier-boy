@@ -1,7 +1,6 @@
-/* BottomSheetBlockchain: addresses render in mono and truncate. */
+/* BottomSheetBlockchain: addresses truncate. */
 
 .bsc .option-list__secondary {
-  font-family: var(--font-mono);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

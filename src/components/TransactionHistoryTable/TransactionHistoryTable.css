@@ -1,12 +1,10 @@
 /* TransactionHistoryTable — builds on Table; styles transaction-specific cells. */
 
-.txn .txn__mono {
-  font-family: var(--font-body);
+.txn .txn__num {
   font-variant-numeric: tabular-nums;
   color: var(--text-primary);
 }
 .txn .txn__id {
-  font-family: var(--font-mono);
   color: var(--link);
 }
 .txn .txn__truncate {
