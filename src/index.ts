@@ -405,7 +405,7 @@ export type {
   TransactionHistoryType,
 } from "./components/TransactionHistoryTable";
 export { AssetMark } from "./components/AssetMark";
-export type { AssetMarkProps, AssetMarkTone } from "./components/AssetMark";
+export type { AssetMarkProps } from "./components/AssetMark";
 export { CompanyProfileMenu } from "./components/CompanyProfileMenu";
 export type {
   CompanyProfileMenuProps,

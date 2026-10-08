@@ -41,7 +41,7 @@ const preview = {
         method: "alphabetical",
         order: [
           "Foundations",
-          ["Colors", "Typography", "Spacing & Elevation"],
+          ["StraitsX Logo", "Partner and Web3 Asset", "Colors", "Typography", "Spacing & Elevation"],
           "Atoms",
           "P1 Components",
           "Components",
