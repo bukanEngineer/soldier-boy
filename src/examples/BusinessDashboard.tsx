@@ -8,9 +8,10 @@ import { CardSwap } from "../components/CardSwap/CardSwap.jsx";
 import { OtcBanner } from "../components/OtcBanner/OtcBanner.jsx";
 import { Alert } from "../components/Alert/Alert.jsx";
 import { LinkButton } from "../components/LinkButton/LinkButton.jsx";
-import { Logomark } from "../components/Logomark/Logomark.jsx";
+import { Logo } from "../components/Logo/Logo";
 import { Badge } from "../components/Badge/Badge.jsx";
 import "./BusinessDashboard.css";
+import { Icon } from "../components/Icon/Icon";
 
 const NAV_ITEMS = [
   { id: "home", icon: "home", label: "Home" },
@@ -184,7 +185,7 @@ export function BusinessDashboard() {
       <main className="ex-bd__main">
         <header className="ex-bd__mobile-topbar">
           <IconButton icon="menu" variant="tertiary" label="Open menu" onClick={() => setNavOpen(true)} />
-          <Logomark size={32} />
+          <Logo size={110} />
           <div className="ex-bd__mobile-topbar-actions">
             <Badge.Wrap badge={<Badge tone="critical" size="sm">3</Badge>}>
               <IconButton icon="notifications" variant="secondary" size="sm" label="Notifications" />
@@ -218,7 +219,7 @@ export function BusinessDashboard() {
                 <div className="ex-bd__asset-title">
                   <span>My Assets</span>
                   <button type="button" className="ex-bd__icon-btn" aria-label="Refresh">
-                    <span className="material-symbols-rounded">refresh</span>
+                    <Icon name="refresh" />
                   </button>
                 </div>
                 <div className="ex-bd__tab-group">
@@ -258,7 +259,7 @@ export function BusinessDashboard() {
               <div className="ex-bd__txn-header">
                 <span className="ex-bd__txn-title">Latest Transactions</span>
                 <button type="button" className="ex-bd__icon-btn" aria-label="Refresh">
-                  <span className="material-symbols-rounded">refresh</span>
+                  <Icon name="refresh" />
                 </button>
               </div>
 
@@ -266,7 +267,7 @@ export function BusinessDashboard() {
                 {TRANSACTIONS.map((t, i) => (
                   <li key={i} className="ex-bd__txn-row">
                     <span className="ex-bd__txn-icon">
-                      <span className="material-symbols-rounded">{t.icon}</span>
+                      <Icon name={t.icon} />
                     </span>
                     <div className="ex-bd__txn-info">
                       <span className="ex-bd__txn-desc">

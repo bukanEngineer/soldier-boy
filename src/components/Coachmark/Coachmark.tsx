@@ -3,6 +3,7 @@ import { Popover } from "../Popover/Popover";
 import { Button } from "../Button/Button";
 import { cn } from "../../lib/cn";
 import "./Coachmark.css";
+import { Icon } from "../Icon/Icon";
 
 export type CoachmarkProps = {
   /** Ref to the element to highlight and anchor against. */
@@ -113,9 +114,7 @@ export function Coachmark({
               {title && <Popover.Title className="coachmark__title">{title}</Popover.Title>}
               {onDismiss && (
                 <Popover.Close className="coachmark__close" aria-label="Dismiss">
-                  <span className="material-symbols-rounded" aria-hidden="true">
-                    close_small
-                  </span>
+                  <Icon name="close_small" />
                 </Popover.Close>
               )}
             </div>

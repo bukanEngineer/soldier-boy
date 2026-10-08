@@ -1,46 +1,26 @@
 import React from "react";
-import { LOGO_COMPONENTS, type PartnerLogoSvg } from "./logos/index";
+import {
+  ArbitrumLogo,
+  AvalancheLogo,
+  BaseLogo,
+  BinanceLogo,
+  BscLogo,
+  EthereumLogo,
+  HederaLogo,
+  MetamaskLogo,
+  PolygonLogo,
+  RippleLogo,
+  SolanaLogo,
+  TronLogo,
+  UsdcLogo,
+  UsdtLogo,
+  WalletconnectLogo,
+  XidrLogo,
+  XsgdLogo,
+  XusdLogo,
+  type PartnerLogoSvg,
+} from "./logos/index";
 import { cn } from "../../lib/cn";
-
-type LogoComponent = PartnerLogoSvg;
-const COMPONENTS = LOGO_COMPONENTS;
-type SizedLogoProps = {
-  size: number;
-  className?: string;
-  style?: React.CSSProperties;
-};
-
-function bankLogo(Component: LogoComponent) {
-  function BankLogo({ size, className, style }: SizedLogoProps) {
-    return (
-      <Component
-        width={size * 1.6}
-        height={size}
-        aria-hidden="true"
-        focusable="false"
-        className={className}
-        style={style}
-      />
-    );
-  }
-  return BankLogo;
-}
-
-function squareLogo(Component: LogoComponent) {
-  function SquareLogo({ size, className, style }: SizedLogoProps) {
-    return (
-      <Component
-        width={size}
-        height={size}
-        aria-hidden="true"
-        focusable="false"
-        className={className}
-        style={style}
-      />
-    );
-  }
-  return SquareLogo;
-}
 
 const KNOWN_COINS = ["xsgd", "xusd", "xidr", "usdc", "usdt"] as const;
 const KNOWN_BANKS = [
@@ -95,12 +75,33 @@ const KNOWN_PARTNERS = [
   "coinstore",
 ] as const;
 
-const LOGOS: Record<string, React.ComponentType<SizedLogoProps>> = {};
-for (const slug of KNOWN_BANKS) {
-  if (COMPONENTS[slug]) LOGOS[slug] = bankLogo(COMPONENTS[slug]);
-}
-for (const slug of [...KNOWN_COINS, ...KNOWN_CHAINS, ...KNOWN_PARTNERS]) {
-  if (COMPONENTS[slug]) LOGOS[slug] = squareLogo(COMPONENTS[slug]);
+/* Built-in set: the stablecoins and chains the other components (AssetMark)
+ * render. Every other logo is imported from `stxdesign-sandbox/logos` and
+ * passed through the `logo` prop, so apps only bundle the logos they use. */
+const CORE_LOGOS: Record<string, PartnerLogoSvg> = {
+  xsgd: XsgdLogo,
+  xusd: XusdLogo,
+  xidr: XidrLogo,
+  usdc: UsdcLogo,
+  usdt: UsdtLogo,
+  ethereum: EthereumLogo,
+  polygon: PolygonLogo,
+  arbitrum: ArbitrumLogo,
+  base: BaseLogo,
+  solana: SolanaLogo,
+  tron: TronLogo,
+  avalanche: AvalancheLogo,
+  bsc: BscLogo,
+  ripple: RippleLogo,
+  hedera: HederaLogo,
+  metamask: MetamaskLogo,
+  walletconnect: WalletconnectLogo,
+  binance: BinanceLogo,
+};
+
+/** Banks are wide lockups (1.6:1); everything else is square. */
+function isBank(name: string) {
+  return (KNOWN_BANKS as readonly string[]).includes(name);
 }
 
 function prettify(slug: string) {
@@ -109,6 +110,8 @@ function prettify(slug: string) {
 
 export type PartnerLogoProps = {
   name: string;
+  /** Logo component for names outside the built-in set, e.g. `DbsLogo` from `stxdesign-sandbox/logos` */
+  logo?: PartnerLogoSvg;
   size?: number;
   /** Affects the fallback wordmark pill only */
   monochrome?: boolean;
@@ -118,13 +121,25 @@ export type PartnerLogoProps = {
 
 export function PartnerLogo({
   name,
+  logo,
   size = 32,
   monochrome = true,
   className,
   style,
 }: PartnerLogoProps) {
-  const Custom = LOGOS[name];
-  if (Custom) return <Custom size={size} className={className} style={style} />;
+  const Component = logo ?? CORE_LOGOS[name];
+  if (Component) {
+    return (
+      <Component
+        width={isBank(name) ? size * 1.6 : size}
+        height={size}
+        aria-hidden="true"
+        focusable="false"
+        className={className}
+        style={style}
+      />
+    );
+  }
 
   const bg = monochrome ? "transparent" : "var(--surface-secondary)";
   const fg = "var(--text-primary)";

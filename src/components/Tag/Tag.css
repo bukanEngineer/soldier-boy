@@ -18,10 +18,10 @@
 
 /* ── Leading icon ── */
 .tag__icon { display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; }
-.tag__icon .material-symbols-rounded,
-.tag__icon.material-symbols-rounded { font-size: 16px; line-height: 1; }
-.tag--small .tag__icon .material-symbols-rounded,
-.tag--small .tag__icon.material-symbols-rounded { font-size: 14px; }
+.tag__icon .sx-icon,
+.tag__icon.sx-icon { font-size: 16px; line-height: 1; }
+.tag--small .tag__icon .sx-icon,
+.tag--small .tag__icon.sx-icon { font-size: 14px; }
 .tag__icon svg { width: 1em; height: 1em; display: block; }
 
 /* ── Size ── */

@@ -10,7 +10,7 @@
   color: var(--text-inverse);
   flex-shrink: 0;
 }
-.status-icon .material-symbols-rounded {
+.status-icon .sx-icon {
   font-size: calc(var(--status-icon-size, 36px) * 0.56);
   line-height: 1;
 }

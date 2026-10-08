@@ -6,6 +6,7 @@ import { TopNavProfileMenu } from "../TopNavProfileMenu/TopNavProfileMenu";
 import { SidebarContext } from "../Sidebar/SidebarContext";
 import { cn } from "../../lib/cn";
 import "./TopNavigation.css";
+import { Icon } from "../Icon/Icon";
 
 export type TopNavigationUser = {
   name?: string;
@@ -70,7 +71,7 @@ export function TopNavigation({
       ) : initials ? (
         <span className="topnav__initials">{initials}</span>
       ) : (
-        <span className="material-symbols-rounded">person</span>
+        <Icon name="person" />
       )}
     </span>
   );
@@ -122,9 +123,7 @@ export function TopNavigation({
                 {subLabel && <span className="topnav__profile-sub">{subLabel}</span>}
               </span>
             )}
-            <span className="material-symbols-rounded topnav__chevron" aria-hidden="true">
-              expand_more
-            </span>
+            <Icon name="expand_more" className="topnav__chevron" />
           </Menu.Trigger>
           <Menu.Popup align="end" className="topnav-menu">
             <TopNavProfileMenu account={account} onAction={onMenuAction} />

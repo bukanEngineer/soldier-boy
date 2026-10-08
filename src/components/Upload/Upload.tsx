@@ -3,6 +3,7 @@ import { Field } from "../Field/Field";
 import { cn } from "../../lib/cn";
 import { Button } from "../Button/Button";
 import "./Upload.css";
+import { Icon, type IconName } from "../Icon/Icon";
 
 /** A selected `File`, or a descriptor for an already uploaded file. */
 export type UploadFile =
@@ -63,10 +64,10 @@ function useFileUrl(file?: UploadFile) {
   return providedUrl || objectUrl;
 }
 
-function Placeholder({ icon }: { icon: string }) {
+function Placeholder({ icon }: { icon: IconName }) {
   return (
     <div className="upload__preview-placeholder">
-      <span className="material-symbols-rounded" aria-hidden="true">{icon}</span>
+      <Icon name={icon} />
     </div>
   );
 }
@@ -138,9 +139,7 @@ function Thumbnail({ file, active, onClick }: { file: UploadFile; active: boolea
       {image ? (
         <img src={url} alt="" className="upload__thumb-img" />
       ) : (
-        <span className="material-symbols-rounded" aria-hidden="true">
-          {isPdfFile(file) ? "picture_as_pdf" : "description"}
-        </span>
+        <Icon name={isPdfFile(file) ? "picture_as_pdf" : "description"} />
       )}
     </button>
   );
@@ -308,7 +307,7 @@ export function Upload({
             handleSelect(e.dataTransfer.files);
           }}
         >
-          <span className="material-symbols-rounded upload__icon" aria-hidden="true">cloud_upload</span>
+          <Icon name="cloud_upload" className="upload__icon" />
           <span className="upload__primary">
             <span className="upload__link">Click to upload</span> or drag and drop
           </span>
@@ -334,7 +333,7 @@ export function Upload({
                   onClick={goPrev}
                   aria-label="Previous file"
                 >
-                  <span className="material-symbols-rounded" aria-hidden="true">chevron_left</span>
+                  <Icon name="chevron_left" />
                 </button>
               )}
 
@@ -353,7 +352,7 @@ export function Upload({
                   onClick={goNext}
                   aria-label="Next file"
                 >
-                  <span className="material-symbols-rounded" aria-hidden="true">chevron_right</span>
+                  <Icon name="chevron_right" />
                 </button>
               )}
             </div>

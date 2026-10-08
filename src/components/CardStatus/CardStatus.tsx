@@ -4,6 +4,7 @@ import { LinkButton } from "../LinkButton/LinkButton";
 import { Card, CardDetailRow } from "../Card/Card";
 import { cn } from "../../lib/cn";
 import "./CardStatus.css";
+import type { IconName } from "../Icon/Icon";
 
 export type CardStatusSectionItem = {
   label?: React.ReactNode;
@@ -18,7 +19,7 @@ export type CardStatusSection = {
 
 export type CardStatusProps = React.ComponentProps<"div"> & {
   status?: "success" | "pending" | "error" | "info" | string;
-  statusIcon?: string;
+  statusIcon?: IconName;
   title?: React.ReactNode;
   description?: React.ReactNode;
   sections?: CardStatusSection[];

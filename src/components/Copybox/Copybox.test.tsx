@@ -45,7 +45,7 @@ describe("Copybox", () => {
   it("gives the icon-only button an accessible label and hides the icon", () => {
     render(<Copybox value="v" buttonVariant="icon" />);
     const button = screen.getByRole("button", { name: "Copy" });
-    expect(button.querySelector(".material-symbols-rounded")).toHaveAttribute("aria-hidden", "true");
+    expect(button.querySelector(".sx-icon")).toHaveAttribute("aria-hidden", "true");
   });
 
   it("copies the value, shows the copied state and calls onCopy", async () => {

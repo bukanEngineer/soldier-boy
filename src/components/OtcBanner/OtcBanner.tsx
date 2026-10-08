@@ -2,11 +2,13 @@ import React from "react";
 import { cn } from "../../lib/cn";
 import "./OtcBanner.css";
 
-const patternA = new URL("./assets/pattern-141.svg", import.meta.url).href;
-const patternB = new URL("./assets/pattern-143.svg", import.meta.url).href;
-const patternC = new URL("./assets/pattern-142.svg", import.meta.url).href;
-const patternD = new URL("./assets/pattern-145.svg", import.meta.url).href;
-const arrow = new URL("./assets/arrow.svg", import.meta.url).href;
+import {
+  ArrowArt,
+  Pattern141Art,
+  Pattern142Art,
+  Pattern143Art,
+  Pattern145Art,
+} from "./art/index";
 
 export type OtcBannerProps = Omit<React.ComponentProps<"section">, "title"> & {
   title?: React.ReactNode;
@@ -38,16 +40,16 @@ export function OtcBanner({
     <section className={cn("otc", className)} {...rest}>
       <div className="otc__deco" aria-hidden="true">
         <div className="otc__pattern otc__pattern--a">
-          <img src={patternA} alt="" />
+          <Pattern141Art />
         </div>
         <div className="otc__pattern otc__pattern--b">
-          <img src={patternB} alt="" />
+          <Pattern143Art />
         </div>
         <div className="otc__pattern otc__pattern--c">
-          <img src={patternC} alt="" />
+          <Pattern142Art />
         </div>
         <div className="otc__pattern otc__pattern--d">
-          <img src={patternD} alt="" />
+          <Pattern145Art />
         </div>
       </div>
       <div className="otc__text">
@@ -57,12 +59,12 @@ export function OtcBanner({
       {href ? (
         <a className="otc__cta" href={href}>
           {ctaLabel}
-          <img className="otc__cta-arrow" src={arrow} alt="" aria-hidden="true" />
+          <ArrowArt className="otc__cta-arrow" aria-hidden="true" focusable="false" />
         </a>
       ) : (
         <button type="button" className="otc__cta" onClick={onCtaClick}>
           {ctaLabel}
-          <img className="otc__cta-arrow" src={arrow} alt="" aria-hidden="true" />
+          <ArrowArt className="otc__cta-arrow" aria-hidden="true" focusable="false" />
         </button>
       )}
     </section>

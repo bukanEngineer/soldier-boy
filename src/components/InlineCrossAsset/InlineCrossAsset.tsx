@@ -1,6 +1,7 @@
 import React from "react";
 import { cn } from "../../lib/cn";
 import "./InlineCrossAsset.css";
+import { Icon } from "../Icon/Icon";
 
 export type InlineCrossAssetProps = React.ComponentProps<"div"> & {
   from?: React.ReactNode;
@@ -28,12 +29,7 @@ export function InlineCrossAsset({
           )}
           <span className="inline-cross-asset__symbol">{from}</span>
         </span>
-        <span
-          className="inline-cross-asset__arrow material-symbols-rounded"
-          aria-hidden="true"
-        >
-          arrow_forward
-        </span>
+        <Icon name="arrow_forward" className="inline-cross-asset__arrow" />
         <span className="inline-cross-asset__asset">
           {toIcon != null && (
             <span className="inline-cross-asset__icon">{toIcon}</span>

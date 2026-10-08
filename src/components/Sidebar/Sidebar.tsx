@@ -8,6 +8,7 @@ import type { CompanyProfileAction, CompanyProfileCompany } from "../CompanyProf
 import { SidebarContext } from "./SidebarContext";
 import { cn } from "../../lib/cn";
 import "./Sidebar.css";
+import { Icon, type IconSource } from "../Icon/Icon";
 
 export type SidebarSubItem = {
   id: string;
@@ -20,7 +21,7 @@ export type SidebarSubItem = {
 export type SidebarNavItem = {
   id: string;
   label: string;
-  icon?: React.ReactNode;
+  icon?: IconSource;
   tag?: React.ReactNode;
   subItems?: SidebarSubItem[];
   autoSelectFirstSubItem?: boolean;
@@ -62,15 +63,9 @@ const ACCOUNT_LABEL: Record<SidebarAccount, string> = {
   sandbox: "Sandbox",
 };
 
-function renderIcon(icon?: React.ReactNode) {
+function renderIcon(icon?: IconSource) {
   if (icon == null) return null;
-  if (typeof icon === "string") {
-    return (
-      <span className="material-symbols-rounded" aria-hidden="true">
-        {icon}
-      </span>
-    );
-  }
+  if (typeof icon === "string") return <Icon name={icon} />;
   return (
     <span className="nav-item__icon" aria-hidden="true">
       {icon}
@@ -156,12 +151,7 @@ export function Sidebar({
                       <span className="sidebar__company-name">{company.name}</span>
                       <span className="sidebar__company-type">{company.type}</span>
                     </span>
-                    <span
-                      className="material-symbols-rounded sidebar__company-chevron"
-                      aria-hidden="true"
-                    >
-                      expand_more
-                    </span>
+                    <Icon name="expand_more" className="sidebar__company-chevron" />
                   </Menu.Trigger>
                   <Menu.Popup side="right" align="start" sideOffset={8} className="company-menu">
                     <CompanyProfileMenu
@@ -184,12 +174,7 @@ export function Sidebar({
                     <span className="sidebar__company-type">{company.type}</span>
                   </span>
                   {onCompanyClick && (
-                    <span
-                      className="material-symbols-rounded sidebar__company-chevron"
-                      aria-hidden="true"
-                    >
-                      expand_more
-                    </span>
+                    <Icon name="expand_more" className="sidebar__company-chevron" />
                   )}
                 </button>
               )}
@@ -237,12 +222,7 @@ export function Sidebar({
                           {item.tag != null && (
                             <span className="nav-item__tag">{item.tag}</span>
                           )}
-                          <span
-                            className="material-symbols-rounded nav-item__chevron"
-                            aria-hidden="true"
-                          >
-                            keyboard_arrow_down
-                          </span>
+                          <Icon name="keyboard_arrow_down" className="nav-item__chevron" />
                         </Collapsible.Trigger>
                         <Collapsible.Panel className="sidebar__subnav">
                           {item.subItems!.map((sub) => {
@@ -300,9 +280,7 @@ export function Sidebar({
         </div>
 
         <div className="sidebar__mas">
-          <span className="material-symbols-rounded" aria-hidden="true">
-            verified_user
-          </span>
+          <Icon name="verified_user" />
           <span className="sidebar__mas-text">
             Licensed &amp; Regulated by Monetary Authority of Singapore
           </span>

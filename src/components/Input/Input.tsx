@@ -3,6 +3,7 @@ import { Field } from "../Field/Field";
 import { cn } from "../../lib/cn";
 import { inputClasses, type InputSize } from "./styles";
 import "./Input.css";
+import { Icon } from "../Icon/Icon";
 
 export type InputTrailingButton = {
   label: string;
@@ -77,9 +78,7 @@ export function Input({
       data-disabled={disabled || undefined}
     >
       {isSearch && (
-        <span className="material-symbols-rounded input__lead" aria-hidden="true">
-          search
-        </span>
+        <Icon name="search" className="input__lead" />
       )}
       <Field.Control
         type={effectiveType}
@@ -91,7 +90,7 @@ export function Input({
       />
       {showClear && (
         <button type="button" className="input__icon-btn" onClick={() => commit("")} aria-label="Clear">
-          <span className="material-symbols-rounded" aria-hidden="true">close</span>
+          <Icon name="close" />
         </button>
       )}
       {isPassword && !disabled && (
@@ -101,9 +100,7 @@ export function Input({
           onClick={() => setReveal((r) => !r)}
           aria-label={reveal ? "Hide password" : "Show password"}
         >
-          <span className="material-symbols-rounded" aria-hidden="true">
-            {reveal ? "visibility_off" : "visibility"}
-          </span>
+          <Icon name={reveal ? "visibility_off" : "visibility"} />
         </button>
       )}
       {trailingButton && (

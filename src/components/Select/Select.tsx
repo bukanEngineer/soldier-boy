@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState } from "react";
 import { Select as BaseSelect } from "@base-ui/react/select";
 import { cn, withClass } from "../../lib/cn";
 import "./Select.css";
+import { Icon, resolveIcon } from "../Icon/Icon";
 
 type SelectClearContextValue = {
   value: unknown;
@@ -89,10 +90,10 @@ export type SelectIconProps = BaseSelect.Icon.Props;
 function SelectIcon({ className, children = "expand_more", ...props }: SelectIconProps) {
   return (
     <BaseSelect.Icon
-      className={withClass(["select__chevron", "material-symbols-rounded"], className)}
+      className={withClass("select__chevron", className)}
       {...props}
     >
-      {children}
+      {resolveIcon(children)}
     </BaseSelect.Icon>
   );
 }
@@ -108,14 +109,14 @@ function SelectClear({ className, onClick, children = "close", ...props }: Selec
       type="button"
       aria-label="Clear selection"
       disabled={ctx.disabled}
-      className={cn("select__clear", "material-symbols-rounded", className)}
+      className={cn("select__clear", className)}
       onClick={(e) => {
         ctx.clear();
         onClick?.(e);
       }}
       {...props}
     >
-      {children}
+      {resolveIcon(children)}
     </button>
   );
 }
@@ -178,7 +179,9 @@ function SelectItem({ className, children, ...props }: SelectItemProps) {
     <BaseSelect.Item className={withClass("select__item", className)} {...props}>
       <BaseSelect.ItemText className="select__item-text">{children}</BaseSelect.ItemText>
       <span className="select__item-indicator" aria-hidden="true">
-        <BaseSelect.ItemIndicator className="material-symbols-rounded">check</BaseSelect.ItemIndicator>
+        <BaseSelect.ItemIndicator>
+          <Icon name="check" />
+        </BaseSelect.ItemIndicator>
       </span>
     </BaseSelect.Item>
   );

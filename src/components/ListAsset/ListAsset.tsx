@@ -4,6 +4,7 @@ import { IconButton } from "../IconButton/IconButton";
 import { ListSupportedNetwork } from "../ListSupportedNetwork/ListSupportedNetwork";
 import { cn } from "../../lib/cn";
 import "./ListAsset.css";
+import { Icon } from "../Icon/Icon";
 
 export type ListAssetVariant = "stablecoin" | "fiat" | string;
 export type ListAssetPlatform = "desktop" | "mobile";
@@ -55,9 +56,7 @@ export function ListAsset({
   let trailing: React.ReactNode = null;
   if (isMobile) {
     trailing = (
-      <span className="list-asset__chevron material-symbols-rounded" aria-hidden="true">
-        arrow_forward_ios
-      </span>
+      <Icon name="arrow_forward_ios" className="list-asset__chevron" />
     );
   } else if (showAction) {
     trailing = (

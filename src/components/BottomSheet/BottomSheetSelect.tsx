@@ -5,6 +5,7 @@ import { Field } from "../Field/Field";
 import { Input } from "../Input";
 import { cn } from "../../lib/cn";
 import "./BottomSheetSelect.css";
+import { Icon } from "../Icon/Icon";
 
 /** One selectable row: asset mark + name + optional secondary text. */
 export type BottomSheetSelectItem = {
@@ -70,9 +71,7 @@ function SelectList<Item extends BottomSheetSelectItem>({
       secondary: item.description,
       disabled: item.disabled,
       trailing: (
-        <span className="material-symbols-rounded bsheet-select__check" aria-hidden="true">
-          {item.id === value ? "radio_button_checked" : "radio_button_unchecked"}
-        </span>
+        <Icon name={item.id === value ? "radio_button_checked" : "radio_button_unchecked"} className="bsheet-select__check" />
       ),
     }));
   return (

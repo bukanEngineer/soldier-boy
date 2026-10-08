@@ -8,6 +8,7 @@
   align-items: center;
   gap: 12px;
 }
+.error__media { display: flex; justify-content: center; }
 .error__code {
   font: 800 80px/1 var(--font-display);
   color: var(--interactive-active);

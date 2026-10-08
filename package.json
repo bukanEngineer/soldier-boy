@@ -1,6 +1,6 @@
 {
   "name": "stxdesign-sandbox",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "StraitsX design system — tokens + React components, with Storybook and Chromatic visual regression.",
   "keywords": [
     "react",
@@ -25,6 +25,19 @@
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
     },
+    "./logos": {
+      "types": "./dist/components/PartnerLogo/logos/index.d.ts",
+      "default": "./dist/components/PartnerLogo/logos/index.js"
+    },
+    "./icons": {
+      "types": "./dist/components/Icon/icons/index.d.ts",
+      "default": "./dist/components/Icon/icons/index.js"
+    },
+    "./illustrations": {
+      "types": "./dist/components/Illustration/illustrations/index.d.ts",
+      "default": "./dist/components/Illustration/illustrations/index.js"
+    },
+    "./fonts.css": "./dist/theme/fonts.css",
     "./tokens.css": "./dist/theme/tokens.css",
     "./global.css": "./dist/styles/global.css",
     "./package.json": "./package.json"
@@ -43,19 +56,20 @@
     "access": "public"
   },
   "scripts": {
-    "generate:logos": "node scripts/generate-partner-logos.mjs",
-    "prestorybook": "npm run generate:logos",
+    "vendor:icons": "node scripts/vendor-icons.mjs",
+    "generate:assets": "node scripts/generate-svg-components.mjs",
+    "prestorybook": "npm run generate:assets",
     "storybook": "storybook dev -p 6006",
-    "prebuild-storybook": "npm run generate:logos",
+    "prebuild-storybook": "npm run generate:assets",
     "build-storybook": "storybook build -o storybook-static",
     "chromatic": "chromatic --exit-zero-on-changes",
     "clean": "rimraf dist",
-    "build:babel": "NODE_ENV=production babel src --out-dir dist --extensions \".js,.jsx,.ts,.tsx\" --ignore \"src/**/*.stories.tsx,src/**/*.stories.jsx,src/stories/**,src/**/*.test.tsx,src/**/*.test.jsx,src/examples/**\"",
+    "build:babel": "NODE_ENV=production babel src --out-dir dist --extensions \".js,.jsx,.ts,.tsx\" --ignore \"src/**/*.stories.tsx,src/**/*.stories.jsx,src/stories/**,src/test-utils.tsx,src/declaration.d.ts,src/**/*.test.tsx,src/**/*.test.jsx,src/examples/**\"",
     "build:types": "tsc -p tsconfig.json",
     "build:assets": "node scripts/copy-build-assets.mjs",
     "build:fix-specifiers": "node scripts/rewrite-jsx-specifiers.mjs",
-    "build": "npm run clean && npm run generate:logos && npm run build:babel && npm run build:types && npm run build:assets && npm run build:fix-specifiers",
-    "pretest": "npm run generate:logos",
+    "build": "npm run clean && npm run generate:assets && npm run build:babel && npm run build:types && npm run build:assets && npm run build:fix-specifiers",
+    "pretest": "npm run generate:assets",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:pack": "node scripts/smoke-test-pack.mjs",

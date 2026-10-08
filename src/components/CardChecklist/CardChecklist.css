@@ -86,7 +86,7 @@
   justify-content: center;
   flex-shrink: 0;
 }
-.card-checklist__mark .material-symbols-rounded { font-size: 24px; }
+.card-checklist__mark .sx-icon { font-size: 24px; }
 .card-checklist__mark[data-status="done"] { color: var(--status-positive); }
 .card-checklist__mark[data-status="active"] { color: var(--status-positive); }
 .card-checklist__mark[data-status="locked"] { color: var(--disabled-on-surface); }

@@ -95,7 +95,7 @@
   height: 18px;
   color: var(--primary);
 }
-.menu__check .material-symbols-rounded { font-size: 18px; color: inherit; }
+.menu__check .sx-icon { font-size: 18px; color: inherit; }
 /* single-select: trailing tick, only visible when checked */
 .menu__check--tick { margin-left: auto; }
 /* multi-select: leading checkbox box */
@@ -108,7 +108,7 @@
   background: var(--primary);
   border-color: var(--primary);
 }
-.menu__check--box .material-symbols-rounded { font-size: 14px; }
+.menu__check--box .sx-icon { font-size: 14px; }
 .menu__separator { height: 1px; background: var(--border); margin: 4px 0; border: 0; }
 .menu__group-label {
   font: var(--body-small);

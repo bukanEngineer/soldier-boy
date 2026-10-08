@@ -1,14 +1,15 @@
 import React from "react";
 import { cn } from "../../lib/cn";
 import "./StatusIcon.css";
+import { Icon, type IconName } from "../Icon/Icon";
 
 export type StatusIconVariant = "success" | "needApproval" | string;
 
 export type StatusIconProps = Omit<React.ComponentProps<"span">, "children"> & {
   /** Visual status */
   variant?: StatusIconVariant;
-  /** Material Symbol name override */
-  icon?: string;
+  /** Icon name override */
+  icon?: IconName;
   /** Diameter in px */
   size?: number;
 };
@@ -38,9 +39,7 @@ export function StatusIcon({
       style={{ ["--status-icon-size" as string]: `${size}px`, ...style }}
       {...rest}
     >
-      <span className="material-symbols-rounded" aria-hidden="true">
-        {icon || defaultIcon}
-      </span>
+      <Icon name={icon || defaultIcon} />
     </span>
   );
 }

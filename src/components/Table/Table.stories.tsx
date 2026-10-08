@@ -5,6 +5,7 @@ import { PaginationNav } from "../Pagination/Pagination";
 import { Button } from "../Button/Button";
 import { IconButton } from "../IconButton/IconButton";
 import { ToastProvider, useToast } from "../Toast/Toast";
+import { Icon } from "../Icon/Icon";
 
 export default {
   title: "P1 Components/Table",
@@ -131,9 +132,9 @@ export const CellVariants = {
         header: "Network",
         render: (r) => (
           <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
-            <span className="material-symbols-rounded" style={{ color: "var(--text-secondary)", fontSize: 18 }}>hub</span>
+            <Icon name="hub" style={{ color: "var(--text-secondary)", fontSize: 18 }} />
             <span>{r.network}</span>
-            <span className="material-symbols-rounded" style={{ color: "var(--text-secondary)", fontSize: 18 }}>chevron_right</span>
+            <Icon name="chevron_right" style={{ color: "var(--text-secondary)", fontSize: 18 }} />
           </span>
         ),
       },

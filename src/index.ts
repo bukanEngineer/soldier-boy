@@ -216,15 +216,17 @@ export type {
   BadgeStepsTitleProps,
   BadgeStepsDescriptionProps,
 } from "./components/Steps";
-export { EmptyState, EmptyStateTitle, EmptyStateDescription } from "./components/EmptyState";
+export { EmptyState, EmptyStateMedia, EmptyStateTitle, EmptyStateDescription } from "./components/EmptyState";
 export type {
   EmptyStateProps,
+  EmptyStateMediaProps,
   EmptyStateTitleProps,
   EmptyStateDescriptionProps,
 } from "./components/EmptyState";
-export { ErrorResponse, ErrorResponseCode, ErrorResponseTitle, ErrorResponseDescription, ErrorResponseActions } from "./components/ErrorResponse";
+export { ErrorResponse, ErrorResponseMedia, ErrorResponseCode, ErrorResponseTitle, ErrorResponseDescription, ErrorResponseActions } from "./components/ErrorResponse";
 export type {
   ErrorResponseProps,
+  ErrorResponseMediaProps,
   ErrorResponseCodeProps,
   ErrorResponseTitleProps,
   ErrorResponseDescriptionProps,
@@ -311,12 +313,10 @@ export { OtcBanner } from "./components/OtcBanner";
 export type { OtcBannerProps } from "./components/OtcBanner";
 
 // Brand
-export { Logomark } from "./components/Logomark";
-export type { LogomarkProps } from "./components/Logomark";
 export { Logo } from "./components/Logo";
 export type { LogoProps, LogoTone } from "./components/Logo";
 export { Icon } from "./components/Icon";
-export type { IconProps } from "./components/Icon";
+export type { IconProps, IconName, IconSource } from "./components/Icon";
 export { PartnerLogo } from "./components/PartnerLogo";
 export type { PartnerLogoProps } from "./components/PartnerLogo";
 

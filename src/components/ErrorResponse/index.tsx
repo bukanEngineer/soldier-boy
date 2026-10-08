@@ -1,5 +1,6 @@
 export {
   ErrorResponse,
+  ErrorResponseMedia,
   ErrorResponseCode,
   ErrorResponseTitle,
   ErrorResponseDescription,
@@ -7,6 +8,7 @@ export {
 } from "./ErrorResponse";
 export type {
   ErrorResponseProps,
+  ErrorResponseMediaProps,
   ErrorResponseCodeProps,
   ErrorResponseTitleProps,
   ErrorResponseDescriptionProps,

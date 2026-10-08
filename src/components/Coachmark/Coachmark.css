@@ -56,7 +56,7 @@
   opacity: 1;
 }
 .coachmark__close:hover { color: var(--text-primary); }
-.coachmark__close .material-symbols-rounded { font-size: 20px; }
+.coachmark__close .sx-icon { font-size: 20px; }
 .coachmark__body {
   font: var(--body-medium);
   color: var(--text-secondary);

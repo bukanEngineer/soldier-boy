@@ -88,7 +88,7 @@
   align-items: center;
   justify-content: center;
 }
-.upload__preview-placeholder .material-symbols-rounded {
+.upload__preview-placeholder .sx-icon {
   font-size: 48px;
   color: var(--text-secondary);
 }
@@ -123,7 +123,7 @@
 .upload__chevron:hover {
   background: var(--surface-secondary);
 }
-.upload__chevron .material-symbols-rounded {
+.upload__chevron .sx-icon {
   font-size: 20px;
   color: var(--text-primary);
 }
@@ -174,7 +174,7 @@
   align-items: center;
   justify-content: center;
 }
-.upload__thumb-item--placeholder .material-symbols-rounded {
+.upload__thumb-item--placeholder .sx-icon {
   font-size: 24px;
   color: var(--text-secondary);
 }
@@ -249,7 +249,7 @@
 .upload__actions .upload__add-btn .btn {
   min-width: 100px;
 }
-.upload__actions .btn .material-symbols-rounded {
+.upload__actions .btn .sx-icon {
   font-size: 20px;
 }
 .upload__delete-btn {

@@ -28,50 +28,7 @@
  * then the legacy block can be deleted.
  * ===================================================================== */
 
-/* all @import rules must come first */
-@import url("https://fonts.googleapis.com/css2?family=Red+Hat+Mono:wght@300;400;500;600;700&display=swap");
-
-/* ───── FONTS ───── */
-@font-face {
-  font-family: "Red Hat Display";
-  src: url("../fonts/RedHatDisplay-VariableFont_wght.ttf") format("truetype-variations"),
-       url("../fonts/RedHatDisplay-VariableFont_wght.ttf") format("truetype");
-  font-weight: 300 900;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Red Hat Display";
-  src: url("../fonts/RedHatDisplay-Italic-VariableFont_wght.ttf") format("truetype-variations"),
-       url("../fonts/RedHatDisplay-Italic-VariableFont_wght.ttf") format("truetype");
-  font-weight: 300 900;
-  font-style: italic;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Hanken Grotesk";
-  src: url("../fonts/HankenGrotesk-VariableFont_wght.ttf") format("truetype-variations"),
-       url("../fonts/HankenGrotesk-VariableFont_wght.ttf") format("truetype");
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Hanken Grotesk";
-  src: url("../fonts/HankenGrotesk-Italic-VariableFont_wght.ttf") format("truetype-variations"),
-       url("../fonts/HankenGrotesk-Italic-VariableFont_wght.ttf") format("truetype");
-  font-weight: 100 900;
-  font-style: italic;
-  font-display: swap;
-}
-/* Material Symbols Rounded is loaded from fonts.googleapis.com (see
- * global.css @import) rather than self-hosted: Icon.jsx / StatusIcon.jsx
- * expose an open `name`/`icon` string prop that passes through to *any*
- * Material Symbol ligature, so self-hosting would mean shipping the full,
- * unsubsetted variable font (~5MB, vs. ~600KB for the rest of the package)
- * to guarantee every glyph name still resolves for consumers. Revisit if
- * Icon/StatusIcon's icon set is ever restricted to a fixed, documented
- * enum — subsetting to just those glyphs would make self-hosting cheap. */
+/* Icons are inline SVG components (src/assets/icons): there is no icon font to load. */
 
 :root,
 [data-theme="light"] {
@@ -153,8 +110,8 @@
    * Bold; Headline/Body = Hanken Grotesk Regular; Body-Bold = Hanken Bold.
    * (Figma stores line-height as "Auto"; practical values used here.)
    * ════════════════════════════════════════════════════════════════ */
-  --font-display: "Red Hat Display", "Inter", system-ui, -apple-system, Segoe UI, sans-serif;
-  --font-body:    "Hanken Grotesk", "Inter", system-ui, -apple-system, Segoe UI, sans-serif;
+  --font-display: "Red Hat Display", "Red Hat Display Fallback", "Inter", system-ui, -apple-system, Segoe UI, sans-serif;
+  --font-body:    "Hanken Grotesk", "Hanken Grotesk Fallback", "Inter", system-ui, -apple-system, Segoe UI, sans-serif;
   --font-mono:    "Red Hat Mono", "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
   /* Display — Red Hat Display Bold — fluid, scales 360px→1240px viewport */

@@ -108,7 +108,7 @@ No Base UI primitive; apply the conventions (TS, ref + prop spread, `cn()`, data
 - [x] `Sidebar`, `TopNavigation`, `TopNavProfileMenu`, `CompanyProfileMenu`: compositions using `Menu` + `Collapsible`; TS + `cn()` + `data-*`.
 - [x] `Calendar`, `DateInput`: keep the custom calendar (no `react-day-picker` — surface is small, already token-styled, range + multi-month covered). Applied conventions (`cn()`, `data-*`, prop spread). `DateInput` already on `Popover` + `Field`.
 - [x] `Upload`, `Copybox`: conventions applied (TS, `cn()`, data attributes, Field composition).
-- [x] `QR`, `EstimatedBalance`, `OtcBanner`, `InlineCrossAsset`, `AssetMark`, `Logo`, `Logomark`, `PartnerLogo`, `Icon`: conventions applied (TS + `cn()` / `data-*`). Generated PartnerLogo marks emit `.tsx`.
+- [x] `QR`, `EstimatedBalance`, `OtcBanner`, `InlineCrossAsset`, `AssetMark`, `Logo`, `PartnerLogo`, `Icon`: conventions applied (TS + `cn()` / `data-*`). Generated PartnerLogo marks emit `.tsx`.
 
 ## Phase 3: cleanup
 

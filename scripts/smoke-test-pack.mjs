@@ -8,7 +8,7 @@
 // <svg> markup for partner/network/stablecoin logos rather than a broken
 // <img src="file://...">.
 import { execFileSync } from "node:child_process";
-import { mkdir, rm, writeFile } from "node:fs/promises";
+import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
@@ -68,16 +68,22 @@ async function main() {
 
   const fixture = `
 import { renderToStaticMarkup } from "react-dom/server";
-import { Logo, PartnerLogo, AssetMark } from "stxdesign-sandbox";
+import { Logo, PartnerLogo, AssetMark, Icon } from "stxdesign-sandbox";
+import { CloseIcon } from "stxdesign-sandbox/icons";
+import { RocketIllustration } from "stxdesign-sandbox/illustrations";
+import { DbsLogo, ZilliqaLogo } from "stxdesign-sandbox/logos";
 
 const html = renderToStaticMarkup(
   <div>
     <Logo size={100} />
     <PartnerLogo name="xsgd" size={32} />
-    <PartnerLogo name="dbs" size={40} />
-    <PartnerLogo name="zilliqa" size={32} />
+    <PartnerLogo name="dbs" logo={DbsLogo} size={40} />
+    <PartnerLogo name="zilliqa" logo={ZilliqaLogo} size={32} />
     <PartnerLogo name="some-unregistered-partner" size={32} />
     <AssetMark asset="ETH" size={40} />
+    <Icon name="close" />
+    <CloseIcon />
+    <RocketIllustration />
   </div>
 );
 process.stdout.write(html);
@@ -106,9 +112,9 @@ process.stdout.write(html);
   const html = run("node", ["bundle.cjs"], { cwd: consumerDir });
 
   const svgCount = (html.match(/<svg/g) || []).length;
-  if (svgCount < 5) {
+  if (svgCount < 8) {
     fail(
-      `expected at least 5 <svg> elements (Logo + 3 PartnerLogo + AssetMark), got ${svgCount}.\n${html}`,
+      `expected at least 8 <svg> elements (Logo + 3 PartnerLogo + AssetMark + 2 icons + illustration), got ${svgCount}.\n${html}`,
     );
   }
   if (html.includes("<img")) {
@@ -121,6 +127,68 @@ process.stdout.write(html);
   }
   if (!html.includes("Some Unregistered Partner")) {
     fail(`expected the unregistered-partner fallback pill to render.\n${html}`);
+  }
+
+  // Bundle-size budgets. One <AssetMark> used to pull in all 50 logos (~490 KB
+  // minified) because they sat in a single lookup table; they must stay
+  // individually tree-shakeable. Measured at ~31 KB / ~2.5 KB when set.
+  const budgets = [
+    {
+      name: "AssetMark from the package root",
+      source: 'import { AssetMark } from "stxdesign-sandbox"; console.log(AssetMark);',
+      maxBytes: 60_000,
+    },
+    {
+      // The whole icon set (about 90 icons) sits behind <Icon name>; measured at ~65 KB.
+      name: "Icon from the package root",
+      source: 'import { Icon } from "stxdesign-sandbox"; console.log(Icon);',
+      maxBytes: 90_000,
+    },
+    {
+      name: "one icon from stxdesign-sandbox/icons",
+      source: 'import { CloseIcon } from "stxdesign-sandbox/icons"; console.log(CloseIcon);',
+      maxBytes: 5_000,
+    },
+    {
+      name: "one illustration from stxdesign-sandbox/illustrations",
+      source:
+        'import { RocketIllustration } from "stxdesign-sandbox/illustrations"; console.log(RocketIllustration);',
+      maxBytes: 15_000,
+    },
+    {
+      name: "one logo from stxdesign-sandbox/logos",
+      source: 'import { DbsLogo } from "stxdesign-sandbox/logos"; console.log(DbsLogo);',
+      maxBytes: 10_000,
+    },
+  ];
+  for (const [i, budget] of budgets.entries()) {
+    await writeFile(path.join(consumerDir, `size-${i}.jsx`), budget.source);
+    run(
+      "npx",
+      [
+        "esbuild",
+        `size-${i}.jsx`,
+        "--bundle",
+        "--minify",
+        "--format=esm",
+        "--jsx=automatic",
+        "--loader:.css=empty",
+        "--external:react",
+        "--external:react-dom",
+        "--external:react/jsx-runtime",
+        "--external:@base-ui/react",
+        "--external:@base-ui/react/*",
+        "--external:core-js",
+        "--external:core-js/*",
+        `--outfile=size-${i}.js`,
+      ],
+      { cwd: consumerDir },
+    );
+    const bytes = Buffer.byteLength(await readFile(path.join(consumerDir, `size-${i}.js`)));
+    console.log(`  ${budget.name}: ${bytes} bytes minified (budget ${budget.maxBytes})`);
+    if (bytes > budget.maxBytes) {
+      fail(`${budget.name} bundles to ${bytes} bytes, over the ${budget.maxBytes} byte budget.`);
+    }
   }
 
   console.log(

@@ -2,6 +2,7 @@ import React, { createContext, useCallback, useContext, useEffect, useState } fr
 import { useMediaQuery } from "../../hooks/useMediaQuery";
 import { MEDIA } from "../../constants/breakpoints";
 import { cn } from "../../lib/cn";
+import { Icon } from "../Icon/Icon";
 
 export type SidebarContextValue = {
   open: boolean;
@@ -84,9 +85,7 @@ export function SidebarTrigger({
       aria-label={label}
       {...props}
     >
-      <span className="material-symbols-rounded" aria-hidden="true">
-        menu
-      </span>
+      <Icon name="menu" />
     </button>
   );
 }

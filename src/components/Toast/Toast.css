@@ -58,7 +58,7 @@
   padding: 2px;
   margin: -2px;
 }
-.toast__close .material-symbols-rounded { font-size: 20px; }
+.toast__close .sx-icon { font-size: 20px; }
 .toast__close:hover { opacity: 1; }
 .toast__action:focus-visible,
 .toast__close:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; border-radius: var(--radius-sm); }

@@ -16,8 +16,8 @@
 /* sizes */
 .icon-btn--lg { width: 48px; height: 48px; }
 .icon-btn--sm { width: 36px; height: 36px; }
-.icon-btn--lg .material-symbols-rounded { font-size: 24px; }
-.icon-btn--sm .material-symbols-rounded { font-size: 20px; }
+.icon-btn--lg .sx-icon { font-size: 24px; }
+.icon-btn--sm .sx-icon { font-size: 20px; }
 
 /* touch target: the small button keeps its 36px look, the ::after grows the tap area to
  * 48x48 (6px each side) without taking up layout space. */

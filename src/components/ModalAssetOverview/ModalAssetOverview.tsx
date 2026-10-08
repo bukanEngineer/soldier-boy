@@ -2,6 +2,7 @@ import React from "react";
 import { Modal, type ModalRootProps } from "../Modal";
 import { cn } from "../../lib/cn";
 import "./ModalAssetOverview.css";
+import { Icon } from "../Icon/Icon";
 
 export type AssetMethod = {
   id: string;
@@ -71,15 +72,13 @@ export function ModalAssetOverview({
               <li key={m.id}>
                 <button type="button" className="asset-ov__method" onClick={() => onSelectMethod?.(m)}>
                   <span className="asset-ov__method-icon" aria-hidden="true">
-                    {m.icon || <span className="material-symbols-rounded">swap_horiz</span>}
+                    {m.icon || <Icon name="swap_horiz" />}
                   </span>
                   <span className="asset-ov__method-text">
                     <span className="asset-ov__method-title">{m.title}</span>
                     {m.description && <span className="asset-ov__method-desc">{m.description}</span>}
                   </span>
-                  <span className="material-symbols-rounded asset-ov__chevron" aria-hidden="true">
-                    chevron_right
-                  </span>
+                  <Icon name="chevron_right" className="asset-ov__chevron" />
                 </button>
               </li>
             ))}

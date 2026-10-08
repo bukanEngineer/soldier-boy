@@ -2,10 +2,11 @@ import React, { createContext, useContext, useMemo } from "react";
 import { Toast as BaseToast } from "@base-ui/react/toast";
 import { cn, withClass } from "../../lib/cn";
 import "./Toast.css";
+import { Icon, type IconName, type IconProps } from "../Icon/Icon";
 
 export type ToastTone = "positive" | "critical" | "warning" | "info";
 
-const ICONS: Record<ToastTone, string> = {
+const ICONS: Record<ToastTone, IconName> = {
   positive: "check_circle",
   critical: "error",
   warning: "warning",
@@ -36,20 +37,15 @@ function ToastRoot({ className, ...props }: ToastRootProps) {
   );
 }
 
-export type ToastIconProps = React.ComponentProps<"span">;
+export type ToastIconProps = Omit<IconProps, "name" | "children"> & {
+  /** Icon name that replaces the one matching the tone, e.g. `<Toast.Icon>bolt</Toast.Icon>` */
+  children?: IconName;
+};
 
-/** Tone icon (decorative). Pass children to use a different Material Symbol. */
+/** Tone icon (decorative). Pass an icon name as children to use a different icon. */
 function ToastIcon({ className, children, ...props }: ToastIconProps) {
   const tone = useContext(ToneContext);
-  return (
-    <span
-      aria-hidden="true"
-      className={cn("material-symbols-rounded", "toast__icon", className)}
-      {...props}
-    >
-      {children ?? ICONS[tone]}
-    </span>
-  );
+  return <Icon name={children ?? ICONS[tone]} className={cn("toast__icon", className)} {...props} />;
 }
 
 export type ToastTitleProps = BaseToast.Title.Props;
@@ -84,7 +80,7 @@ function ToastClose({ className, children, ...props }: ToastCloseProps) {
       {...props}
     >
       {children ?? (
-        <span className="material-symbols-rounded" aria-hidden="true">close</span>
+        <Icon name="close" />
       )}
     </BaseToast.Close>
   );
