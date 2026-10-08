@@ -156,9 +156,9 @@ Gaps: nothing generic for an empty list ("no transactions yet") or a generic err
 ## Open questions
 
 - Icon bundle cost: is 22 KB gzipped for the whole icon set (paid by any component that uses `Icon`) acceptable, or should components import named icons? Blocks Phase 6. See the explanation in the chat.
-- Icon weight: 500 is in use. Weight 600 matches the old font almost exactly; switching is one constant in `scripts/vendor-icons.mjs`.
+- Icon weight: decided, keep 500. (Weight 600 would match the old font almost exactly; switching is one constant in `scripts/vendor-icons.mjs`.)
 - Bank logos: the dashboard loads the bank list from an API, so it builds its own name-to-logo map from `stxdesign-sandbox/logos` for the banks it supports (README has the pattern).
-- Zilliqa, Crypto.com and Coinhako were redrawn from the PNGs in Figma. Official vector logos would replace them.
+- Zilliqa, Crypto.com and Coinhako: decided, keep the versions redrawn from the Figma artwork for now. Replace them with official vector logos if the brand kits are supplied later.
 
 ## Results after Phase 2
 
