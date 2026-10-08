@@ -17,9 +17,3 @@
   height: 100%;
   object-fit: cover;
 }
-
-/* White / mono tone — transparent bg + currentColor, for on-dark use. */
-.asset-mark[data-tone="white"] {
-  box-shadow: inset 0 0 0 1px currentColor;
-}
-.asset-mark[data-tone="white"] > svg { fill: currentColor; }

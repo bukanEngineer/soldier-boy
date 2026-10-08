@@ -31,6 +31,7 @@
 ### Removed
 
 - **Breaking:** `Logomark` (a circle with a check mark, not the brand mark). Use `Logo` (the full StraitsX lockup).
+- **Breaking:** `AssetMark` `tone` prop and the `AssetMarkTone` type. The `white` tone drew an outlined, transparent mark and nothing in the design system used it. (`Logo` keeps its `tone`.)
 - `Icon` `filled` prop. It had no effect: the icon font is loaded with `FILL@0` (a static font without the fill axis). The SVG icon set has no filled variants yet.
 - The `dist/` folder no longer contains TypeScript sources, stories, tests or `test-utils` (it shipped them next to the compiled JS).
 - Unused brand files `logomark-full.svg`, `wordmark-x.svg` and `logo-icon-stroke.svg` from `dist/assets`, and the `styles/tokens.css` re-export (import `tokens.css` from the package root export instead).

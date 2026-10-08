@@ -2,7 +2,7 @@ import React from "react";
 import { Logo } from "./Logo";
 
 export default {
-  title: "Atoms/Logo",
+  title: "Foundations/StraitsX Logo",
   component: Logo,
   parameters: { layout: "centered" },
   argTypes: {
@@ -22,23 +22,4 @@ export const White = {
       </div>
     ),
   ],
-};
-
-export const DefaultVsWhite = {
-  parameters: { layout: "padded" },
-  render: () => (
-    <div
-      style={{
-        display: "flex",
-        gap: 48,
-        alignItems: "center",
-        background: "#002B2A",
-        padding: 48,
-        borderRadius: 12,
-      }}
-    >
-      <Logo size={200} tone="default" style={{ background: "#fff", padding: 16, borderRadius: 8 }} />
-      <Logo size={200} tone="white" />
-    </div>
-  ),
 };

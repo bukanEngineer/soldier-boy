@@ -42,14 +42,11 @@ const ASSETS: Record<string, AssetDef> = {
   WALLETCONNECT: { glyph: "W", color: "#3B99FC", logo: "walletconnect" },
 };
 
-export type AssetMarkTone = "brand" | "white";
-
 export type AssetMarkProps = Omit<React.ComponentProps<"span">, "color"> & {
   asset?: string;
   label?: string;
   color?: string;
   size?: number;
-  tone?: AssetMarkTone;
 };
 
 export function AssetMark({
@@ -57,7 +54,6 @@ export function AssetMark({
   label,
   color,
   size = 40,
-  tone = "brand",
   className,
   children,
   style,
@@ -65,8 +61,7 @@ export function AssetMark({
 }: AssetMarkProps) {
   const def = asset ? ASSETS[asset.toUpperCase()] : undefined;
   const glyph = label ?? def?.glyph ?? (asset ? asset.slice(0, 2).toUpperCase() : "?");
-  const isWhite = tone === "white";
-  const useLogo = !children && !label && !color && !isWhite && !!def?.logo;
+  const useLogo = !children && !label && !color && !!def?.logo;
   const bg = color ?? (def?.var ? `var(${def.var})` : def?.color) ?? "var(--surface-secondary)";
   const hasBrand = !!(color || def);
 
@@ -74,17 +69,12 @@ export function AssetMark({
     <span
       role="img"
       aria-label={asset || label}
-      data-tone={isWhite ? "white" : undefined}
       className={cn("asset-mark", className)}
       style={{
         width: size,
         height: size,
-        background: useLogo || isWhite ? "transparent" : bg,
-        color: isWhite
-          ? "currentColor"
-          : hasBrand
-            ? "var(--text-inverse)"
-            : "var(--text-secondary)",
+        background: useLogo ? "transparent" : bg,
+        color: hasBrand ? "var(--text-inverse)" : "var(--text-secondary)",
         fontSize: Math.round(size * 0.4),
         ...style,
       }}
