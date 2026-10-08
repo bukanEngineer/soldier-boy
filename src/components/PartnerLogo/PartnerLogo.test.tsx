@@ -82,6 +82,14 @@ describe("PartnerLogo", () => {
 });
 
 describe("AssetMark", () => {
+  it("gives each fiat currency its own mark, distinct from its stablecoin", () => {
+    const art = (asset) => render(<AssetMark asset={asset} />).container.querySelector("svg").innerHTML;
+    expect(art("USD")).not.toBe(art("XUSD"));
+    expect(art("SGD")).not.toBe(art("XSGD"));
+    expect(art("IDR")).not.toBe(art("XIDR"));
+    expect(render(<AssetMark asset="USD" />).container.querySelector("svg")).toBeTruthy();
+  });
+
   it.each(["XSGD", "USDC", "ETH", "POLYGON", "SOLANA"])(
     "renders the %s network/stablecoin mark as an inline <svg>",
     (asset) => {
