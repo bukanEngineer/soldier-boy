@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Copybox } from "./Copybox";
 import { Field } from "../Field/Field";
 import { ToastProvider } from "../Toast/Toast";
+import { Icon } from "../Icon/Icon";
 
 const meta: Meta<typeof Copybox> = {
   title: "P1 Components/Copybox",
@@ -28,7 +29,7 @@ export const Multiline: Story = {
   args: { multiline: true, value: "Bank: DBS Bank Ltd\nAccount: 123-456789-0\nReference: STX-8842" },
 };
 export const WithLeading: Story = {
-  args: { leading: <span className="material-symbols-rounded">account_balance</span> },
+  args: { leading: <Icon name="account_balance" /> },
 };
 
 /* Label, helper and error come from Field. Copybox is not a form control, so

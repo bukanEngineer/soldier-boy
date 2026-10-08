@@ -43,7 +43,7 @@
   z-index: 1;
 }
 .otc__pattern { position: absolute; }
-.otc__pattern img { display: block; width: 100%; height: 100%; transform: rotate(180deg); }
+.otc__pattern svg { display: block; width: 100%; height: 100%; transform: rotate(180deg); }
 .otc__pattern--a { top: -28.66%; right: 15.12%; bottom: -29.83%; left: 67.45%; }
 .otc__pattern--b { top: -28.66%; right: -19.95%; bottom: -29.83%; left: 102.52%; }
 .otc__pattern--c { top: -40.91%; right: -2.31%; bottom: -16.93%; left: 84.88%; }

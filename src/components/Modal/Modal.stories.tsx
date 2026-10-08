@@ -2,6 +2,7 @@ import React from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Modal } from "./Modal";
 import { Button } from "../Button";
+import { Icon } from "../Icon/Icon";
 
 const meta: Meta<typeof Modal.Popup> = {
   title: "P1 Components/Modal",
@@ -113,13 +114,7 @@ export const Illustration: Story = {
         </Modal.Header>
         <Modal.Header variant="centered">
           <Modal.Illustration>
-            <span
-              className="material-symbols-rounded"
-              aria-hidden="true"
-              style={{ fontSize: 64, color: "var(--primary)" }}
-            >
-              verified
-            </span>
+            <Icon name="verified" size={64} color="var(--primary)" />
           </Modal.Illustration>
           <Modal.Title>You&apos;re all set!</Modal.Title>
         </Modal.Header>

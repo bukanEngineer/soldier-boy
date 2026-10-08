@@ -60,7 +60,7 @@ describe("IconButton", () => {
 
   it("hides the icon from assistive technology", () => {
     const { container } = render(<IconButton icon="close" label="Close" />);
-    const iconSpan = container.querySelector(".material-symbols-rounded");
+    const iconSpan = container.querySelector(".sx-icon");
     expect(iconSpan).toHaveAttribute("aria-hidden", "true");
   });
 

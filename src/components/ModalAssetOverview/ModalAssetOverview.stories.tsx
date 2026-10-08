@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { ModalAssetOverview, type AssetMethod, type AssetNetwork } from "./ModalAssetOverview";
 import { Button } from "../Button";
 import { PartnerLogo } from "../PartnerLogo/PartnerLogo";
+import { Icon } from "../Icon/Icon";
 
 const meta: Meta<typeof ModalAssetOverview> = {
   title: "Patterns/Modal/Asset Overview",
@@ -24,13 +25,13 @@ const methods: AssetMethod[] = [
     id: "in",
     title: "Transfer In",
     description: "Receive crypto from my external wallet or bank transfer",
-    icon: <span className="material-symbols-rounded">add</span>,
+    icon: <Icon name="add" />,
   },
   {
     id: "out",
     title: "Transfer Out",
     description: "Send crypto to my blockchain address or bank account",
-    icon: <span className="material-symbols-rounded">arrow_outward</span>,
+    icon: <Icon name="arrow_outward" />,
   },
 ];
 

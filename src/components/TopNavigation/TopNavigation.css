@@ -70,7 +70,7 @@
   object-fit: cover;
 }
 
-.topnav__avatar .material-symbols-rounded {
+.topnav__avatar .sx-icon {
   font-size: 20px;
   color: var(--text-secondary);
 }
@@ -135,7 +135,7 @@
 .topnav[data-account="sandbox"] .topnav__profile-name,
 .topnav[data-account="sandbox"] .topnav__initials,
 .topnav[data-account="sandbox"] .topnav__chevron,
-.topnav[data-account="sandbox"] .topnav__avatar .material-symbols-rounded,
+.topnav[data-account="sandbox"] .topnav__avatar .sx-icon,
 .topnav[data-account="sandbox"] .icon-btn {
   color: var(--text-inverse);
 }

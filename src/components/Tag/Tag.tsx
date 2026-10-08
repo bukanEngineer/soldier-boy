@@ -2,6 +2,7 @@ import React from "react";
 import { cn } from "../../lib/cn";
 import { tagClasses, type TagVariant, type TagTone, type TagSize } from "./styles";
 import "./Tag.css";
+import { Icon, type IconSource } from "../Icon/Icon";
 
 export type TagProps = Omit<React.ComponentProps<"span">, "onClick"> & {
   /** Visual variant */
@@ -11,7 +12,7 @@ export type TagProps = Omit<React.ComponentProps<"span">, "onClick"> & {
   /** Tag size */
   size?: TagSize;
   /** Leading icon — string renders as Material Symbol, ReactNode rendered as-is */
-  icon?: string | React.ReactNode;
+  icon?: IconSource;
   /** Show remove button */
   removable?: boolean;
   /** Called when remove button is clicked */
@@ -58,9 +59,7 @@ export function Tag({
 
   const leadingIcon =
     icon == null ? null : typeof icon === "string" ? (
-      <span className="material-symbols-rounded tag__icon" aria-hidden="true">
-        {icon}
-      </span>
+      <Icon name={icon} className="tag__icon" />
     ) : (
       <span className="tag__icon" aria-hidden="true">
         {icon}

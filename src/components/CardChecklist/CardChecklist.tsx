@@ -115,7 +115,7 @@ function ChecklistMark({ status }: { status?: string }) {
       data-status={status || "active"}
       aria-hidden="true"
     >
-      <span className="material-symbols-rounded">{icon}</span>
+      <Icon name={icon} />
     </span>
   );
 }

@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { cn } from "../../lib/cn";
 import { useOptionalToast } from "../Toast/Toast";
 import "./Copybox.css";
+import { Icon } from "../Icon/Icon";
 
 export type CopyboxProps = Omit<React.ComponentProps<"div">, "children" | "onCopy"> & {
   /** Value shown and copied */
@@ -99,9 +100,7 @@ export function Copybox({
           onClick={copy}
           aria-label={iconOnly ? (copied ? "Copied" : "Copy") : undefined}
         >
-          <span className="material-symbols-rounded" aria-hidden="true">
-            {copied ? "check" : "content_copy"}
-          </span>
+          <Icon name={copied ? "check" : "content_copy"} />
           {!iconOnly && (copied ? "Copied" : "Copy")}
         </button>
       )}

@@ -1,0 +1,46 @@
+<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Phone with Chat" clip-path="url(#clip0_458_37897)">
+<g id="phone-sms-code 1">
+<path id="Vector" d="M24.8438 17.5781H57.6562C62.8338 17.5781 67.0312 21.7755 67.0312 26.9531V97.2656C67.0312 102.443 62.8338 106.641 57.6562 106.641H24.8438C19.6661 106.641 15.4688 102.443 15.4688 97.2656V26.9531C15.4688 21.7755 19.6661 17.5781 24.8438 17.5781Z" fill="url(#paint0_linear_458_37897)"/>
+<path id="Vector_2" d="M33.75 25.3125H48.75C49.7855 25.3125 50.625 26.152 50.625 27.1875C50.625 28.223 49.7855 29.0625 48.75 29.0625H33.75C32.7145 29.0625 31.875 28.223 31.875 27.1875C31.875 26.152 32.7145 25.3125 33.75 25.3125Z" fill="white"/>
+<path id="Vector_3" d="M41.25 101.719C42.9327 101.719 44.2969 100.355 44.2969 98.6719C44.2969 96.9891 42.9327 95.625 41.25 95.625C39.5673 95.625 38.2031 96.9891 38.2031 98.6719C38.2031 100.355 39.5673 101.719 41.25 101.719Z" fill="white"/>
+<g id="Group" filter="url(#filter0_ii_458_37897)">
+<path id="Vector_4" d="M60 27.1875H99.8438C105.021 27.1875 109.219 31.3849 109.219 36.5625V55.3125C109.219 60.4901 105.021 64.6875 99.8438 64.6875H69.8438L56.25 75.4688C55.3125 76.2188 53.4375 75.8203 53.4375 74.4141V62.0156C52.5461 61.1418 51.8381 60.0988 51.3551 58.9478C50.8722 57.7967 50.6239 56.5608 50.625 55.3125V36.5625C50.625 31.3849 54.8224 27.1875 60 27.1875Z" fill="url(#paint1_linear_458_37897)" fill-opacity="0.45"/>
+</g>
+<path id="Vector_5" d="M62.3438 49.4531C64.2854 49.4531 65.8594 47.8791 65.8594 45.9375C65.8594 43.9959 64.2854 42.4219 62.3438 42.4219C60.4021 42.4219 58.8281 43.9959 58.8281 45.9375C58.8281 47.8791 60.4021 49.4531 62.3438 49.4531Z" fill="white"/>
+<path id="Vector_6" d="M74.0625 49.4531C76.0041 49.4531 77.5781 47.8791 77.5781 45.9375C77.5781 43.9959 76.0041 42.4219 74.0625 42.4219C72.1209 42.4219 70.5469 43.9959 70.5469 45.9375C70.5469 47.8791 72.1209 49.4531 74.0625 49.4531Z" fill="white"/>
+<path id="Vector_7" d="M85.7812 49.4531C87.7229 49.4531 89.2969 47.8791 89.2969 45.9375C89.2969 43.9959 87.7229 42.4219 85.7812 42.4219C83.8396 42.4219 82.2656 43.9959 82.2656 45.9375C82.2656 47.8791 83.8396 49.4531 85.7812 49.4531Z" fill="white"/>
+<path id="Vector_8" d="M97.5 49.4531C99.4416 49.4531 101.016 47.8791 101.016 45.9375C101.016 43.9959 99.4416 42.4219 97.5 42.4219C95.5584 42.4219 93.9844 43.9959 93.9844 45.9375C93.9844 47.8791 95.5584 49.4531 97.5 49.4531Z" fill="white"/>
+</g>
+</g>
+
+<defs>
+<filter id="filter0_ii_458_37897" x="48.625" y="25.1875" width="62.5938" height="52.6533" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dx="2" dy="2"/>
+<feGaussianBlur stdDeviation="1"/>
+<feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+<feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.8 0"/>
+<feBlend mode="normal" in2="shape" result="effect1_innerShadow_458_37897"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dx="-2" dy="-2"/>
+<feGaussianBlur stdDeviation="1"/>
+<feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+<feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.8 0"/>
+<feBlend mode="normal" in2="effect1_innerShadow_458_37897" result="effect2_innerShadow_458_37897"/>
+</filter>
+<linearGradient id="paint0_linear_458_37897" x1="41.25" y1="17.5781" x2="41.25" y2="120" gradientUnits="userSpaceOnUse">
+<stop stop-color="#00D37E"/>
+<stop offset="1" stop-color="#054948"/>
+</linearGradient>
+<linearGradient id="paint1_linear_458_37897" x1="55.7813" y1="30.4688" x2="112.031" y2="81.5625" gradientUnits="userSpaceOnUse">
+<stop stop-color="#CAE6DE"/>
+<stop offset="1" stop-color="#054948"/>
+</linearGradient>
+<clipPath id="clip0_458_37897">
+<rect width="120" height="120" fill="white"/>
+</clipPath>
+</defs>
+</svg>

@@ -157,8 +157,13 @@
   height: 20px;
   color: var(--text-secondary);
 }
-.multiselect__check .material-symbols-rounded { font-size: 20px; }
+.multiselect__check .sx-icon { font-size: 20px; }
 .multiselect__check-off { display: inline-block; }
 .multiselect__item[data-selected] .multiselect__check-off { display: none; }
 .multiselect__item[data-selected] .multiselect__check { color: var(--primary); }
 .multiselect__item-text { flex: 1 1 auto; min-width: 0; }
+
+/* The icon inside follows this element's font-size. */
+.multiselect__chip-x .sx-icon,
+.multiselect__clear .sx-icon,
+.multiselect__chevron .sx-icon { font-size: inherit; }

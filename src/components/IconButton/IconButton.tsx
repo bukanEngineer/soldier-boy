@@ -1,6 +1,6 @@
 import React from "react";
 import { Button as BaseButton } from "@base-ui/react/button";
-import { cn, withClass } from "../../lib/cn";
+import { withClass } from "../../lib/cn";
 import {
   iconButtonClasses,
   type IconButtonVariant,
@@ -8,10 +8,11 @@ import {
   type IconButtonSize,
 } from "./styles";
 import "./IconButton.css";
+import { resolveIcon, type IconSource } from "../Icon/Icon";
 
 export type IconButtonProps = Omit<BaseButton.Props, "children"> & {
-  /** Material Symbol icon name */
-  icon: string;
+  /** Icon name, or your own icon element */
+  icon: IconSource;
   /** Visual style variant */
   variant?: IconButtonVariant;
   /** Button shape */
@@ -60,9 +61,7 @@ export function IconButton({
       )}
       {...props}
     >
-      <span className={cn("material-symbols-rounded")} aria-hidden="true">
-        {icon}
-      </span>
+      {resolveIcon(icon)}
     </BaseButton>
   );
 }

@@ -1,6 +1,7 @@
 import React from "react";
 import { Menu } from "../Menu/Menu";
 import "./CompanyProfileMenu.css";
+import { type IconName } from "../Icon/Icon";
 
 export type CompanyProfileCompany = {
   id: string;
@@ -11,7 +12,7 @@ export type CompanyProfileCompany = {
 
 export type CompanyProfileAction = {
   id: string;
-  icon?: string;
+  icon?: IconName;
   label: React.ReactNode;
 };
 

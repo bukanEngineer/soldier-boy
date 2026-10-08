@@ -2,6 +2,7 @@ import React from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Modal2FA } from "./Modal2FA";
 import { Button } from "../Button";
+import { Icon } from "../Icon/Icon";
 
 const meta: Meta<typeof Modal2FA> = {
   title: "Patterns/Modal/2FA",
@@ -27,9 +28,7 @@ export default meta;
 type Story = StoryObj<typeof Modal2FA>;
 
 const illustration = (
-  <span className="material-symbols-rounded" style={{ fontSize: 96, color: "var(--status-positive)" }}>
-    phonelink_lock
-  </span>
+  <Icon name="phonelink_lock" style={{ fontSize: 96, color: "var(--status-positive)" }} />
 );
 
 export const Default: Story = {

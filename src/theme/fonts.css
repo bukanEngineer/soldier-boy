@@ -1,0 +1,106 @@
+/* StraitsX Design System — Fonts
+ * Self-hosted variable WOFF2 files (no third-party requests):
+ *   Red Hat Display  — display, title, label   (OFL)
+ *   Hanken Grotesk   — headline, body          (OFL)
+ *   Red Hat Mono     — code, kbd, addresses    (OFL, see fonts/RedHatMono-OFL.txt)
+ *
+ * Import this together with tokens.css (global.css imports both). Apps that
+ * load these families another way (e.g. next/font) can import tokens.css alone.
+ * Paths are relative to this file, so keep it next to ../fonts/. */
+
+@font-face {
+  font-family: "Red Hat Display";
+  src: url("../fonts/RedHatDisplay-VariableFont_wght.woff2") format("woff2-variations"),
+       url("../fonts/RedHatDisplay-VariableFont_wght.woff2") format("woff2");
+  font-weight: 300 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Red Hat Display";
+  src: url("../fonts/RedHatDisplay-Italic-VariableFont_wght.woff2") format("woff2-variations"),
+       url("../fonts/RedHatDisplay-Italic-VariableFont_wght.woff2") format("woff2");
+  font-weight: 300 900;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Hanken Grotesk";
+  src: url("../fonts/HankenGrotesk-VariableFont_wght.woff2") format("woff2-variations"),
+       url("../fonts/HankenGrotesk-VariableFont_wght.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Hanken Grotesk";
+  src: url("../fonts/HankenGrotesk-Italic-VariableFont_wght.woff2") format("woff2-variations"),
+       url("../fonts/HankenGrotesk-Italic-VariableFont_wght.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+/* Red Hat Mono is split by script; the browser only downloads the ranges a page uses. */
+@font-face {
+  font-family: "Red Hat Mono";
+  src: url("../fonts/RedHatMono-Latin-wght.woff2") format("woff2-variations"),
+       url("../fonts/RedHatMono-Latin-wght.woff2") format("woff2");
+  font-weight: 300 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304,
+    U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Red Hat Mono";
+  src: url("../fonts/RedHatMono-LatinExt-wght.woff2") format("woff2-variations"),
+       url("../fonts/RedHatMono-LatinExt-wght.woff2") format("woff2");
+  font-weight: 300 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308,
+    U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113,
+    U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* Metric-matched fallbacks: while a web font loads (font-display: swap), text
+ * is set in Arial scaled to the web font's average width and vertical metrics,
+ * so the swap barely moves the layout. Values: frequency-weighted average
+ * advance width and hhea ascent/descent of each font, relative to Arial.
+ * Arimo / Liberation Sans are metric-compatible with Arial on Android/Linux. */
+@font-face {
+  font-family: "Red Hat Display Fallback";
+  src: local("Arial"), local("Arimo"), local("Liberation Sans");
+  font-weight: 100 600;
+  size-adjust: 100.6%;
+  ascent-override: 101.2%;
+  descent-override: 30.3%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Red Hat Display Fallback";
+  src: local("Arial Bold"), local("Arimo Bold"), local("Liberation Sans Bold");
+  font-weight: 700 900;
+  size-adjust: 100.6%;
+  ascent-override: 101.2%;
+  descent-override: 30.3%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Hanken Grotesk Fallback";
+  src: local("Arial"), local("Arimo"), local("Liberation Sans");
+  font-weight: 100 600;
+  size-adjust: 98.3%;
+  ascent-override: 101.7%;
+  descent-override: 30.8%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Hanken Grotesk Fallback";
+  src: local("Arial Bold"), local("Arimo Bold"), local("Liberation Sans Bold");
+  font-weight: 700 900;
+  size-adjust: 98.3%;
+  ascent-override: 101.7%;
+  descent-override: 30.8%;
+  line-gap-override: 0%;
+}

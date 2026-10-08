@@ -5,6 +5,7 @@ import { cn } from "../../lib/cn";
 import { inputClasses, type InputSize } from "../Input/styles";
 import "../Input/Input.css";
 import "./DateInput.css";
+import { Icon } from "../Icon/Icon";
 
 const DATE_FMT = new Intl.DateTimeFormat("en-SG", { day: "numeric", month: "long", year: "numeric" });
 
@@ -141,9 +142,7 @@ export function DateInput({
         className={cn(inputClasses.root, inputClasses.size[size], "date-input__trigger", className)}
         data-disabled={disabled || undefined}
       >
-        <span className="material-symbols-rounded input__lead" aria-hidden="true">
-          calendar_today
-        </span>
+        <Icon name="calendar_today" className="input__lead" />
         <span
           className="date-input__value"
           data-placeholder={isPlaceholder || undefined}

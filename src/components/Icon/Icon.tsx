@@ -1,41 +1,55 @@
 import React from "react";
 import { cn } from "../../lib/cn";
+import { ICON_COMPONENTS, type IconName } from "./icons/registry";
 import "./Icon.css";
 
-export type IconProps = React.ComponentProps<"span"> & {
-  /** Material Symbols icon name */
-  name: string;
-  /** Icon size in pixels */
+export type { IconName };
+
+/** An icon prop: a name from the vendored set, or any element (e.g. your own SVG). */
+export type IconSource = IconName | React.ReactElement;
+
+export type IconProps = Omit<React.ComponentProps<"svg">, "name"> & {
+  /** Material Symbols (Rounded, 500) icon name, e.g. `"chevron_right"` */
+  name: IconName;
+  /** Icon size in pixels. Defaults to 24, or the `font-size` set by CSS */
   size?: number;
-  /** Use filled variant */
-  filled?: boolean;
-  /** Icon color */
+  /** Icon color. Defaults to the surrounding text color */
   color?: string;
 };
 
-/** Decorative Material Symbols glyph. Always `aria-hidden`; pair with a label on the control. */
-export function Icon({
-  name,
-  size = 24,
-  filled = false,
-  color,
-  className,
-  style,
-  ...rest
-}: IconProps) {
+/**
+ * Decorative icon, drawn as inline SVG from the vendored Material Symbols set
+ * (`src/assets/icons`). Always `aria-hidden`; pair with a label on the control.
+ * The icon is `1em` square, so `font-size` (or the `size` prop) sizes it.
+ * Unknown names render nothing.
+ */
+/** True when `name` is in the vendored icon set. */
+export function isIconName(name: string): name is IconName {
+  return Object.hasOwn(ICON_COMPONENTS, name);
+}
+
+/**
+ * Renders an icon prop that is either a vendored icon name (`"close"`) or any
+ * element (`<MySvg />`). Used by components that accept `icon`.
+ */
+export function resolveIcon(icon: IconName | React.ReactNode, props?: Omit<IconProps, "name">) {
+  if (typeof icon === "string") {
+    return isIconName(icon) ? <Icon name={icon} {...props} /> : null;
+  }
+  return icon;
+}
+
+export function Icon({ name, size, color, className, style, ...rest }: IconProps) {
+  const Svg = ICON_COMPONENTS[name];
+  if (!Svg) return null;
   return (
-    <span
-      className={cn("material-symbols-rounded", className)}
-      style={{
-        fontSize: size,
-        color,
-        fontVariationSettings: filled ? "'FILL' 1" : "'FILL' 0",
-        ...style,
-      }}
+    <Svg
+      data-icon={name}
+      className={cn("sx-icon", className)}
+      style={{ fontSize: size, color, ...style }}
       aria-hidden="true"
+      focusable="false"
       {...rest}
-    >
-      {name}
-    </span>
+    />
   );
 }

@@ -1,6 +1,7 @@
 import React from "react";
 import { cn } from "../../lib/cn";
 import "./Alert.css";
+import { Icon, resolveIcon, type IconName, type IconSource } from "../Icon/Icon";
 
 export type AlertTone = "positive" | "critical" | "warning" | "info" | "neutral";
 
@@ -12,7 +13,7 @@ export type AlertProps = React.ComponentProps<"div"> & {
    */
   title?: React.ReactNode;
   /** Leading icon (Material Symbol name or ReactNode). Pass `null` to hide. */
-  icon?: string | React.ReactNode | null;
+  icon?: IconSource | false | null;
   /** Dismiss handler (shows close button when provided) */
   onDismiss?: () => void;
   /** Action buttons */
@@ -21,7 +22,7 @@ export type AlertProps = React.ComponentProps<"div"> & {
   actionPlacement?: "bottom" | "inline";
 };
 
-const DEFAULT_ICONS: Record<AlertTone, string> = {
+const DEFAULT_ICONS: Record<AlertTone, IconName> = {
   positive: "check_circle",
   critical: "error",
   warning: "warning",
@@ -89,11 +90,7 @@ export function Alert({
     >
       {resolvedIcon != null && resolvedIcon !== false && (
         <span className="alert__icon" aria-hidden="true">
-          {typeof resolvedIcon === "string" ? (
-            <span className="material-symbols-rounded">{resolvedIcon}</span>
-          ) : (
-            resolvedIcon
-          )}
+          {resolveIcon(resolvedIcon)}
         </span>
       )}
       <div className="alert__content">
@@ -113,9 +110,7 @@ export function Alert({
       )}
       {onDismiss && (
         <button type="button" className="alert__close" aria-label="Dismiss" onClick={onDismiss}>
-          <span className="material-symbols-rounded" aria-hidden="true">
-            close
-          </span>
+          <Icon name="close" />
         </button>
       )}
     </div>

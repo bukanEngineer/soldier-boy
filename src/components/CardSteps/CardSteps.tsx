@@ -4,6 +4,7 @@ import { Radio } from "../Radio/Radio";
 import { Card } from "../Card/Card";
 import { cn } from "../../lib/cn";
 import "./CardSteps.css";
+import { resolveIcon, type IconSource } from "../Icon/Icon";
 
 export type CardStepsProps = Omit<React.ComponentProps<"section">, "title"> & {
   step?: number | string;
@@ -40,7 +41,7 @@ export type CardStepsOption = {
   id: string;
   label: React.ReactNode;
   description?: React.ReactNode;
-  icon?: React.ReactNode | string;
+  icon?: IconSource;
   disabled?: boolean;
 };
 
@@ -50,18 +51,6 @@ export type CardStepsOptionsProps = {
   onSelect?: (value: string) => void;
   className?: string;
 };
-
-function resolveIcon(icon?: React.ReactNode | string) {
-  if (!icon) return undefined;
-  if (typeof icon === "string") {
-    return (
-      <span className="material-symbols-rounded" aria-hidden="true">
-        {icon}
-      </span>
-    );
-  }
-  return icon;
-}
 
 function CardStepsOptions({
   options = [],

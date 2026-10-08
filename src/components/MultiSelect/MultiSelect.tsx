@@ -2,6 +2,7 @@ import React from "react";
 import { Combobox as BaseCombobox } from "@base-ui/react/combobox";
 import { withClass } from "../../lib/cn";
 import "./MultiSelect.css";
+import { Icon, resolveIcon } from "../Icon/Icon";
 
 export type MultiSelectRootProps<Value = string> = BaseCombobox.Root.Props<Value, true>;
 
@@ -41,10 +42,10 @@ function MultiSelectChipRemove({
 }: MultiSelectChipRemoveProps) {
   return (
     <BaseCombobox.ChipRemove
-      className={withClass(["multiselect__chip-x", "material-symbols-rounded"], className)}
+      className={withClass("multiselect__chip-x", className)}
       {...props}
     >
-      {children}
+      {resolveIcon(children)}
     </BaseCombobox.ChipRemove>
   );
 }
@@ -60,10 +61,10 @@ export type MultiSelectClearProps = BaseCombobox.Clear.Props;
 function MultiSelectClear({ className, children = "close", ...props }: MultiSelectClearProps) {
   return (
     <BaseCombobox.Clear
-      className={withClass(["multiselect__clear", "material-symbols-rounded"], className)}
+      className={withClass("multiselect__clear", className)}
       {...props}
     >
-      {children}
+      {resolveIcon(children)}
     </BaseCombobox.Clear>
   );
 }
@@ -73,10 +74,10 @@ export type MultiSelectTriggerProps = BaseCombobox.Trigger.Props;
 function MultiSelectTrigger({ className, children = "expand_more", ...props }: MultiSelectTriggerProps) {
   return (
     <BaseCombobox.Trigger
-      className={withClass(["multiselect__chevron", "material-symbols-rounded"], className)}
+      className={withClass("multiselect__chevron", className)}
       {...props}
     >
-      {children}
+      {resolveIcon(children)}
     </BaseCombobox.Trigger>
   );
 }
@@ -138,8 +139,10 @@ function MultiSelectItem({ className, children, ...props }: MultiSelectItemProps
   return (
     <BaseCombobox.Item className={withClass("multiselect__item", className)} {...props}>
       <span className="multiselect__check" aria-hidden="true">
-        <span className="multiselect__check-off material-symbols-rounded">check_box_outline_blank</span>
-        <BaseCombobox.ItemIndicator className="material-symbols-rounded">check_box</BaseCombobox.ItemIndicator>
+        <Icon name="check_box_outline_blank" className="multiselect__check-off" />
+        <BaseCombobox.ItemIndicator>
+          <Icon name="check_box" />
+        </BaseCombobox.ItemIndicator>
       </span>
       <span className="multiselect__item-text">{children}</span>
     </BaseCombobox.Item>

@@ -85,7 +85,7 @@ describe("ToastProvider + useToast", () => {
     const toast = await screen.findByRole("dialog");
     expect(toast).toHaveAttribute("data-type", "positive");
     expect(toast).toHaveClass("toast");
-    expect(toast.querySelector(".toast__icon")).toHaveTextContent("check_circle");
+    expect(toast.querySelector(".toast__icon")).toHaveAttribute("data-icon", "check_circle");
     expect(toast.querySelector(".toast__icon")).toHaveAttribute("aria-hidden", "true");
   });
 
@@ -97,7 +97,7 @@ describe("ToastProvider + useToast", () => {
     add({ tone, description: "Msg" });
     const toast = await screen.findByRole("dialog");
     expect(toast).toHaveAttribute("data-type", tone);
-    expect(toast.querySelector(".toast__icon")).toHaveTextContent(icon);
+    expect(toast.querySelector(".toast__icon")).toHaveAttribute("data-icon", icon);
   });
 
   it("announces critical toasts assertively", async () => {
@@ -190,7 +190,7 @@ describe("ToastProvider + useToast", () => {
     add({ description: "Custom" });
     const root = await screen.findByTestId("custom");
     expect(root).toHaveClass("toast", "mine");
-    expect(root).toHaveTextContent("bolt");
+    expect(root.querySelector(".toast__icon")).toHaveAttribute("data-icon", "bolt");
     expect(screen.getByLabelText("Dismiss")).toBeInTheDocument();
   });
 });

@@ -12,6 +12,7 @@ import {
   TableCell,
 } from "./Table";
 import "./Table.css";
+import { Icon } from "../Icon/Icon";
 
 export type DataTableSort = { key: string; direction: "asc" | "desc" } | null;
 
@@ -249,10 +250,10 @@ export function DataTable<Row extends Record<string, unknown> = Record<string, u
                     {tt && (
                       <Popover.Root>
                         <Popover.Trigger
-                          className="material-symbols-rounded table__th-info"
+                          className="table__th-info"
                           aria-label={(tt.title ? String(tt.title) + ". " : "") + "More information"}
                         >
-                          info
+                          <Icon name="info" />
                         </Popover.Trigger>
                         <Popover.Popup side="top">
                           {tt.title && (
@@ -269,17 +270,17 @@ export function DataTable<Row extends Record<string, unknown> = Record<string, u
                     {c.sortable ? (
                       <button type="button" className="table__sort-btn" onClick={() => toggleSort(c)}>
                         <span>{c.header}</span>
-                        <span
-                          className="material-symbols-rounded table__sort-icon"
+                        <Icon
+                          name={
+                            direction === "asc"
+                              ? "arrow_upward"
+                              : direction === "desc"
+                                ? "arrow_downward"
+                                : "unfold_more"
+                          }
+                          className="table__sort-icon"
                           data-active={isSorted || undefined}
-                          aria-hidden="true"
-                        >
-                          {direction === "asc"
-                            ? "arrow_upward"
-                            : direction === "desc"
-                              ? "arrow_downward"
-                              : "unfold_more"}
-                        </span>
+                        />
                       </button>
                     ) : (
                       c.header

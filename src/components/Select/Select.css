@@ -158,4 +158,8 @@
   justify-content: center;
   color: var(--primary);
 }
-.select__item-indicator .material-symbols-rounded { font-size: 18px; }
+.select__item-indicator .sx-icon { font-size: 18px; }
+
+/* The icon inside follows this element's font-size. */
+.select__chevron .sx-icon,
+.select__clear .sx-icon { font-size: inherit; }

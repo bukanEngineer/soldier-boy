@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Logomark } from "../components/Logomark/Logomark.jsx";
+import { Logo } from "../components/Logo/Logo";
 import { Input } from "../components/Input/Input.jsx";
 import { Button } from "../components/Button/Button.jsx";
 import { Checkbox } from "../components/Checkbox/Checkbox.jsx";
@@ -13,9 +13,8 @@ export function SignIn() {
   return (
     <div className="ex-signin" data-screen-label="05 Sign in">
       <aside className="ex-signin__brand">
-        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 32 }}>
-          <Logomark size={42} />
-          <span style={{ font: "800 22px/1 var(--font-display)", color: "#fff", letterSpacing: "-0.01em" }}>StraitsX</span>
+        <div style={{ marginBottom: 32 }}>
+          <Logo size={180} tone="white" />
         </div>
         <h1 style={{ font: "700 36px/1.1 var(--font-display)", margin: 0, color: "#fff", letterSpacing: "-0.02em" }}>
           Payments Infrastructure<br />for Digital Assets

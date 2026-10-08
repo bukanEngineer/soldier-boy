@@ -3,6 +3,7 @@ import { Button as BaseButton } from "@base-ui/react/button";
 import { cn, withClass } from "../../lib/cn";
 import { linkButtonClasses, type LinkButtonSize } from "./styles";
 import "./LinkButton.css";
+import { Icon, type IconName } from "../Icon/Icon";
 
 export type LinkButtonProps = Omit<BaseButton.Props, "render"> & {
   /**
@@ -17,10 +18,10 @@ export type LinkButtonProps = Omit<BaseButton.Props, "render"> & {
   size?: LinkButtonSize;
   /** Use on dark backgrounds */
   onDark?: boolean;
-  /** Material Symbol name for trailing icon */
-  trailingIcon?: string;
-  /** Material Symbol name for leading icon */
-  leadingIcon?: string;
+  /** Icon name for trailing icon */
+  trailingIcon?: IconName;
+  /** Icon name for leading icon */
+  leadingIcon?: IconName;
 };
 
 function LinkButtonContent({
@@ -28,22 +29,18 @@ function LinkButtonContent({
   trailingIcon,
   children,
 }: {
-  leadingIcon?: string;
-  trailingIcon?: string;
+  leadingIcon?: IconName;
+  trailingIcon?: IconName;
   children?: React.ReactNode;
 }) {
   return (
     <>
       {leadingIcon && (
-        <span className="material-symbols-rounded" aria-hidden="true">
-          {leadingIcon}
-        </span>
+        <Icon name={leadingIcon} />
       )}
       {children}
       {trailingIcon && (
-        <span className="material-symbols-rounded" aria-hidden="true">
-          {trailingIcon}
-        </span>
+        <Icon name={trailingIcon} />
       )}
     </>
   );

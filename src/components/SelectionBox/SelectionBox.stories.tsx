@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { SelectionBox } from "./SelectionBox";
 import { Radio } from "../Radio/Radio";
+import { Icon } from "../Icon/Icon";
 
-const WalletIcon = <span className="material-symbols-rounded">account_balance_wallet</span>;
+const WalletIcon = <Icon name="account_balance_wallet" />;
 
 const meta: Meta<typeof SelectionBox> = {
   title: "Components/Selection Box",

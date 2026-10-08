@@ -1,6 +1,7 @@
 import React from "react";
 import { cn } from "../../lib/cn";
 import "./Breadcrumb.css";
+import { Icon, isIconName, type IconName } from "../Icon/Icon";
 
 export type BreadcrumbProps = React.ComponentProps<"nav">;
 
@@ -60,7 +61,7 @@ export function BreadcrumbPage({ className, ...props }: BreadcrumbPageProps) {
 }
 
 export type BreadcrumbSeparatorProps = React.ComponentProps<"li"> & {
-  /** Material Symbol name when it matches `/^[a-z_]+$/`; otherwise rendered as text. */
+  /** Icon name from the vendored set (e.g. `"chevron_right"`); any other text is rendered as is. */
   children?: React.ReactNode;
 };
 
@@ -69,15 +70,15 @@ export function BreadcrumbSeparator({
   className,
   ...props
 }: BreadcrumbSeparatorProps) {
-  const isSymbol = typeof children === "string" && /^[a-z_]+$/.test(children);
+  const isSymbol = typeof children === "string" && isIconName(children);
   return (
     <li
       role="presentation"
       aria-hidden="true"
-      className={cn("breadcrumb__sep", isSymbol && "material-symbols-rounded", className)}
+      className={cn("breadcrumb__sep", className)}
       {...props}
     >
-      {children}
+      {isSymbol ? <Icon name={children as IconName} /> : children}
     </li>
   );
 }

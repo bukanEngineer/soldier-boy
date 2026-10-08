@@ -114,7 +114,7 @@
   align-items: center;
   line-height: 1;
 }
-.ex-bd__icon-btn .material-symbols-rounded { font-size: 20px; }
+.ex-bd__icon-btn .sx-icon { font-size: 20px; }
 
 /* ── Asset card ── */
 .ex-bd__asset-card {
@@ -309,7 +309,7 @@
   flex-shrink: 0;
   color: var(--text-primary);
 }
-.ex-bd__txn-icon .material-symbols-rounded { font-size: 20px; }
+.ex-bd__txn-icon .sx-icon { font-size: 20px; }
 
 .ex-bd__txn-info {
   flex: 1;

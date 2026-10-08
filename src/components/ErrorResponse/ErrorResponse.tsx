@@ -3,6 +3,8 @@ import { cn } from "../../lib/cn";
 import "./ErrorResponse.css";
 
 export type ErrorResponseProps = React.ComponentProps<"section"> & {
+  /** Illustration above the code — prefer `<ErrorResponseMedia>` as a child */
+  media?: React.ReactNode;
   /** Error code (e.g. "404") */
   code?: React.ReactNode;
   /** Error title — prefer `<ErrorResponseTitle>` as a child */
@@ -12,6 +14,13 @@ export type ErrorResponseProps = React.ComponentProps<"section"> & {
   /** Action buttons — prefer `<ErrorResponseActions>` as a child */
   actions?: React.ReactNode;
 };
+
+export type ErrorResponseMediaProps = React.ComponentProps<"div">;
+
+/** Decorative slot for an illustration (e.g. from `stxdesign-sandbox/illustrations`). */
+export function ErrorResponseMedia({ className, ...props }: ErrorResponseMediaProps) {
+  return <div className={cn("error__media", className)} {...props} />;
+}
 
 export type ErrorResponseCodeProps = React.ComponentProps<"div">;
 export function ErrorResponseCode({ className, ...props }: ErrorResponseCodeProps) {
@@ -37,12 +46,14 @@ export function ErrorResponseActions({ className, ...props }: ErrorResponseActio
  * Full-page / panel error state.
  *
  *   <ErrorResponse>
+ *     <ErrorResponseMedia><MaintenanceWrenchIllustration /></ErrorResponseMedia>
  *     <ErrorResponseCode>404</ErrorResponseCode>
  *     <ErrorResponseTitle>Page not found</ErrorResponseTitle>
  *     <ErrorResponseDescription>Check the URL and try again.</ErrorResponseDescription>
  *   </ErrorResponse>
  */
 export function ErrorResponse({
+  media,
   code,
   title,
   description,
@@ -53,6 +64,7 @@ export function ErrorResponse({
 }: ErrorResponseProps) {
   return (
     <section className={cn("error", className)} role="alert" {...props}>
+      {media != null && <ErrorResponseMedia>{media}</ErrorResponseMedia>}
       {code != null && <ErrorResponseCode>{code}</ErrorResponseCode>}
       {title != null && <ErrorResponseTitle>{title}</ErrorResponseTitle>}
       {description != null && (

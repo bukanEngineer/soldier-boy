@@ -2,6 +2,7 @@ import React from "react";
 import { Menu as BaseMenu } from "@base-ui/react/menu";
 import { withClass } from "../../lib/cn";
 import "./Menu.css";
+import { Icon, type IconName } from "../Icon/Icon";
 
 export type MenuRootProps = BaseMenu.Root.Props;
 export type MenuTriggerProps = BaseMenu.Trigger.Props;
@@ -57,8 +58,8 @@ function MenuPopup({
 
 /** Content slots shared by every item kind. */
 type ItemSlots = {
-  /** Material Symbol name rendered before the label */
-  icon?: string;
+  /** Icon name rendered before the label */
+  icon?: IconName;
   /** Custom leading visual (e.g. an asset logo); takes precedence over `icon` */
   leading?: React.ReactNode;
   /** Supporting text under the label */
@@ -81,7 +82,7 @@ function ItemContent({
       {leading ? (
         <span className="menu__leading" aria-hidden="true">{leading}</span>
       ) : icon ? (
-        <span className="menu__icon material-symbols-rounded" aria-hidden="true">{icon}</span>
+        <Icon name={icon} className="menu__icon" />
       ) : null}
       <span className="menu__item-text">
         <span className="menu__item-label">{children}</span>
@@ -141,7 +142,9 @@ function MenuRadioItem({
         {children}
       </ItemContent>
       <span className="menu__check menu__check--tick" aria-hidden="true">
-        <BaseMenu.RadioItemIndicator className="material-symbols-rounded">check</BaseMenu.RadioItemIndicator>
+        <BaseMenu.RadioItemIndicator>
+          <Icon name="check" />
+        </BaseMenu.RadioItemIndicator>
       </span>
     </BaseMenu.RadioItem>
   );
@@ -168,7 +171,9 @@ function MenuCheckboxItem({
       {...props}
     >
       <span className="menu__check menu__check--box" aria-hidden="true">
-        <BaseMenu.CheckboxItemIndicator className="material-symbols-rounded">check</BaseMenu.CheckboxItemIndicator>
+        <BaseMenu.CheckboxItemIndicator>
+          <Icon name="check" />
+        </BaseMenu.CheckboxItemIndicator>
       </span>
       <ItemContent icon={icon} leading={leading} secondary={secondary} trailing={trailing}>
         {children}

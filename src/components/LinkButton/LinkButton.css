@@ -26,6 +26,6 @@
 .link-btn[data-on-dark] { color: var(--primary); }
 .link-btn[data-on-dark]:hover { color: var(--brand-seamless-mint); }
 
-.link-btn .material-symbols-rounded { font-size: 1.15em; }
+.link-btn .sx-icon { font-size: 1.15em; }
 .link-btn[data-disabled],
 .link-btn[disabled] { color: var(--disabled-on-surface); cursor: not-allowed; }

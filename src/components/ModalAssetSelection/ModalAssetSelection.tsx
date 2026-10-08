@@ -2,6 +2,7 @@ import React from "react";
 import { Modal, type ModalRootProps } from "../Modal";
 import { cn } from "../../lib/cn";
 import "./ModalAssetSelection.css";
+import { Icon } from "../Icon/Icon";
 
 export type AssetOption = {
   id: string;
@@ -57,9 +58,7 @@ export function ModalAssetSelection({
                     <span className="asset-sel__symbol">{a.symbol}</span>
                     {a.subtitle && <span className="asset-sel__subtitle">{a.subtitle}</span>}
                   </span>
-                  <span className="material-symbols-rounded asset-sel__chevron" aria-hidden="true">
-                    arrow_forward_ios
-                  </span>
+                  <Icon name="arrow_forward_ios" className="asset-sel__chevron" />
                 </button>
               </li>
             ))}

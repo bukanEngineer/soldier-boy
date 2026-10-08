@@ -1,6 +1,7 @@
 import React from "react";
 import { cn } from "../../lib/cn";
 import "./Pagination.css";
+import { Icon } from "../Icon/Icon";
 
 function range(from: number, to: number): number[] {
   const out: number[] = [];
@@ -91,9 +92,7 @@ export function PaginationPrevious({
       {...props}
     >
       {children ?? (
-        <span className="material-symbols-rounded" aria-hidden="true">
-          chevron_left
-        </span>
+        <Icon name="chevron_left" />
       )}
     </button>
   );
@@ -115,9 +114,7 @@ export function PaginationNext({
       {...props}
     >
       {children ?? (
-        <span className="material-symbols-rounded" aria-hidden="true">
-          chevron_right
-        </span>
+        <Icon name="chevron_right" />
       )}
     </button>
   );

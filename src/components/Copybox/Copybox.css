@@ -56,7 +56,7 @@
   justify-content: center;
   color: var(--text-secondary);
 }
-.copybox__lead .material-symbols-rounded { font-size: 20px; }
+.copybox__lead .sx-icon { font-size: 20px; }
 .copybox__lead img,
 .copybox__lead svg { width: 20px; height: 20px; display: block; }
 
@@ -101,5 +101,5 @@
 }
 .copybox__btn:hover { background: var(--surface-hovered); }
 .copybox__btn:focus-visible { outline: 2px solid var(--status-information); outline-offset: -2px; }
-.copybox__btn .material-symbols-rounded { font-size: 20px; }
+.copybox__btn .sx-icon { font-size: 20px; }
 .copybox[data-copied] .copybox__btn { color: var(--status-positive); }

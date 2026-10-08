@@ -6,7 +6,7 @@
 //
 // Two exceptions to the plain "copy everything" behaviour:
 //  - src/assets/partners/**  — raw partner/network/stablecoin logo SVGs are
-//    build-time-only input to scripts/generate-partner-logos.mjs (inlined
+//    build-time-only input to scripts/generate-svg-components.mjs (inlined
 //    as React components at build time, see PartnerLogo.jsx). They are
 //    never read from disk at runtime, so they're intentionally NOT copied
 //    into dist/ — this keeps ~600KB of source artwork out of the published
@@ -21,6 +21,10 @@ import { optimize } from "svgo";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 const SVGO_CONFIG = { plugins: ["preset-default"] };
+
+// src/assets/<dir> folders that are only input to scripts/generate-svg-components.mjs
+// (inlined as React components): never shipped as files.
+const BUILD_ONLY_ASSET_DIRS = ["partners", "icons", "otc", "illustrations"];
 
 async function copyDir(src, dest, options = {}) {
   await mkdir(path.dirname(dest), { recursive: true });
@@ -69,22 +73,23 @@ await copyDir(path.join(ROOT, "src/theme"), path.join(ROOT, "dist/theme"), {
 // and the partners/ source tree (build-time-only, never shipped).
 await copyDir(path.join(ROOT, "src/assets"), path.join(ROOT, "dist/assets"), {
   filter: (source) => {
-    if (path.basename(source) === "partners") return false;
+    if (BUILD_ONLY_ASSET_DIRS.includes(path.basename(source))) return false;
     if (source.endsWith(".svg")) return false;
     return true;
   },
 });
 await optimizeSvgsIn(path.join(ROOT, "src/assets"), path.join(ROOT, "dist/assets"), {
-  skipDirs: ["partners"],
+  skipDirs: BUILD_ONLY_ASSET_DIRS,
 });
 
 // Per-component CSS files live alongside their .jsx — copy just the .css
 // (and other non-JS, non-SVG files); SVGs (OtcBanner's decorative patterns)
 // go through optimizeSvgsIn instead. Generated PartnerLogo/logos/*.jsx are
 // excluded here (by the .jsx filter) and compiled by build:babel instead.
+// TypeScript sources (components, stories, tests) are compiled by build:babel
+// and build:types, so they are never copied: only CSS and other static files.
 await copyDir(path.join(ROOT, "src/components"), path.join(ROOT, "dist/components"), {
-  filter: (source) =>
-    !source.endsWith(".jsx") && !source.endsWith(".js") && !source.endsWith(".svg"),
+  filter: (source) => !/\.(jsx?|tsx?|svg)$/.test(source),
 });
 await optimizeSvgsIn(path.join(ROOT, "src/components"), path.join(ROOT, "dist/components"));
 

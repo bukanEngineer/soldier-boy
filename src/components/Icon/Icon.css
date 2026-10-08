@@ -1,19 +1,13 @@
-.icon {
-  font-family: "Material Symbols Rounded";
-  font-weight: normal;
-  font-style: normal;
+/* Icons are 1em square and take the text colour, like the icon font they
+ * replace: set `font-size` / `color` on the icon (or the `size` / `color`
+ * props). `:where()` keeps this at zero specificity so any component class
+ * (e.g. `.tag__icon`) overrides it whatever order the stylesheets load in. */
+:where(.sx-icon) {
   display: inline-block;
-  line-height: 1;
-  text-transform: none;
-  letter-spacing: normal;
-  word-wrap: normal;
-  white-space: nowrap;
-  direction: ltr;
-  -webkit-font-feature-settings: "liga";
-  font-feature-settings: "liga";
-  -webkit-font-smoothing: antialiased;
-  user-select: none;
-  vertical-align: middle;
+  width: 1em;
+  height: 1em;
+  font-size: 24px;
   flex: 0 0 auto;
+  vertical-align: middle;
+  user-select: none;
 }
-.icon--filled { font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24; }

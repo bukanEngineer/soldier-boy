@@ -86,11 +86,63 @@ import { Field, Input, Select, Tabs, Menu, PaginationNav } from "stxdesign-sandb
 <PaginationNav page={2} totalPages={12} onPageChange={setPage} />
 ```
 
-Upgrading from 0.2: see `docs/migration-0.3.md`. Full migration status and conventions: `docs/base-ui-migration.md`.
+Upgrading from 0.4: see `docs/migration-0.5.md`. Upgrading from 0.2: see `docs/migration-0.3.md`. Full migration status and conventions: `docs/base-ui-migration.md`.
 
 Each component imports its own CSS (`import "./Button.css"` etc.) as part of the package — this requires a bundler that handles CSS-from-JS imports (Vite, webpack, Next.js, Remix, CRA all do this out of the box, including for `node_modules` dependencies). Running the package's compiled output directly under plain Node (no bundler) is not a supported consumption path.
 
-`stxdesign-sandbox/tokens.css` is also available on its own if you only want the CSS variables and `@font-face` rules without the body reset from `global.css`.
+`stxdesign-sandbox/tokens.css` (CSS variables only) and `stxdesign-sandbox/fonts.css` (`@font-face` rules for the self-hosted WOFF2 fonts) are also available on their own, for apps that want the tokens without the body reset from `global.css`, or that load the fonts another way (e.g. `next/font`).
+
+### Icons
+
+Icons are inline SVG (Material Symbols Rounded, weight 500, Apache-2.0), not a font. Use a name from the set, or pass your own element wherever a component takes an `icon`:
+
+```tsx
+import { Icon, IconButton, Menu } from "stxdesign-sandbox";
+import { CloseIcon } from "stxdesign-sandbox/icons";
+
+<Icon name="chevron_right" size={20} />
+<IconButton icon="close" label="Close" />
+<IconButton icon={<MyCustomSvg />} label="Custom" />
+<Menu.Item icon="download">Download</Menu.Item>
+<CloseIcon width={20} height={20} />   {/* direct, tree-shakeable import */}
+```
+
+`IconName` lists every available name. `<Icon>` and the components bundle the whole set (about 22 KB gzipped); importing from `stxdesign-sandbox/icons` bundles only the icons you import.
+
+To add an icon, use its name in `src/` (or list it in `scripts/icon-extras.json`) and run `npm run vendor:icons`, which copies it from `@material-symbols/svg-500` into `src/assets/icons`. Names Google renamed live in `scripts/icon-aliases.json`.
+
+### Illustrations
+
+Spot illustrations are inline SVG components. Import only the ones you use:
+
+```tsx
+import { EmptyState, EmptyStateMedia, EmptyStateTitle } from "stxdesign-sandbox";
+import { DocumentWithMagnifierIllustration } from "stxdesign-sandbox/illustrations";
+
+<EmptyState>
+  <EmptyStateMedia>
+    <DocumentWithMagnifierIllustration />
+  </EmptyStateMedia>
+  <EmptyStateTitle>No transactions found</EmptyStateTitle>
+</EmptyState>;
+```
+
+They are 120px by default (pass `width` / `height` to resize) and `aria-hidden`. If an illustration carries meaning on its own, pass `aria-hidden={false} role="img" aria-label="..."`. The colours are the brand gradient, baked in. Browse them in Storybook under Atoms / Illustration.
+
+### Logos
+
+`PartnerLogo` and `AssetMark` include the stablecoins and main chains (`xsgd`, `usdc`, `ethereum`, `polygon`, ...). Every other logo is a named export of `stxdesign-sandbox/logos`, so your bundle only contains the ones you import:
+
+```tsx
+import { PartnerLogo } from "stxdesign-sandbox";
+import { DbsLogo } from "stxdesign-sandbox/logos";
+
+<PartnerLogo name="xsgd" />                       {/* built in */}
+<PartnerLogo name="dbs" logo={DbsLogo} />         {/* imported */}
+<DbsLogo width={64} height={40} />                {/* or use the component directly */}
+```
+
+If bank names arrive at runtime (for example from an API), build the lookup in your app from the logos you support: `const BANKS = { dbs: DbsLogo, uob: UobLogo }`, then `<PartnerLogo name={code} logo={BANKS[code]} />`. Unknown names render a text pill.
 
 ### Building the package
 
@@ -137,15 +189,16 @@ stxdesign-sandbox/
 ├── src/
 │   ├── index.ts                ← package exports (component + constant + theme barrels)
 │   ├── theme/
-│   │   ├── tokens.css          ← --sx-* CSS variables + @font-face
+│   │   ├── tokens.css          ← CSS variables
+│   │   ├── fonts.css           ← @font-face (self-hosted WOFF2)
 │   │   ├── theme.ts            ← typed theme object backed by CSS variables
 │   │   └── ThemeContext.tsx    ← optional ThemeProvider / useTheme (CSS vars preferred)
 │   ├── styles/
 │   │   └── global.css          ← resets, body defaults, Material Symbols
 │   ├── constants/              ← Colors/, Typography/, Spacing/, spacing, breakpoints, shadow
 │   ├── shared/                 ← ColorStyles.ts, TypographyStyles.ts
-│   ├── fonts/                  ← Hanken Grotesk + Red Hat Display ttfs
-│   ├── assets/                 ← logomark + partner SVGs
+│   ├── fonts/                  ← Hanken Grotesk, Red Hat Display, Red Hat Mono (WOFF2)
+│   ├── assets/                 ← partner/network/stablecoin logo SVGs (build-time input)
 │   ├── hooks/
 │   ├── stories/                ← Examples.stories.tsx
 │   └── components/             ← one folder per component: {Component}.tsx + .css

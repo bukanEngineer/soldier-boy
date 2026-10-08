@@ -49,9 +49,12 @@ chromatic-build-*.xml
 .cache/
 .smoke-test-tmp/
 
-# Generated from src/assets/partners/*.svg by scripts/generate-partner-logos.mjs
+# Generated from src/assets/{partners,icons,otc,illustrations}/*.svg by scripts/generate-svg-components.mjs
 # (regenerated automatically via the "pre*" npm scripts — see package.json)
 src/components/PartnerLogo/logos/
+src/components/Icon/icons/
+src/components/OtcBanner/art/
+src/components/Illustration/illustrations/
 
 # Vercel CLI local link / auth scratch
 .vercel

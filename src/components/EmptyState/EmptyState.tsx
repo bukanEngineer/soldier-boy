@@ -3,6 +3,8 @@ import { cn } from "../../lib/cn";
 import "./EmptyState.css";
 
 export type EmptyStateProps = React.ComponentProps<"div"> & {
+  /** Illustration above the title — prefer `<EmptyStateMedia>` as a child */
+  media?: React.ReactNode;
   /** Heading text — prefer `<EmptyStateTitle>` as a child */
   title?: React.ReactNode;
   /** Subtext — prefer `<EmptyStateDescription>` as a child */
@@ -10,6 +12,13 @@ export type EmptyStateProps = React.ComponentProps<"div"> & {
   /** Compact padding */
   compact?: boolean;
 };
+
+export type EmptyStateMediaProps = React.ComponentProps<"div">;
+
+/** Decorative slot for an illustration (e.g. from `stxdesign-sandbox/illustrations`). */
+export function EmptyStateMedia({ className, ...props }: EmptyStateMediaProps) {
+  return <div className={cn("empty__media", className)} {...props} />;
+}
 
 export type EmptyStateTitleProps = React.ComponentProps<"div">;
 
@@ -27,11 +36,13 @@ export function EmptyStateDescription({ className, ...props }: EmptyStateDescrip
  * Empty / zero-data placeholder.
  *
  *   <EmptyState>
+ *     <EmptyStateMedia><DocumentWithMagnifierIllustration /></EmptyStateMedia>
  *     <EmptyStateTitle>No transactions</EmptyStateTitle>
  *     <EmptyStateDescription>Transfers will show up here.</EmptyStateDescription>
  *   </EmptyState>
  */
 export function EmptyState({
+  media,
   title,
   description,
   compact = false,
@@ -41,6 +52,7 @@ export function EmptyState({
 }: EmptyStateProps) {
   return (
     <div className={cn("empty", className)} data-compact={compact || undefined} {...props}>
+      {media != null && <EmptyStateMedia>{media}</EmptyStateMedia>}
       {title != null && <EmptyStateTitle>{title}</EmptyStateTitle>}
       {description != null && <EmptyStateDescription>{description}</EmptyStateDescription>}
       {children}
