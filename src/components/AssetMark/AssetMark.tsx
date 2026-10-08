@@ -2,12 +2,15 @@ import React from "react";
 import { PartnerLogo } from "../PartnerLogo/PartnerLogo";
 import { cn } from "../../lib/cn";
 import "./AssetMark.css";
+import { IdrFlag, SgdFlag, UsdFlag } from "./CurrencyFlags";
 
 type AssetDef = {
   glyph: string;
   var?: string;
   color?: string;
   logo?: string;
+  /** Fiat currencies get their own flag mark instead of the stablecoin logo */
+  flag?: React.ComponentType<React.SVGProps<SVGSVGElement>>;
 };
 
 /* Brand constants for third-party assets/networks (official brand colors —
@@ -17,9 +20,9 @@ const ASSETS: Record<string, AssetDef> = {
   XSGD: { glyph: "S$", var: "--brand-xsgd", logo: "xsgd" },
   XIDR: { glyph: "Rp", var: "--brand-xidr", logo: "xidr" },
   XUSD: { glyph: "$", var: "--brand-xusd", logo: "xusd" },
-  SGD: { glyph: "S$", var: "--brand-xsgd", logo: "xsgd" },
-  IDR: { glyph: "Rp", var: "--brand-xidr", logo: "xidr" },
-  USD: { glyph: "$", var: "--brand-xusd", logo: "xusd" },
+  SGD: { glyph: "S$", var: "--brand-xsgd", flag: SgdFlag },
+  IDR: { glyph: "Rp", var: "--brand-xidr", flag: IdrFlag },
+  USD: { glyph: "$", var: "--brand-xusd", flag: UsdFlag },
   USDC: { glyph: "C", color: "#2775CA", logo: "usdc" },
   USDT: { glyph: "T", color: "#26A17B", logo: "usdt" },
   ETH: { glyph: "Ξ", color: "#627EEA", logo: "ethereum" },
@@ -61,7 +64,9 @@ export function AssetMark({
 }: AssetMarkProps) {
   const def = asset ? ASSETS[asset.toUpperCase()] : undefined;
   const glyph = label ?? def?.glyph ?? (asset ? asset.slice(0, 2).toUpperCase() : "?");
-  const useLogo = !children && !label && !color && !!def?.logo;
+  const plain = !children && !label && !color;
+  const Flag = plain ? def?.flag : undefined;
+  const useLogo = plain && !!def?.logo;
   const bg = color ?? (def?.var ? `var(${def.var})` : def?.color) ?? "var(--surface-secondary)";
   const hasBrand = !!(color || def);
 
@@ -73,14 +78,21 @@ export function AssetMark({
       style={{
         width: size,
         height: size,
-        background: useLogo ? "transparent" : bg,
+        background: useLogo || Flag ? "transparent" : bg,
         color: hasBrand ? "var(--text-inverse)" : "var(--text-secondary)",
         fontSize: Math.round(size * 0.4),
         ...style,
       }}
       {...rest}
     >
-      {children ?? (useLogo && def?.logo ? <PartnerLogo name={def.logo} size={size} /> : glyph)}
+      {children ??
+        (Flag ? (
+          <Flag width={size} height={size} aria-hidden="true" focusable="false" />
+        ) : useLogo && def?.logo ? (
+          <PartnerLogo name={def.logo} size={size} />
+        ) : (
+          glyph
+        ))}
     </span>
   );
 }
