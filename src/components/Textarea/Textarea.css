@@ -37,5 +37,5 @@
   margin-top: 6px;
   font: var(--body-small);
   color: var(--text-secondary);
-  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
 }

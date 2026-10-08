@@ -46,7 +46,7 @@ export const Families: Story = {
       <div>
         <div style={{ font: "600 56px/1 'Red Hat Mono', monospace", color: "#002B2A" }}>1234</div>
         <div style={{ font: "var(--label-medium)", marginTop: 8 }}>Red Hat Mono</div>
-        <div style={{ font: "var(--body-small)", color: "var(--text-secondary)" }}>Numerals · Code · Google Fonts</div>
+        <div style={{ font: "var(--body-small)", color: "var(--text-secondary)" }}>Code only · numbers use Hanken Grotesk</div>
       </div>
     </div>
   ),

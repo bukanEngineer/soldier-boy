@@ -2,7 +2,7 @@
  * Self-hosted variable WOFF2 files (no third-party requests):
  *   Red Hat Display  — display, title, label   (OFL)
  *   Hanken Grotesk   — headline, body          (OFL)
- *   Red Hat Mono     — code, kbd, addresses    (OFL, see fonts/RedHatMono-OFL.txt)
+ *   Red Hat Mono     — code, kbd only (numbers and addresses use Hanken Grotesk)    (OFL, see fonts/RedHatMono-OFL.txt)
  *
  * Import this together with tokens.css (global.css imports both). Apps that
  * load these families another way (e.g. next/font) can import tokens.css alone.
