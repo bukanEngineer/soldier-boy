@@ -92,6 +92,14 @@ Each component imports its own CSS (`import "./Button.css"` etc.) as part of the
 
 `stxdesign-sandbox/tokens.css` (CSS variables only) and `stxdesign-sandbox/fonts.css` (`@font-face` rules for the self-hosted WOFF2 fonts) are also available on their own, for apps that want the tokens without the body reset from `global.css`, or that load the fonts another way (e.g. `next/font`).
 
+### Selection and responsive overlays
+
+`OptionList` uses one tab stop. Arrow keys move focus and skip disabled options; Home, End, and typing an option name also move focus. Enter, Space, and clicking select an option. Filtering restores focus only when the focused option disappears.
+
+`ResponsiveSheet` keeps its content mounted when the viewport crosses its breakpoint. Open state, entered form values, and focus survive the switch between bottom sheet and modal. Swipe dismissal is enabled in sheet mode only. Its callback reasons and state callbacks follow Base UI Drawer, which supplies the stable overlay behavior.
+
+Asset recipes (`ListAsset`, `CardSummary`, `ModalAssetSelection`, `ModalAssetOverview`, and `InputCurrency`) automatically render marks for recognized asset symbols. Omit the artwork prop for the default, pass an element to override it, or pass `null` to hide it. Unknown symbols keep each recipe's fallback. Fiat currencies use flags; stablecoins use logos.
+
 ### Icons
 
 Icons are inline SVG (Material Symbols Rounded, weight 500, Apache-2.0), not a font. Use a name from the set, or pass your own element wherever a component takes an `icon`:

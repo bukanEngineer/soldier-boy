@@ -91,7 +91,9 @@ describe("ResponsiveSheet", () => {
     for (const width of [390, 1024]) {
       mockViewport(width);
       const onOpenChange = vi.fn();
-      const { unmount } = render(<Demo defaultOpen dismissable={false} onOpenChange={onOpenChange} />);
+      const { unmount } = render(
+        <Demo defaultOpen dismissable={false} onOpenChange={onOpenChange} />,
+      );
       await screen.findByRole("dialog");
       await userEvent.keyboard("{Escape}");
       expect(screen.getByRole("dialog")).toBeInTheDocument();
@@ -111,5 +113,72 @@ describe("ResponsiveSheet", () => {
   it("falls back to the bottom sheet where matchMedia is unavailable", async () => {
     render(<Demo defaultOpen />);
     expect(await screen.findByTestId("popup")).toHaveClass("bsheet");
+  });
+});
+
+function FormDemo() {
+  const [count, setCount] = React.useState(0);
+  return (
+    <>
+      <input aria-label="Uncontrolled note" defaultValue="" />
+      <button onClick={() => setCount(count + 1)}>Count {count}</button>
+    </>
+  );
+}
+
+describe("ResponsiveSheet state across resizes", () => {
+  it("preserves trigger-open state, DOM values, child state, and focus in both directions", async () => {
+    const resize = mockViewport(390);
+    const user = userEvent.setup();
+    const onOpenChange = vi.fn();
+    render(
+      <ResponsiveSheet.Root onOpenChange={onOpenChange}>
+        <ResponsiveSheet.Trigger>Open form</ResponsiveSheet.Trigger>
+        <ResponsiveSheet.Popup data-testid="form-popup">
+          <ResponsiveSheet.Title>Form</ResponsiveSheet.Title>
+          <ResponsiveSheet.Body>
+            <FormDemo />
+          </ResponsiveSheet.Body>
+        </ResponsiveSheet.Popup>
+      </ResponsiveSheet.Root>,
+    );
+    await user.click(screen.getByRole("button", { name: "Open form" }));
+    const input = await screen.findByRole("textbox");
+    await user.click(screen.getByRole("button", { name: "Count 0" }));
+    await user.type(input, "Keep this note");
+    onOpenChange.mockClear();
+    for (const [width, className] of [
+      [1024, "modal"],
+      [390, "bsheet"],
+    ] as const) {
+      resize(width);
+      await waitFor(() => expect(screen.getByTestId("form-popup")).toHaveClass(className));
+      expect(screen.getByRole("textbox")).toBe(input);
+      expect(input).toHaveValue("Keep this note");
+      expect(input).toHaveFocus();
+      expect(screen.getByRole("button", { name: "Count 1" })).toBeInTheDocument();
+      expect(onOpenChange).not.toHaveBeenCalled();
+    }
+  });
+
+  it("does not reopen a closed defaultOpen overlay after resize", async () => {
+    const resize = mockViewport(390);
+    render(<Demo defaultOpen />);
+    await screen.findByRole("dialog");
+    await userEvent.click(screen.getByRole("button", { name: "Done" }));
+    await waitFor(() => expect(screen.queryByRole("dialog")).not.toBeInTheDocument());
+    resize(1024);
+    await waitFor(() => expect(screen.queryByRole("dialog")).not.toBeInTheDocument());
+    await userEvent.click(screen.getByRole("button", { name: "Open" }));
+    expect(await screen.findByTestId("popup")).toHaveClass("modal");
+  });
+
+  it("disables starting swipes in modal mode and re-enables them in sheet mode", async () => {
+    const resize = mockViewport(1024);
+    render(<Demo defaultOpen />);
+    const popup = await screen.findByTestId("popup");
+    expect(popup).toHaveAttribute("data-base-ui-swipe-ignore");
+    resize(390);
+    await waitFor(() => expect(popup).not.toHaveAttribute("data-base-ui-swipe-ignore"));
   });
 });

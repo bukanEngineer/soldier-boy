@@ -36,8 +36,12 @@ export const Default: Story = {
           </ResponsiveSheet.Description>
         </ResponsiveSheet.Body>
         <ResponsiveSheet.Footer>
-          <ResponsiveSheet.Close render={<Button variant="secondary" />}>Cancel</ResponsiveSheet.Close>
-          <ResponsiveSheet.Close render={<Button variant="primary" />}>Confirm</ResponsiveSheet.Close>
+          <ResponsiveSheet.Close render={<Button variant="secondary" />}>
+            Cancel
+          </ResponsiveSheet.Close>
+          <ResponsiveSheet.Close render={<Button variant="primary" />}>
+            Confirm
+          </ResponsiveSheet.Close>
         </ResponsiveSheet.Footer>
       </ResponsiveSheet.Popup>
     </ResponsiveSheet.Root>
@@ -45,3 +49,44 @@ export const Default: Story = {
 };
 
 export const Open: Story = { ...Default, args: { defaultOpen: true } };
+
+function FormFields() {
+  const [notes, setNotes] = React.useState("");
+  return (
+    <div style={{ display: "grid", gap: 12 }}>
+      <label>
+        Reference <input aria-label="Reference" defaultValue="" />
+      </label>
+      <label>
+        Notes{" "}
+        <input
+          aria-label="Notes"
+          value={notes}
+          onChange={(event) => setNotes(event.target.value)}
+        />
+      </label>
+    </div>
+  );
+}
+
+/** Enter both fields, then resize across 600px: values and focus are retained. */
+export const FormState: Story = {
+  args: { defaultOpen: true },
+  render: (args) => (
+    <ResponsiveSheet.Root {...args}>
+      <ResponsiveSheet.Trigger render={<Button />}>Open transfer form</ResponsiveSheet.Trigger>
+      <ResponsiveSheet.Popup>
+        <ResponsiveSheet.Header>
+          <ResponsiveSheet.Title>Transfer form</ResponsiveSheet.Title>
+          <ResponsiveSheet.Close />
+        </ResponsiveSheet.Header>
+        <ResponsiveSheet.Body>
+          <FormFields />
+        </ResponsiveSheet.Body>
+        <ResponsiveSheet.Footer>
+          <ResponsiveSheet.Close>Done</ResponsiveSheet.Close>
+        </ResponsiveSheet.Footer>
+      </ResponsiveSheet.Popup>
+    </ResponsiveSheet.Root>
+  ),
+};

@@ -1,3 +1,4 @@
+import { resolveAssetMark } from "../AssetMark/AssetMark";
 import React from "react";
 import { Modal, type ModalRootProps } from "../Modal";
 import { cn } from "../../lib/cn";
@@ -14,12 +15,12 @@ export type AssetMethod = {
 
 export type AssetNetwork = {
   label: string;
-  /** Logo / mark element. Falls back to the first letter of `label`. */
+  /** Mark override. Omit for automatic artwork; null hides it. */
   mark?: React.ReactNode;
 };
 
 export type ModalAssetOverviewProps = Omit<ModalRootProps, "children"> & {
-  /** Asset logo. Falls back to the first two letters of `symbol`. */
+  /** Asset mark override. Omit for automatic artwork; null hides it. */
   mark?: React.ReactNode;
   symbol: string;
   subtitle?: React.ReactNode;
@@ -54,9 +55,11 @@ export function ModalAssetOverview({
         <Modal.Header>
           <Modal.Title>
             <span className="asset-ov__header">
-              <span className="asset-ov__mark" aria-hidden="true">
-                {mark || symbol.slice(0, 2)}
-              </span>
+              {mark !== null && (
+                <span className="asset-ov__mark" aria-hidden="true">
+                  {resolveAssetMark(mark, symbol, 36, symbol.slice(0, 2))}
+                </span>
+              )}
               <span className="asset-ov__heading">
                 <span className="asset-ov__symbol">{symbol}</span>
                 {subtitle && <span className="asset-ov__subtitle">{subtitle}</span>}
@@ -70,13 +73,19 @@ export function ModalAssetOverview({
           <ul className="asset-ov__methods">
             {methods.map((m) => (
               <li key={m.id}>
-                <button type="button" className="asset-ov__method" onClick={() => onSelectMethod?.(m)}>
+                <button
+                  type="button"
+                  className="asset-ov__method"
+                  onClick={() => onSelectMethod?.(m)}
+                >
                   <span className="asset-ov__method-icon" aria-hidden="true">
                     {m.icon || <Icon name="swap_horiz" />}
                   </span>
                   <span className="asset-ov__method-text">
                     <span className="asset-ov__method-title">{m.title}</span>
-                    {m.description && <span className="asset-ov__method-desc">{m.description}</span>}
+                    {m.description && (
+                      <span className="asset-ov__method-desc">{m.description}</span>
+                    )}
                   </span>
                   <Icon name="chevron_right" className="asset-ov__chevron" />
                 </button>
@@ -93,9 +102,11 @@ export function ModalAssetOverview({
                   <div className="asset-ov__networks">
                     {networks.map((n) => (
                       <span className="asset-ov__network" key={n.label}>
-                        <span className="asset-ov__network-mark" aria-hidden="true">
-                          {n.mark || n.label.slice(0, 1)}
-                        </span>
+                        {n.mark !== null && (
+                          <span className="asset-ov__network-mark" aria-hidden="true">
+                            {resolveAssetMark(n.mark, n.label, 16, n.label.slice(0, 1))}
+                          </span>
+                        )}
                         {n.label}
                       </span>
                     ))}

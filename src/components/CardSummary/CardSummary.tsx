@@ -1,3 +1,4 @@
+import { resolveAssetMark } from "../AssetMark/AssetMark";
 import React from "react";
 import { Icon } from "../Icon/Icon";
 import { Button } from "../Button/Button";
@@ -7,6 +8,7 @@ import "./CardSummary.css";
 
 export type CardSummaryCurrencySide = {
   label?: string;
+  /** Omit for automatic artwork; null hides the mark. */
   logo?: React.ReactNode;
 };
 
@@ -101,13 +103,19 @@ export function CardSummary({
 
 function CurrencyChip({ side }: { side?: CardSummaryCurrencySide }) {
   if (!side) return null;
+  const mark = resolveAssetMark(
+    side.logo,
+    side.label,
+    20,
+    <span className="card-summary__chip-initial">{(side.label || "?").charAt(0)}</span>,
+  );
   return (
     <span className="card-summary__chip">
-      <span className="card-summary__chip-logo" aria-hidden="true">
-        {side.logo || (
-          <span className="card-summary__chip-initial">{(side.label || "?").charAt(0)}</span>
-        )}
-      </span>
+      {mark != null && (
+        <span className="card-summary__chip-logo" aria-hidden="true">
+          {mark}
+        </span>
+      )}
       <span className="card-summary__chip-label">{side.label}</span>
     </span>
   );

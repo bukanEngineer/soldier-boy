@@ -12,12 +12,7 @@ describe("CardAsset", () => {
 
   it("renders with typical props", () => {
     const { container } = render(
-      <CardAsset
-        name="XSGD"
-        balance="1,000.00"
-        currency="SGD"
-        icon="xsgd"
-      />,
+      <CardAsset name="XSGD" balance="1,000.00" currency="SGD" icon="xsgd" />,
     );
     expect(container.firstChild).not.toBeNull();
   });
@@ -26,7 +21,9 @@ describe("CardAsset", () => {
     {
       symbol: "XSGD",
       balance: "1,000.00",
-      networks: ["Ethereum", "Polygon", "Avalanche", "Solana", "Base", "Tron"].map((name) => ({ name })),
+      networks: ["Ethereum", "Polygon", "Avalanche", "Solana", "Base", "Tron"].map((name) => ({
+        name,
+      })),
     },
     { symbol: "USDC", balance: "500.00" },
   ];
@@ -42,9 +39,17 @@ describe("CardAsset", () => {
     expect(within(first).getByText("+2")).toBeInTheDocument();
   });
 
-  it("falls back to symbol initials when there is no logo", () => {
+  it("uses the asset logo when recognized artwork is omitted", () => {
     render(<CardAsset assets={assets} />);
-    expect(screen.getByText("XS")).toBeInTheDocument();
+    expect(screen.getByRole("img", { name: "XSGD" })).toBeInTheDocument();
+  });
+
+  it("retains initials for unknown symbols and hides an explicit null logo", () => {
+    const { container } = render(
+      <CardAsset assets={[{ symbol: "POINTS" }, { symbol: "XSGD", logo: null }]} />,
+    );
+    expect(screen.getByText("PO")).toBeInTheDocument();
+    expect(container.querySelectorAll(".list-asset__icon")).toHaveLength(1);
   });
 
   it("passes the asset to onAdd / onSend", async () => {
