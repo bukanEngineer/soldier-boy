@@ -1,3 +1,4 @@
+import { resolveAssetMark } from "../AssetMark/AssetMark";
 import React from "react";
 import { ListItem } from "../List/List";
 import { IconButton } from "../IconButton/IconButton";
@@ -14,7 +15,7 @@ export type ListAssetProps = Omit<React.ComponentProps<"div">, "title"> & {
   subtitle?: React.ReactNode;
   balance?: React.ReactNode;
   balanceSub?: React.ReactNode;
-  /** Asset mark. Falls back to the symbol's first two letters. */
+  /** Asset mark override. Omit for automatic artwork; null hides it. */
   icon?: React.ReactNode;
   variant?: ListAssetVariant;
   platform?: ListAssetPlatform;
@@ -50,14 +51,16 @@ export function ListAsset({
   const hasNetworks =
     variant === "stablecoin" &&
     ((networks && networks.length > 0) || networkOverflow > 0 || networkIsNew);
-  const mark =
-    icon ?? (typeof symbol === "string" && symbol ? symbol.slice(0, 2).toUpperCase() : null);
+  const mark = resolveAssetMark(
+    icon,
+    symbol,
+    40,
+    typeof symbol === "string" && symbol ? symbol.slice(0, 2).toUpperCase() : null,
+  );
 
   let trailing: React.ReactNode = null;
   if (isMobile) {
-    trailing = (
-      <Icon name="arrow_forward_ios" className="list-asset__chevron" />
-    );
+    trailing = <Icon name="arrow_forward_ios" className="list-asset__chevron" />;
   } else if (showAction) {
     trailing = (
       <div className="list-asset__actions">
@@ -81,12 +84,7 @@ export function ListAsset({
     <ListItem
       data-platform={platform}
       data-variant={variant}
-      className={cn(
-        "list-asset",
-        `list-asset--${platform}`,
-        `list-asset--${variant}`,
-        className,
-      )}
+      className={cn("list-asset", `list-asset--${platform}`, `list-asset--${variant}`, className)}
       leading={mark != null ? <span className="list-asset__icon">{mark}</span> : undefined}
       title={symbol}
       description={subtitle != null && subtitle !== "" ? subtitle : undefined}
@@ -94,12 +92,8 @@ export function ListAsset({
       {...rest}
     >
       <div className="list-asset__balance">
-        {balance != null && (
-          <span className="list-asset__balance-value numeric">{balance}</span>
-        )}
-        {balanceSub != null && (
-          <span className="list-asset__balance-sub">{balanceSub}</span>
-        )}
+        {balance != null && <span className="list-asset__balance-value numeric">{balance}</span>}
+        {balanceSub != null && <span className="list-asset__balance-sub">{balanceSub}</span>}
       </div>
 
       {hasNetworks && (

@@ -1,3 +1,4 @@
+import { resolveAssetMark } from "../AssetMark/AssetMark";
 import React from "react";
 import { Modal, type ModalRootProps } from "../Modal";
 import { cn } from "../../lib/cn";
@@ -8,7 +9,7 @@ export type AssetOption = {
   id: string;
   symbol: string;
   subtitle?: React.ReactNode;
-  /** Asset logo. Falls back to the first two letters of `symbol`. */
+  /** Asset mark override. Omit for automatic artwork; null hides it. */
   mark?: React.ReactNode;
 };
 
@@ -51,9 +52,11 @@ export function ModalAssetSelection({
             {assets.map((a) => (
               <li key={a.id}>
                 <button type="button" className="asset-sel__item" onClick={() => onSelect?.(a)}>
-                  <span className="asset-sel__mark" aria-hidden="true">
-                    {a.mark || a.symbol.slice(0, 2)}
-                  </span>
+                  {a.mark !== null && (
+                    <span className="asset-sel__mark" aria-hidden="true">
+                      {resolveAssetMark(a.mark, a.symbol, 32, a.symbol.slice(0, 2))}
+                    </span>
+                  )}
                   <span className="asset-sel__text">
                     <span className="asset-sel__symbol">{a.symbol}</span>
                     {a.subtitle && <span className="asset-sel__subtitle">{a.subtitle}</span>}

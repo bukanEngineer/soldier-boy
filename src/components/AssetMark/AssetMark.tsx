@@ -96,3 +96,20 @@ export function AssetMark({
     </span>
   );
 }
+
+/** Internal recipe default: explicit artwork (including null) wins. Only
+ * recognized symbols resolve automatically; each recipe keeps its own
+ * presentation fallback for unknown symbols and generic labels. */
+export function resolveAssetMark(
+  artwork: React.ReactNode,
+  symbol: React.ReactNode,
+  size: number,
+  fallback: React.ReactNode = null,
+): React.ReactNode {
+  if (artwork !== undefined) return artwork;
+  return typeof symbol === "string" && Object.hasOwn(ASSETS, symbol.toUpperCase()) ? (
+    <AssetMark asset={symbol} size={size} />
+  ) : (
+    fallback
+  );
+}

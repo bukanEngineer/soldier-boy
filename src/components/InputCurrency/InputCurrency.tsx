@@ -1,3 +1,4 @@
+import { resolveAssetMark } from "../AssetMark/AssetMark";
 import React, { useState } from "react";
 import { Icon } from "../Icon/Icon";
 import { Menu } from "../Menu/Menu";
@@ -11,6 +12,7 @@ const ASSET_GROUP_ORDER = ["stablecoin", "cash"] as const;
 export type InputCurrencyAssetOption = {
   value: string;
   symbol?: string;
+  /** Omit for automatic asset artwork; null hides the mark. */
   logo?: React.ReactNode;
   group?: string;
   disabled?: boolean;
@@ -20,6 +22,7 @@ export type InputCurrencyAsset = {
   value?: string;
   defaultValue?: string;
   symbol?: string;
+  /** Omit for automatic asset artwork; null hides the mark. */
   logo?: React.ReactNode;
   dropdown?: boolean;
   options?: InputCurrencyAssetOption[];
@@ -65,7 +68,12 @@ export type InputCurrencyProps = {
 
 function renderAssetRadioItem(o: InputCurrencyAssetOption) {
   return (
-    <Menu.RadioItem key={o.value} value={o.value} leading={o.logo} disabled={o.disabled}>
+    <Menu.RadioItem
+      key={o.value}
+      value={o.value}
+      leading={resolveAssetMark(o.logo, o.symbol ?? o.value, 24)}
+      disabled={o.disabled}
+    >
       {o.symbol ?? o.value}
     </Menu.RadioItem>
   );
@@ -151,8 +159,12 @@ export function InputCurrency({
     onAssetChange?.(val, opt);
   };
 
-  const displayLogo = selectedOption?.logo ?? assetLogo;
-  const displaySymbol = selectedOption?.symbol ?? assetSymbol;
+  const displaySymbol = selectedOption?.symbol ?? selectedOption?.value ?? assetSymbol;
+  const displayLogo = resolveAssetMark(
+    selectedOption?.logo !== undefined ? selectedOption.logo : assetLogo,
+    displaySymbol,
+    24,
+  );
   const hasAdornment = hasOptions || !!displaySymbol || !!displayLogo;
   const adornmentDisabled = disabled || assetDisabled;
 
