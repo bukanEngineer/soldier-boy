@@ -42,8 +42,7 @@
 
 .icon-btn--secondary {
   background: transparent;
-  /* Secondary icon buttons use the border token for both icon and outline. */
-  color: var(--border);
+  color: var(--text-secondary);
   border: 1.5px solid var(--border);
 }
 .icon-btn--secondary:hover { background: var(--btn-secondary-hovered); }
